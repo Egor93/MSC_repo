@@ -21,14 +21,6 @@ class DataPrepro():
         self.eval_fraction=eval_fraction
 
 
-    def read_netcdf(self):
-
-        filepath = self.curdir + self.fname
-        # ds contains 63 fields
-        self.ds = xr.open_dataset(filepath)
-
-        return None
-
     def read_netcdf4(self):
 
         filepath = self.curdir + self.fname
@@ -37,11 +29,23 @@ class DataPrepro():
 
         return None
 
-    def proc_goalvar(self):
-        goalvar_arr = self.ds[self.goalvar]
-        self.goalvar_flat = goalvar_arr.data.flatten()
+    def get_missing_bool(self,var):
+        netcdf_variable = self.ds[var]
+        missing_value = netcdf_variable.missing_value
+        # boolean array of missing variables
+        missing_values_bool = netcdf_variable == missing_value
 
-        return None
+        return missing_values_bool
+
+    def missing_values_present(self,var):
+        check_result=False
+        # boolean array of missing variables
+        missing_values_bool = get_missing_bool(self,var)
+        # if there is any missing value present
+        if True in missing_values_bool:
+            check_result=True
+
+        return check_result
 
     def proc_goalvar4(self):
         goalvar_arr = self.ds[self.goalvar][:]
@@ -50,19 +54,6 @@ class DataPrepro():
 
         return None
 
-    def proc_inputvars(self):
-        # returns X_arr - 2D arr 
-        # of shape (n input_vars,nx*ny*150)
-        rows=len(self.input_vars)
-        columns= self.goalvar_flat.shape[0]
-        X_arr=np.zeros((rows,columns))
-        for index,var in enumerate(self.input_vars):
-            var_arr = self.ds[var]
-            X_arr[index]=var_arr.data.flatten()
-
-        self.X_arr=X_arr
-
-        return None
 
     def proc_inputvars4(self):
         # returns X_arr - 2D arr 
@@ -71,23 +62,21 @@ class DataPrepro():
         columns = self.goalvar_flat.shape[0]
         X_arr = np.zeros((rows, columns))
         for index, var in enumerate(self.input_vars):
-            var_arr = self.ds[var][:]
+            if missing_values_present(self,var):
+                # explicit masking of missing values
+                # + print a user warning
+                var_unmasked = np.array(self.ds[var])
+                missing_values_bool = get_missing_bool(self, var)
+                var_arr=np.ma.masked_array(var_unmasked,missing_values_bool)
+            else:
+                var_arr = self.ds[var][:]
+
             X_arr[index] = var_arr.ravel()
 
         self.X_arr = X_arr
 
         return None
 
-
-    def proc_addvars(self):
-        assert len(self.add_vars)==2
-        qvlm_arr=self.ds[self.add_vars[0]].data
-        qvlm_arr_flat=qvlm_arr.flatten()
-
-        qsm_arr = self.ds[self.add_vars[1]].data
-        qsm_arr_flat = qsm_arr.flatten()
-        qvl_qs = qvlm_arr_flat - qsm_arr_flat
-        self.X_arr=np.vstack([self.X_arr,qvl_qs])
 
     def proc_addvars4(self):
         assert len(self.add_vars) == 2
