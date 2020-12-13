@@ -1,17 +1,42 @@
-from netCDF4 import Dataset
 import matplotlib.pylab as plt
 from netCDF4 import Dataset
 import numpy as np
-from sklearn import tree
+from sklearn import tree,ensemble
 from matplotlib.colors import LogNorm
-import xarray as xr
 import time
 import warnings
+import logging
+
+
+def initLog():
+    # create logger
+    logger = logging.getLogger(__name__)
+    # set ERROR to suppress debug/info messages, otherwise DEBUG
+    logger.setLevel(logging.ERROR)
+    # create console handler which logs even debug messages
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.DEBUG)
+    # create formatter and add it to the handlers
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    ch.setFormatter(formatter)
+    # add the handlers to the logger
+    logger.addHandler(ch)
+    return logger
+
 
 ###################
 # DATA PREPROCESSING
 ###################
 class DataPrepro():
+    # DESCRIPTION
+    #           Class for prepocessing of netcdf data.
+    #           Preprocessed data then used in various regression methods.
+    # INPUT
+    #           eval_fraction -  fraction of input/goal variables for evaluation of regression method
+    #                            train fraction = 1 - eval_fraction
+    #           goalvar       -  variable which we try to approximate, LES 'True' values to compare with
+    #           input_vars    -  LES 'observed' variables, used as regression algorithm input
+    #                            to get the model variable - goalvar
 
     def __init__(self, curdir, fname, goalvar,input_vars,add_vars,eval_fraction):
         self.curdir     = curdir
@@ -19,7 +44,7 @@ class DataPrepro():
         self.goalvar    = goalvar
         self.input_vars = input_vars
         self.add_vars   = add_vars
-        self.eval_fraction=eval_fraction
+        self.eval_fraction = eval_fraction
 
 
     def read_netcdf(self):
@@ -63,6 +88,7 @@ class DataPrepro():
         # Create !masked! array to be filled.
         # otherwise mask will be lost while filling X_arr
         X_arr = np.ma.zeros((rows, columns))
+
         for index, var in enumerate(self.input_vars):
             if self.missing_values_present(var):
                 # explicit masking of missing values
@@ -72,6 +98,7 @@ class DataPrepro():
                 missing_values_bool = self.get_missing_bool( var)
                 var_arr=np.ma.masked_array(var_unmasked,missing_values_bool)
             else:
+                # [:] converts netcdf4 to masked array
                 var_arr = self.ds[var][:]
 
             X_arr[index] = var_arr.ravel()
@@ -107,38 +134,98 @@ class DataPrepro():
         self.X_eval = self.X_eval.transpose()
 
     def get_processed_data(self):
+
+        self.read_netcdf()
+        logger.info("Read netcdf")
+        self.proc_goalvar()
+        logger.info("Processed goal vars ={}".format(self.goalvar))
+        self.proc_inputvars()
+        logger.info("Processed input vars ={}".format(','.join(self.input_vars)))
+        if self.add_vars:
+            self.proc_addvars()
+            logger.info("Processed add vars ={}".format(','.join(self.add_vars)))
+        else:
+            logger.info("No additional data provided")
+        self.split_data()
+        logger.info("Fraction of Input/goal data for evaluation {}".format(self.eval_fraction))
+
         data_dict={}
         # PACK INPUT VARS
         data_dict['X_train']=self.X_train
         data_dict['X_eval'] = self.X_eval
-        # PACK VAR
+        # PACK GOAL VARS
         data_dict['goalvar_train'] = self.goalvar_train
         data_dict['goalvar_eval'] = self.goalvar_eval
 
         return data_dict
 
 
+###########################
+# REGRESSION TRAIN/PREDICT
+##########################
 def regression(regtype,processed_data,max_depth_in):
-    # UNPACK INPUT VARS
+    # DESCRIPTION
+    #       performing various kinds of regression algorithms on preprocessed data
+    # INPUT
+    #       max_depth_in   - maximim depth of a regression tree.
+    #                        If None,nodes are expanded until :TODO ??
+    #       processed_data - dictionary with 4 values containing
+    #                        train/evaluation parts of input/goal variables
+    #                        e.g. Masked array processed_data['X_train'] contains N=len(input_vars)
+    #                        rows of shape (1- eval_fraction)nx*ny*150
+    # OUTPUT
+    #       goalvar_pred  -  ndarray of predicted(using regression) goal variable,
+    #                        shape (eval_fraction*nx*ny*150)
+    #       goalvar_eval  -  Masked array of goal variable read from netcdf, :TODO comparing differnt types of data OK?
+    #                        shape (eval_fraction*nx*ny*150)
+
+    # unpack input variables
     X_train=processed_data['X_train']
     X_eval = processed_data['X_eval']
-    # UNPACK GOAL VARS
+    # unpack goal variable
     goalvar_train = processed_data['goalvar_train']
     goalvar_eval = processed_data['goalvar_eval']
+
+    supported_types=['decision_tree','gradient boost','random forest']
+    assert regtype in supported_types, 'entered regression type is not supported \n' \
+                                       'supported types are: {}'.format(','.join(supported_types))
+
+    # CHOOSE REGRESSION TYPE
     if regtype == 'decision_tree':
-        # TRAINING
-        regtree=tree.DecisionTreeRegressor(max_depth=max_depth_in)
-        regtree.fit(X_train, goalvar_train)
-        # PREDICTION
-        goal_var_pred = regtree.predict(X_eval)
+        logger.info("{} regression is chosen".format(regtype))
+        regtree = tree.DecisionTreeRegressor(max_depth=max_depth_in)
 
-    return goal_var_pred,goalvar_eval
+    elif regtype == 'gradient boost':
+        logger.info("{} regression is chosen".format(regtype))
+        regtree = ensemble.GradientBoostingRegressor(max_depth=max_depth_in)
+
+    elif regtype == 'random forest':
+        logger.info("{} regression is chosen".format(regtype))
+        if max_depth_in == None:
+            regtree = ensemble.RandomForestRegressor()
+        else:
+            regtree = ensemble.RandomForestRegressor(n_estimators=max_depth_in,max_leaf_nodes=max_depth_in)
+
+    # TRAINING
+    regtree.fit(X_train, goalvar_train)
+    logger.info("Training complete")
+    # PREDICTION
+    goalvar_pred = regtree.predict(X_eval)
+    logger.info("Prediction complete")
+
+    return goalvar_pred,goalvar_eval
 
 
-def hist_plot(goal_var_pred,goalvar_eval):
-    fig = plt.figure(figsize=(10, 10))
-    plt.hist2d(goalvar_eval, goal_var_pred, bins=100, norm=LogNorm())
-    plt.colorbar()
+def hist_plot(goalvar_pred,goalvar_eval):
+    fig,ax = plt.subplots(figsize=(10, 10))
+    # colormap of lognormalized due to high values range.
+    # empty regions correspond to log(0)=-inf
+    im=ax.hist2d(goalvar_eval, goalvar_pred, bins=100, norm=LogNorm(),cmap=plt.cm.jet, vmax=1000)
+    ax.set_box_aspect(1)
+    ax.set_title('2D histogram of predicted vs evaluated goal variable')
+    ax.set_xlabel(' predicted')
+    ax.set_ylabel(' evaluated')
+    fig.colorbar(im[3])
     plt.show()
 
     return None
@@ -148,24 +235,15 @@ def main():
     # DATA PREPROCESSING
     prepro=DataPrepro(curdir,fname,goal_var,input_vars,add_vars,eval_fraction)
     # methods should be in this particular order!!
-    # prepro.read_netcdf()
-    prepro.read_netcdf()
-    # prepro.proc_goalvar()
-    prepro.proc_goalvar()
-    # prepro.proc_inputvars()
-    prepro.proc_inputvars()
-    # prepro.proc_addvars()
-    prepro.proc_addvars()
-    prepro.split_data()
     processed_data = prepro.get_processed_data()
 
     # REGRESSION
-    goal_var_pred, goalvar_eval = regression(regtype,processed_data,max_depth_in)
+    goalvar_pred, goalvar_eval = regression(regtype,processed_data,max_depth_in)
 
     # VISUALISATION
-    hist_plot(goal_var_pred, goalvar_eval)
+    hist_plot(goalvar_pred, goalvar_eval)
 
-
+logger = initLog()
 
 if __name__=='__main__':
 
@@ -180,9 +258,12 @@ if __name__=='__main__':
     max_depth_in=None
 
     start_time = time.time()
-    print("=== EXECUTION START, input file={} ===".format(fname))
+    logger = initLog()
+    logger.debug("EXECUTION START, input file={}".format(fname))
 
     main()
 
     end_time =time.time()
-    print("=== EXECUTION FINISH %s seconds ===" % (start_time - end_time))
+    logger.debug('EXECUTION FINISH %s seconds' % (start_time - end_time))
+    logger.debug('----------------------------------------')
+
