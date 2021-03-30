@@ -69,9 +69,18 @@ NT=12,12 3-D snapshots simulated by the ICON model in LES mode at 12 point in ti
 INPUTS FROM LES <br>
 skew_l : LES liquid water+vapor skewness<br>
 var_l  : Liquid water + vapor variance<br>
-qvlm   : Mean liquid water + vapor<br>
-pm     : Mean pressure<br>
-tm     : Mean temperature<br> <br>
+qvlm   : Mean liquid water + vapor [kg/lg]<br>
+qvl_qs : the saturation deficit when qvlm is smaller than qsm ??
+pm     : Mean pressure [Pa]<br>
+tm     : Mean temperature [K]<br> <br>
+zm     : Mean height [m]? Values from 0 to 21000 <br>
+q means water content, v is vapor, l is liquid, m is mean. so qvlm is the liquid and gas water content.<br>
+qvlm - qsm is the saturation deficit when qvlm is smaller than qsm <br>
+qcm    : Mean cloud water ?[kg/kg]
+qsm    : ?[kg/kg]
+qvm    : Mean water vapour content[kg/kg]? 
+  
+
 Below are plots of some variable from ncr_pdf_douze_1deg.nc. <br>
 There are 20 horizontal subdomains of size 110 × 110 km for each of 12 snapshots. Thus 20*12=240 subdomain columns - Y AXIS. Each of these subdomain columns has nz=150 values of each variable, such as pm. These values where calculated over all the LES gridcells(156m size) in the subdomain.
 ![alt text](https://github.com/Egor93/MSC_repo/blob/master/pm_tm_1degree.png)
