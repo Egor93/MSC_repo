@@ -18,6 +18,12 @@
         <li><a href="#variables">Variables</a></li>
       </ul>
     </li>
+    <li>
+      <a href="#machine-learning">Machine learning</a>
+       <ul>
+        <li><a href="#tree-regression">Tree regression</a></li>
+      </ul>
+    </li>
   </ol>
 </details>
 
@@ -26,7 +32,8 @@
 
 ## Project introduction
 Topic: Use machine learning to revisit the data and questions of Griewank, Schemann, Neggers 2018<br>
-ICON high resolution (156m) is beneﬁcial to the representation of processes that are subgrid-scale for regular (horizontal resolution of 2.8 km for COSMO) numerical weather forecast and climate models.
+ICON high resolution (156m) is beneﬁcial to the representation of processes that are subgrid-scale for regular (horizontal resolution of 2.8 km for COSMO) numerical weather forecast and climate models.<br>
+PDF cloud scheme parameterizes thermodynamic variables which ICON-LES resolves explicitly. Thus we can compare parametrization with "true" data - 3D high resolution ICON-LES data. The idea of Griewank, Schemann, Neggers 2018 article was to tweak different parameters and degrees of freedom of PDF cloud scheme, also change the grid cell the PDF applied to. These changes produce different results and then compared to "true" distributions of td variables from ICON-LES high resolved data. Also performances of skewed and symmetrical PDFs were compared.
 ## Used grids
  ICON - LES:<br>
 - *horizontal resolution:156-m triangle edge grid cell
@@ -82,7 +89,7 @@ q means water content, v is vapor, l is liquid, m is mean. so qvlm is the liquid
   
 
 Below are plots of some variable from ncr_pdf_douze_1deg.nc. <br>
-There are 20 horizontal subdomains of size 110 × 110 km for each of 12 snapshots. Thus 20*12=240 subdomain columns - Y AXIS. Each of these subdomain columns has nz=150 values of each variable, such as pm. These values where calculated over all the LES gridcells(156m size) in the subdomain.
+There are 20 horizontal subdomains of size 110 × 110 km for each of 12 snapshots. Thus 20*12=240 subdomain columns - Y AXIS. Each of these subdomain columns has nz=150 values of each variable, such as pm. These values were calculated over all the LES gridcells(156m size) in the subdomain.
 ![alt text](https://github.com/Egor93/MSC_repo/blob/master/pm_tm_1degree.png)
 ![alt text](https://github.com/Egor93/MSC_repo/blob/master/qvm_1degree.png)
 
@@ -96,6 +103,6 @@ cl_zff : cloud fraction of parametrization VIII - no closure<br>
 ![alt text](https://github.com/Egor93/MSC_repo/blob/master/cl_l_1degree.png)
 
 
+## Machine learning
 
-
-
+### Tree regression
