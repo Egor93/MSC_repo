@@ -63,7 +63,7 @@ Grid cells called SUBDOMAINS below<br>
 
 
 ICON-LEM has 156-m triangle edge grid cells<br>
-NT=12,12 3-D snapshots simulated by the ICON model in LES mode at 12 point in time<br><br>:
+NT=12,12 3-D snapshots simulated by the ICON model in LES mode at 12 point in time:
 - 24 April 2013  12:35, 18:35;<br>
 - 25 April 2013 12:07, 14:07; <br>
 - 26 April 2013 18:22, <br>
@@ -109,10 +109,13 @@ cl_zff : cloud fraction of parametrization VIII - no closure<br>
 
 ### Tree regression
 TREE REGRESSION INPUT VARIABLES:<br><br>
-'qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm' - ICON-LES values averaged within the corresponding "cloud parametrization" subdomain. <br>
+'qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm' - ICON-LES values averaged within the corresponding "cloud parametrization" subdomain.
+- vector shape: ([N_snapshots * N_subdomains * N_vertical_levels] X N input variables)
+<br><br>
 TREE REGRESSION GOAL VARIABLE:<br><br>
-cl_l   :  liquid cloud fraction of LES, determined from the number of saturated cells(156m) divided by the total
-number of cells per slice(subdomain).<br>
+cl_l   :  liquid cloud fraction of LES, determined from the number of saturated cells(156m) divided by the total number of cells per slice(subdomain)<br>
+- vector shape: goal vairable is a vector of shape ([N_snapshots * N_subdomains * N_vertical_levels] X 1) 
+
 Input are variables split into:
 - test(evaluation) fraction -  fraction of input/goal variables for evaluation of regression method
 - training fraction= 1- test fraction (the rest of the data)
