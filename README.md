@@ -74,6 +74,7 @@ NT=12,12 3-D snapshots simulated by the ICON model in LES mode at 12 point in ti
 
 ### Variables
 INPUTS FROM LES <br>
+*mean below refers to spatial averaging of ICON-LES gridcells within particular "Cloud fraction parametrization" subdomain? <br>
 - skew_l : LES liquid water+vapor skewness
 - var_l  : Liquid water + vapor variance
 - qvlm   : Mean liquid water + vapor mixing ratio [kg/kg]
