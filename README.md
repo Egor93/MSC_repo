@@ -96,7 +96,8 @@ There are 20 horizontal subdomains of size 110 × 110 km for each of 12 snapshot
 
 <br><br>
 CLOUD FRACTIONS<br>
-cl_l   : LES liquid cloud fraction<br>
+cl_l   : LES liquid cloud fraction liquid cloud fraction of LES, determined from the number of saturated cells(156m) divided by the total
+number of cells per slice(subdomain)<br>
 cl_msl : cloud fraction of parametrization V "mean saturation" closure<br>
 cl_zsl : cloud fraction of parametrization VI "zero buoyancy" closure<br>
 cl_rel : cloud fraction of parametrization II - "relative humidity" closure<br>
@@ -107,3 +108,8 @@ cl_zff : cloud fraction of parametrization VIII - no closure<br>
 ## Machine learning
 
 ### Tree regression
+TREE REGRESSION INPUT VARIABLES:<br>
+'qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm' - ICON-LES values averaged within the corresponding "cloud parametrization" subdomain. <br>
+TREE REGRESSION GOAL VARIABLE:<br>
+cl_l   :  liquid cloud fraction of LES, determined from the number of saturated cells(156m) divided by the total
+number of cells per slice(subdomain).<br>
