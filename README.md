@@ -108,12 +108,11 @@ cl_zff : cloud fraction of parametrization VIII - no closure<br>
 ## Machine learning
 
 ### Tree regression
-TREE REGRESSION INPUT VARIABLES:<br><br>
-'qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm' - ICON-LES values averaged within the corresponding "cloud parametrization" subdomain.
+#### input variables:<br>
+- 'qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm' - ICON-LES values averaged within the corresponding "cloud parametrization" subdomain.
 - vector shape: ([N_snapshots * N_subdomains * N_vertical_levels] X N input variables)
-<br><br>
-TREE REGRESSION GOAL VARIABLE:<br><br>
-cl_l   :  liquid cloud fraction of LES, determined from the number of saturated cells(156m) divided by the total number of cells per slice(subdomain)<br>
+#### goal variables:
+- cl_l   :  liquid cloud fraction of LES, determined from the number of saturated cells(156m) divided by the total number of cells per slice(subdomain)<br>
 - vector shape: goal vairable is a vector of shape ([N_snapshots * N_subdomains * N_vertical_levels] X 1) 
 
 Input are variables split into:
