@@ -59,7 +59,7 @@ PDF cloud scheme parameterizes thermodynamic variables which ICON-LES resolves e
 ### Files list
 "douze" stands for 12; douze files contain all the values from all 12 snapshots indepenetly<br>
 Grid cells called SUBDOMAINS below<br>
-![alt text](https://github.com/Egor93/MSC_repo/blob/master/Files_list.png)
+![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/Files_list.png)
 
 
 ICON-LEM has 156-m triangle edge grid cells<br>
@@ -91,8 +91,8 @@ q means water content, v is vapor, l is liquid, m is mean. so qvlm is the liquid
 
 Below are plots of some variable from ncr_pdf_douze_1deg.nc. <br>
 There are 20 horizontal subdomains of size 110 × 110 km for each of 12 snapshots. Thus 20*12=240 subdomain columns - Y AXIS. Each of these subdomain columns has nz=150 values of each variable, such as pm. These values were calculated over all the LES gridcells(156m size) in the subdomain.
-![alt text](https://github.com/Egor93/MSC_repo/blob/master/pm_tm_1degree.png)
-![alt text](https://github.com/Egor93/MSC_repo/blob/master/qvm_1degree.png)
+![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/pm_tm_1degree.png)
+![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/qvm_1degree.png)
 
 <br><br>
 CLOUD FRACTIONS<br>
@@ -102,7 +102,7 @@ cl_msl : cloud fraction of parametrization V "mean saturation" closure<br>
 cl_zsl : cloud fraction of parametrization VI "zero buoyancy" closure<br>
 cl_rel : cloud fraction of parametrization II - "relative humidity" closure<br>
 cl_zff : cloud fraction of parametrization VIII - no closure<br>
-![alt text](https://github.com/Egor93/MSC_repo/blob/master/cl_l_1degree.png)
+![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/cl_l_1degree.png)
 
 
 ## Machine learning
