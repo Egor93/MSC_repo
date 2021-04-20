@@ -54,7 +54,7 @@ PDF cloud scheme parameterizes thermodynamic variables which ICON-LES resolves e
 - cell shape: square longitude latitude subdomains
 
 
-## Input data description
+## NETCDF data description
 
 ### Files list
 "douze" stands for 12; douze files contain all the values from all 12 snapshots indepenetly<br>
@@ -72,22 +72,25 @@ NT=12,12 3-D snapshots simulated by the ICON model in LES mode at 12 point in ti
 - 14 August 2014 12:03 18:03 <br>
 - 3 June 2016 6:00, 14:00.<br><br>
 
-### Variables
+### NETCDF Variables
 INPUTS FROM LES <br>
-*mean below refers to spatial averaging of ICON-LES gridcells within particular "Cloud fraction parametrization" subdomain? <br>
-- skew_l : LES liquid water+vapor skewness
-- var_l  : Liquid water + vapor variance
-- qvlm   : Mean liquid water + vapor mixing ratio [kg/kg]
+douze files contain 63 variables, among them such variables as:
+- qvlm   : Mean liquid water + vapor mixing ratio (liquid and gas water content) [kg/kg]
 - qvl_qs : the saturation deficit when qvlm is smaller than qsm ??
+- qvlm - qsm is the saturation deficit when qvlm is smaller than qsm 
+- qcm    : Mean cloud water mixing ratio [kg/kg]
+- qsm    : Saturation mixing ratio [kg/kg]
+- qvm    : Mean water vapour mixing ratio[kg/kg]? 
+<br>
+- skew   : LES water vapor skewness
+- skew_l : LES liquid water+water vapor skewness
+<br>
+- var_l  : Liquid water + vapor variance
 - pm     : Mean pressure [Pa]
 - tm     : Mean temperature [K]
-- zm     : Mean height [m]? Values from 0 to 21000 <br>
-q means water content, v is vapor, l is liquid, m is mean. so qvlm is the liquid and gas water content.<br>
-- qvlm - qsm is the saturation deficit when qvlm is smaller than qsm 
-- qcm    : Mean cloud water mixing ratio ?[kg/kg]
-- qsm    : Saturation mixing ratio ?[kg/kg]
-- qvm    : Mean water vapour mixing ratio[kg/kg]? 
-  
+- zm     : Mean height [m] Values from 0 to 21000 <br>
+Naming system: q means water content, v is vapor, l is liquid, m is mean. so qvlm is the liquid and gas water content.<br>
+  *mean above refers to spatial averaging of ICON-LES gridcells within particular "Cloud fraction parametrization" subdomain? <br>
 
 Below are plots of some variable from ncr_pdf_douze_1deg.nc. <br>
 There are 20 horizontal subdomains of size 110 × 110 km for each of 12 snapshots. Thus 20*12=240 subdomain columns - Y AXIS. Each of these subdomain columns has nz=150 values of each variable, such as pm. These values were calculated over all the LES gridcells(156m size) in the subdomain.
@@ -109,8 +112,12 @@ cl_zff : cloud fraction of parametrization VIII - no closure<br>
 
 ### Tree regression
 #### input variables:<br>
+From 63 variables of douze files few variables below were selected as an ML alrgorithm input.
 - 'qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm' - ICON-LES values averaged within the corresponding "cloud parametrization" subdomain.
-- vector shape: ([N_snapshots * N_subdomains * N_vertical_levels] X N input variables)
+These varaibles were packed in the input vector of shape:
+([N_snapshots * N_subdomains * N_vertical_levels] X N input variables)
+Below the histograms of input variables for ncr_pdf_douze_1deg.nc and ncr_pdf_douze_05deg.nc are shown:
+![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/ncr_pdf_douze_0125deg_Ivars_HIST.png)
 #### goal variables:
 - cl_l   :  liquid cloud fraction of LES, determined from the number of saturated cells(156m) divided by the total number of cells per slice(subdomain)<br>
 - vector shape: goal vairable is a vector of shape ([N_snapshots * N_subdomains * N_vertical_levels] X 1) 
