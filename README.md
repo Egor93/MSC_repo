@@ -81,10 +81,10 @@ douze files contain 63 variables, among them such variables as:
 - qcm    : Mean cloud water mixing ratio [kg/kg]
 - qsm    : Saturation mixing ratio [kg/kg]
 - qvm    : Mean water vapour mixing ratio[kg/kg]? 
-<br>
+- 
 - skew   : LES water vapor skewness
 - skew_l : LES liquid water+water vapor skewness
-<br>
+- 
 - var_l  : Liquid water + vapor variance
 - pm     : Mean pressure [Pa]
 - tm     : Mean temperature [K]
@@ -94,7 +94,7 @@ Naming system: q means water content, v is vapor, l is liquid, m is mean. so qvl
 
 Below are plots of some variable from ncr_pdf_douze_1deg.nc. <br>
 There are 20 horizontal subdomains of size 110 × 110 km for each of 12 snapshots. Thus 20*12=240 subdomain columns - Y AXIS. Each of these subdomain columns has nz=150 values of each variable, such as pm. These values were calculated over all the LES gridcells(156m size) in the subdomain.
-![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/pm_tm_1degree.png)
+![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/pm_tm_zm_1degree.png)
 ![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/qvm_1degree.png)
 
 <br><br>
@@ -114,10 +114,12 @@ cl_zff : cloud fraction of parametrization VIII - no closure<br>
 #### input variables:<br>
 From 63 variables of douze files few variables below were selected as an ML alrgorithm input.
 - 'qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm' - ICON-LES values averaged within the corresponding "cloud parametrization" subdomain.
+<br>
 These varaibles were packed in the input vector of shape:
 ([N_snapshots * N_subdomains * N_vertical_levels] X N input variables)
 Below the histograms of input variables for ncr_pdf_douze_1deg.nc and ncr_pdf_douze_05deg.nc are shown:
 ![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/ncr_pdf_douze_0125deg_Ivars_HIST.png)
+
 #### goal variables:
 - cl_l   :  liquid cloud fraction of LES, determined from the number of saturated cells(156m) divided by the total number of cells per slice(subdomain)<br>
 - vector shape: goal vairable is a vector of shape ([N_snapshots * N_subdomains * N_vertical_levels] X 1) 
