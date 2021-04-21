@@ -117,11 +117,15 @@ From 63 variables of douze files few variables below were selected as an ML alrg
 <br>
 These varaibles were packed in the input vector of shape:
 ([N_snapshots * N_subdomains * N_vertical_levels] X N input variables) <br>
-Below the histograms of input variables for ncr_pdf_douze_1deg.nc and ncr_pdf_douze_05deg.nc are shown:
+Below the histograms of input variables for ncr_pdf_douze_1deg.nc and ncr_pdf_douze_05deg.nc are shown:<br>
+
 ![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/ncr_pdf_douze_0125deg_IOvars_HIST.png)
+
+<br>
 Spatial averaging influences distributions of IO variables as one can see below:<br>
 Axis are be set to a log scale to better see the difference between the various scales. <br>
 ![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/ncr_pdf_douze_cl_l_HIST.png)
+<br>
 ![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/ncr_pdf_douze_skew_l_HIST.png)
 
 #### goal variables:
