@@ -85,7 +85,8 @@ douze files contain 63 variables, among them such variables as:
 - skew   : LES water vapor skewness
 - skew_l : LES liquid water+water vapor skewness
 - 
-- var_l  : Liquid water + vapor variance
+- var_l  : variance of Liquid water + vapor 
+- var_t  : total water variance ?
 - pm     : Mean pressure [Pa]
 - tm     : Mean temperature [K]
 - zm     : Mean height [m] Values from 0 to 21000 <br>
