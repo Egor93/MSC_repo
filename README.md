@@ -116,9 +116,13 @@ From 63 variables of douze files few variables below were selected as an ML alrg
 - 'qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm' - ICON-LES values averaged within the corresponding "cloud parametrization" subdomain.
 <br>
 These varaibles were packed in the input vector of shape:
-([N_snapshots * N_subdomains * N_vertical_levels] X N input variables)
+([N_snapshots * N_subdomains * N_vertical_levels] X N input variables) <br>
 Below the histograms of input variables for ncr_pdf_douze_1deg.nc and ncr_pdf_douze_05deg.nc are shown:
-![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/ncr_pdf_douze_0125deg_Ivars_HIST.png)
+![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/ncr_pdf_douze_0125deg_IOvars_HIST.png)
+Spatial averaging influences distributions of IO variables as one can see below:<br>
+Axis are be set to a log scale to better see the difference between the various scales. <br>
+![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/ncr_pdf_douze_cl_l_HIST.png)
+![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/ncr_pdf_douze_skew_l_HIST.png)
 
 #### goal variables:
 - cl_l   :  liquid cloud fraction of LES, determined from the number of saturated cells(156m) divided by the total number of cells per slice(subdomain)<br>
