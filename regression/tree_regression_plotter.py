@@ -5,10 +5,16 @@ from sklearn import tree,ensemble
 from matplotlib.colors import LogNorm
 import xarray as xr
 import time
-from tree_regression import cf_tree_regression as cft
+####################
+import sys
+# my own 'library' below
+src_path='../src/'
+sys.path.append(src_path)
+####################
+import cf_tree_regression as cft
 
  # DEFAULT PARAMETERS - global variables
-curdir='/home/igor/UNI/Master_Project/Script/Data/'
+datadir='/home/igor/UNI/Master_Project/Script/Data/'
 fname='ncr_pdf_douze_025deg.nc'
 goal_var = 'cl_l'
 input_vars = ['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']
@@ -19,7 +25,7 @@ regtype = 'decision_tree'
 max_depth_in=None
 
 # DATA PREPROCESSING
-prepro=cft.DataPrepro(curdir,fname,goal_var,input_vars,add_vars,eval_fraction)
+prepro=cft.DataPrepro(datadir,fname,goal_var,input_vars,add_vars,eval_fraction)
 # methods should be in this particular order!!
 processed_data = prepro.get_processed_data()
 

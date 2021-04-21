@@ -4,7 +4,6 @@ import numpy as np
 from sklearn import tree,ensemble
 from matplotlib.colors import LogNorm
 import time
-import warnings
 import logging
 
 
@@ -12,10 +11,11 @@ def initLog():
     # create logger
     logger = logging.getLogger(__name__)
     # set ERROR to suppress debug/info messages, otherwise DEBUG
-    logger.setLevel(logging.ERROR)
+    logger.setLevel(logging.INFO)
     # create console handler which logs even debug messages
     ch = logging.StreamHandler()
-    ch.setLevel(logging.DEBUG)
+    ch.setLevel(logging.INFO)
+    #ch.setLevel(logging.DEBUG)
     # create formatter and add it to the handlers
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     ch.setFormatter(formatter)
@@ -93,7 +93,7 @@ class DataPrepro():
             if self.missing_values_present(var):
                 # explicit masking of missing values
                 # + print a user warning
-                warnings.warn("Missing values in {} field were masked!".format(var))
+                logger.warning("Missing values in {} field were masked!".format(var))
                 var_unmasked = np.array(self.ds[var])
                 missing_values_bool = self.get_missing_bool( var)
                 var_arr=np.ma.masked_array(var_unmasked,missing_values_bool)
