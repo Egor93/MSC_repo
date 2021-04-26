@@ -100,12 +100,13 @@ There are 20 horizontal subdomains of size 110 × 110 km for each of 12 snapshot
 
 <br><br>
 CLOUD FRACTIONS<br>
-cl_l   : LES liquid cloud fraction, determined from the number of saturated cells(156m) divided by the total
+cl_l   : LES liquid* cloud fraction, determined from the number of saturated cells(156m) divided by the total
 number of cells per slice(subdomain)<br>
 cl_msl : cloud fraction of parametrization V "mean saturation" closure<br>
 cl_zsl : cloud fraction of parametrization VI "zero buoyancy" closure<br>
 cl_rel : cloud fraction of parametrization II - "relative humidity" closure<br>
 cl_zff : cloud fraction of parametrization VIII - no closure<br>
+*only liquid clouds are considered in liquid c.fraction as opposed to ice cloud fraction. Ice clouds are not taken into account for simplicity. <br>
 ![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/cl_l_1degree.png)
 
 
