@@ -79,8 +79,8 @@ douze files contain 63 variables, among them such variables as:
 - qvl_qs : the saturation deficit when qvlm is smaller than qsm ??
 - qvlm - qsm is the saturation deficit when qvlm is smaller than qsm 
 - qcm    : Mean cloud water mixing ratio [kg/kg]
-- qsm    : Saturation mixing ratio [kg/kg]
-- qvm    : Mean water vapour mixing ratio[kg/kg]? 
+- qsm    : Saturation mixing ratio [kg/kg] - ratio of the mass of water vapor to the mass of dry air in a parcel of air at saturation.
+- qvm    : Mean water vapour mixing ratio[kg/kg] - ratio of the mass of water vapour to the mass of dry air
 - 
 - skew   : LES water vapor skewness
 - skew_l : LES liquid water+water vapor skewness
