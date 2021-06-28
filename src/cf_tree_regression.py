@@ -21,6 +21,7 @@ def initLog():
     ch.setFormatter(formatter)
     # add the handlers to the logger
     logger.addHandler(ch)
+
     return logger
 
 
@@ -55,23 +56,21 @@ class DataPrepro():
 
         return None
 
-    def get_missing_bool(self,var):
-        netcdf_variable = self.ds[var]
-        missing_value = netcdf_variable.missing_value
-        # boolean array of missing variables
-        missing_values_bool = netcdf_variable == missing_value
-
-        return missing_values_bool
 
     def missing_values_present(self,var):
         check_result=False
         # boolean array of missing variables
-        missing_values_bool = self.get_missing_bool(var)
+        netcdf_variable = self.ds[var]
+        missing_value = netcdf_variable.missing_value
+        # boolean array of missing variables
+        missing_values_bool = netcdf_variable == missing_value
+        
         # if there is any missing value present
         if True in missing_values_bool:
             check_result=True
 
-        return check_result
+        return check_result,missing_values_bool
+
 
     def proc_goalvar(self):
         goalvar_arr = self.ds[self.goalvar][:]
@@ -79,6 +78,7 @@ class DataPrepro():
         self.goalvar_flat = goalvar_arr.ravel()
 
         return None
+
 
     def proc_inputvars(self):
         # returns X_arr - 2D arr 
@@ -90,12 +90,13 @@ class DataPrepro():
         X_arr = np.ma.zeros((rows, columns))
 
         for index, var in enumerate(self.input_vars):
-            if self.missing_values_present(var):
+            # unpach method output into boolean and boolean array of missing variables
+            positive_check_result,missing_values_bool=self.missing_values_present(var)
+            if positive_check_result:
                 # explicit masking of missing values
                 # + print a user warning
                 logger.warning("Missing values in {} field were masked!".format(var))
                 var_unmasked = np.array(self.ds[var])
-                missing_values_bool = self.get_missing_bool( var)
                 var_arr=np.ma.masked_array(var_unmasked,missing_values_bool)
             else:
                 # [:] converts netcdf4 to masked array
@@ -119,7 +120,8 @@ class DataPrepro():
 
         return None
 
-    def split_data(self):
+    def split_data_sequentially(self):
+        logger.info("splitting the input/output data sets sequentially")
         assert self.eval_fraction<1
         total_len=self.goalvar_flat.shape[0]
         fractional_len = int(total_len * self.eval_fraction)
@@ -132,21 +134,90 @@ class DataPrepro():
 
         self.X_train = self.X_train.transpose()
         self.X_eval = self.X_eval.transpose()
+        
+    def split_data_randomly(self):
+        logger.info("splitting the input/output data sets randomly")
+    	 # SHUFFLE both input and output arrays before splitting
+        assert self.eval_fraction<1
+        total_len=self.goalvar_flat.shape[0]
+        fractional_len = int(total_len * self.eval_fraction)
+        train_len=total_len-fractional_len
+        
+        # shuffle output(goal) variable
+        bool_arr=np.array([True]*train_len+[False]*fractional_len)
+        np.random.shuffle(bool_arr)
+        # split goal variable
+        self.goalvar_train = self.goalvar_flat[bool_arr]
+        self.goalvar_eval = self.goalvar_flat[:fractional_len]
+        #invert boolean array values to get the rest of shuffled set
+        bool_arr_invert=np.invert(bool_arr)
+        self.goalvar_eval = self.goalvar_flat[bool_arr_invert]
+        
+        # shuffle input variable INDEPNDENTLY FROM INPUT VARIABLE
+        #bool_arr=np.array([True]*train_len+[False]*fractional_len)
+        #np.random.shuffle(bool_arr) 
+        # split input variable
+        self.X_train = self.X_arr[:,bool_arr]
+        #invert boolean array values to get the rest of shuffled set
+        #bool_arr_invert=np.invert(bool_arr)
+        self.X_eval  = self.X_arr[:,bool_arr_invert]
+        
+        self.X_train = self.X_train.transpose()
+        self.X_eval = self.X_eval.transpose()    
+        
+    def split_data_randomly_failed(self):
+        logger.info("splitting the input/output data sets randomly")
+    	 # SHUFFLE both input and output arrays before splitting
+        assert self.eval_fraction<1
+        total_len=self.goalvar_flat.shape[0]
+        fractional_len = int(total_len * self.eval_fraction)
+        train_len=total_len-fractional_len
+        
+        # shuffle output(goal) variable
+        bool_arr=np.array([True]*train_len+[False]*fractional_len)
+        np.random.shuffle(bool_arr)
+        # split goal variable
+        self.goalvar_train = self.goalvar_flat[bool_arr]
+        self.goalvar_eval = self.goalvar_flat[:fractional_len]
+        #invert boolean array values to get the rest of shuffled set
+        bool_arr_invert=np.invert(bool_arr)
+        self.goalvar_eval = self.goalvar_flat[bool_arr_invert]
+        
+        # shuffle input variable INDEPNDENTLY FROM INPUT VARIABLE
+        bool_arr=np.array([True]*train_len+[False]*fractional_len)
+        np.random.shuffle(bool_arr) 
+        # split input variable
+        self.X_train = self.X_arr[:,bool_arr]
+        #invert boolean array values to get the rest of shuffled set
+        bool_arr_invert=np.invert(bool_arr)
+        self.X_eval  = self.X_arr[:,bool_arr_invert]
+        
+        self.X_train = self.X_train.transpose()
+        self.X_eval = self.X_eval.transpose()
+ 
 
-    def get_processed_data(self):
+    def get_processed_data(self,split_randomly=True):
 
         self.read_netcdf()
         logger.info("Read netcdf")
+        
         self.proc_goalvar()
         logger.info("Processed goal vars ={}".format(self.goalvar))
+        
         self.proc_inputvars()
         logger.info("Processed input vars ={}".format(','.join(self.input_vars)))
+        
         if self.add_vars:
             self.proc_addvars()
             logger.info("Processed add vars ={}".format(','.join(self.add_vars)))
         else:
             logger.info("No additional data provided")
-        self.split_data()
+        
+        if split_randomly:
+            self.split_data_randomly()
+        elif not split_randomly:
+            self.split_data_sequentially()
+        
         logger.info("Fraction of Input/goal data for evaluation {}".format(self.eval_fraction))
 
         data_dict={}
@@ -216,16 +287,22 @@ def regression(regtype,processed_data,max_depth_in):
     return goalvar_pred,goalvar_eval
 
 
-def hist_plot(goalvar_pred,goalvar_eval):
+def hist_plot(goalvar_pred,goalvar_eval, eval_fraction,bins,vmax,cmax,norm):
+    corrmat=np.corrcoef(goalvar_pred, goalvar_eval)
+    corr=corrmat[0,1]
+
     fig,ax = plt.subplots(figsize=(10, 10))
     # colormap of lognormalized due to high values range.
     # empty regions correspond to log(0)=-inf
-    im=ax.hist2d(goalvar_eval, goalvar_pred, bins=100, norm=LogNorm(),cmap=plt.cm.jet, vmax=1000)
+    im=ax.hist2d(goalvar_eval, goalvar_pred, bins=bins, norm=norm,cmap=plt.cm.jet, vmax=vmax,cmax=cmax)
     ax.set_box_aspect(1)
-    ax.set_title('2D histogram of predicted vs evaluated goal variable')
-    ax.set_xlabel(' predicted')
-    ax.set_ylabel(' evaluated')
-    fig.colorbar(im[3])
+    ax.set_title(f'2D histogram ({bins} bins) of Cloud Fraction \n \
+    			N elements={len(goalvar_eval)},fraction of data used for testing {eval_fraction} \n \
+    			correlation coefficient is {corr:.4f}')
+    ax.set_xlabel('predicted')
+    ax.set_ylabel('pseudo-observations')
+    cbar=fig.colorbar(im[3])
+    cbar.ax.set_ylabel('                                  log(N), where N - \n                                        - number of (x,y) pairs/ 2d bin', rotation=0)
     plt.show()
 
     return None
@@ -243,6 +320,12 @@ def main():
     # VISUALISATION
     hist_plot(goalvar_pred, goalvar_eval)
 
+try   :
+	# close previously opened handlers, if the cft is reimported
+	# this is necessary to avoid multiplying logger outputs
+	logger.handlers=[]
+except:
+	pass
 logger = initLog()
 
 if __name__=='__main__':
