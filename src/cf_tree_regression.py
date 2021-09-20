@@ -257,7 +257,7 @@ def regression(regtype,processed_data,max_depth_in):
     goalvar_train = processed_data['goalvar_train']
     goalvar_eval = processed_data['goalvar_eval']
 
-    supported_types=['decision_tree','gradient boost','random forest']
+    supported_types=['decision_tree','gradient_boost','random_forest']
     assert regtype in supported_types, 'entered regression type is not supported \n' \
                                        'supported types are: {}'.format(','.join(supported_types))
 
@@ -266,11 +266,11 @@ def regression(regtype,processed_data,max_depth_in):
         logger.info("{} regression is chosen".format(regtype))
         regtree = tree.DecisionTreeRegressor(max_depth=max_depth_in)
 
-    elif regtype == 'gradient boost':
+    elif regtype == 'gradient_boost':
         logger.info("{} regression is chosen".format(regtype))
         regtree = ensemble.GradientBoostingRegressor(max_depth=max_depth_in)
 
-    elif regtype == 'random forest':
+    elif regtype == 'random_forest':
         logger.info("{} regression is chosen".format(regtype))
         if max_depth_in == None:
             regtree = ensemble.RandomForestRegressor()
@@ -284,7 +284,7 @@ def regression(regtype,processed_data,max_depth_in):
     goalvar_pred = regtree.predict(X_eval)
     logger.info("Prediction complete")
 
-    return goalvar_pred,goalvar_eval
+    return goalvar_pred,goalvar_eval # TODO: should not return goalvar_eval, can be unpacked from processed_data dict
 
 
 def hist_plot(goalvar_pred,goalvar_eval, eval_fraction,bins,vmax,cmax,norm):
