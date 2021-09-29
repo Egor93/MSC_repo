@@ -5,7 +5,7 @@ from sklearn import tree,ensemble
 from matplotlib.colors import LogNorm
 import time
 import logging
-
+import configparser
 
 def initLog():
     # create logger
@@ -308,6 +308,16 @@ def hist_plot(goalvar_pred,goalvar_eval, eval_fraction,bins,vmax,cmax,norm):
     return None
 
 
+def get_config_params(config_file_name='../config/config_variables.ini'):
+    
+    configParser = configparser.ConfigParser()
+    configParser.read(config_file_name)
+    filedir = configParser.get('INPUT','filedir')
+
+    return filedir
+
+
+
 def main():
     # DATA PREPROCESSING
     prepro=DataPrepro(curdir,fname,goal_var,input_vars,add_vars,eval_fraction)
@@ -331,7 +341,9 @@ logger = initLog()
 if __name__=='__main__':
 
     # DEFAULT PARAMETERS - global variables
-    curdir='/home/igor/UNI/Master Project/Script/Data/'
+    #curdir='/home/igor/UNI/Master Project/Script/Data/'
+    #curdir='/home/egordeev/002_Data'
+    curdir = get_config_params()
     fname='ncr_pdf_douze_0125deg.nc'
     goal_var = 'cl_l'
     input_vars = ['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']

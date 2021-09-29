@@ -18,7 +18,9 @@ import cf_tree_regression as cft
 from importlib import reload
 from taylorDiagram import TaylorDiagram as taylor
 
-curdir = '/home/igor/UNI/Master_Project/001_Code/002_Data/'
+#curdir = '/home/igor/UNI/Master_Project/001_Code/002_Data/'
+#curdir = '/home/egordeev/002_Data'
+curdir = cft.get_config_params()
 #subdomain_sizes = ['1','05','025','0125']
 subdomain_sizes = ['1','05']
 fnames = [f'ncr_pdf_douze_{i}deg.nc' for i in subdomain_sizes ]
