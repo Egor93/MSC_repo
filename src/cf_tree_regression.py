@@ -3,7 +3,7 @@ from netCDF4 import Dataset
 import numpy as np
 from sklearn import tree,ensemble
 from matplotlib.colors import LogNorm
-import time
+import datetime
 import logging
 import configparser
 
@@ -11,16 +11,21 @@ def initLog():
     # create logger
     logger = logging.getLogger(__name__)
     # set ERROR to suppress debug/info messages, otherwise DEBUG
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
+    # create file handler which logs even debug messages
+    fh = logging.FileHandler('logger_file.txt')
+    fh.setLevel(logging.DEBUG)
     # create console handler which logs even debug messages
     ch = logging.StreamHandler()
-    ch.setLevel(logging.INFO)
+    ch.setLevel(logging.DEBUG)
     #ch.setLevel(logging.DEBUG)
     # create formatter and add it to the handlers
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    fh.setFormatter(formatter)
     ch.setFormatter(formatter)
     # add the handlers to the logger
     logger.addHandler(ch)
+    logger.addHandler(fh)
 
     return logger
 
@@ -39,18 +44,21 @@ class DataPrepro():
     #           input_vars    -  LES 'observed' variables, used as regression algorithm input
     #                            to get the model variable - goalvar
 
-    def __init__(self, curdir, fname, goalvar,input_vars,add_vars,eval_fraction):
-        self.curdir     = curdir
-        self.fname      = fname
-        self.goalvar    = goalvar
-        self.input_vars = input_vars
-        self.add_vars   = add_vars
-        self.eval_fraction = eval_fraction
+    def __init__(self, abspath, vars_dict, eval_fraction, regtype, ML_max_depth, resolution):
+        self.abspath         = abspath
+        self.goalvar         = vars_dict['goal_var']
+        self.input_vars      = vars_dict['input_vars']
+        self.add_vars        = vars_dict['add_var']
+        self.eval_fraction   = eval_fraction
+        self.regtype         = regtype
+        self.max_depth       = ML_max_depth
+        self.resolution      = resolution
+
 
 
     def read_netcdf(self):
 
-        filepath = self.curdir + self.fname
+        filepath = self.abspath
         # ds contains 63 fields
         self.ds = Dataset(filepath).variables
 
@@ -198,20 +206,21 @@ class DataPrepro():
 
     def get_processed_data(self,split_randomly=True):
 
-        self.read_netcdf()
-        logger.info("Read netcdf")
+        logger.info(f'RESOLUTION={self.resolution}_degr   INPUTVAR={self.input_vars}   ADDVAR={self.add_vars}') 
+        logger.info(f'REGTYPE={self.regtype}      ML_max_depth={self.max_depth}       EVAL_FRACTION={self.eval_fraction}')
         
+        self.read_netcdf()
         self.proc_goalvar()
-        logger.info("Processed goal vars ={}".format(self.goalvar))
+       #logger.info("Processed goal vars ={}".format(self.goalvar))
         
         self.proc_inputvars()
-        logger.info("Processed input vars ={}".format(','.join(self.input_vars)))
+       #logger.info("Processed input vars ={}".format(','.join(self.input_vars)))
         
         if self.add_vars:
             self.proc_addvars()
-            logger.info("Processed add vars ={}".format(','.join(self.add_vars)))
-        else:
-            logger.info("No additional data provided")
+        #   logger.info("Processed add vars ={}".format(','.join(self.add_vars)))
+        #else:
+        #   logger.info("No additional data provided")
         
         if split_randomly:
             self.split_data_randomly()
@@ -230,61 +239,67 @@ class DataPrepro():
 
         return data_dict
 
+    ###########################
+    # REGRESSION TRAIN/PREDICT
+    ##########################
+    def regression(self,processed_data):
+        # DESCRIPTION
+        #       performing various kinds of regression algorithms on preprocessed data
+        # INPUT
+        #       max_depth_in   - maximim depth of a regression tree.
+        #                        If None,nodes are expanded until :TODO ??
+        #       processed_data - dictionary with 4 values containing
+        #                        train/evaluation parts of input/goal variables
+        #                        e.g. Masked array processed_data['X_train'] contains N=len(input_vars)
+        #                        rows of shape (1- eval_fraction)nx*ny*150
+        # OUTPUT
+        #       goalvar_pred  -  ndarray of predicted(using regression) goal variable,
+        #                        shape (eval_fraction*nx*ny*150)
+        #       goalvar_eval  -  Masked array of goal variable read from netcdf, :TODO comparing differnt types of data OK?
+        #                        shape (eval_fraction*nx*ny*150)
 
-###########################
-# REGRESSION TRAIN/PREDICT
-##########################
-def regression(regtype,processed_data,max_depth_in):
-    # DESCRIPTION
-    #       performing various kinds of regression algorithms on preprocessed data
-    # INPUT
-    #       max_depth_in   - maximim depth of a regression tree.
-    #                        If None,nodes are expanded until :TODO ??
-    #       processed_data - dictionary with 4 values containing
-    #                        train/evaluation parts of input/goal variables
-    #                        e.g. Masked array processed_data['X_train'] contains N=len(input_vars)
-    #                        rows of shape (1- eval_fraction)nx*ny*150
-    # OUTPUT
-    #       goalvar_pred  -  ndarray of predicted(using regression) goal variable,
-    #                        shape (eval_fraction*nx*ny*150)
-    #       goalvar_eval  -  Masked array of goal variable read from netcdf, :TODO comparing differnt types of data OK?
-    #                        shape (eval_fraction*nx*ny*150)
+        # unpack input variables
+        X_train=processed_data['X_train']
+        X_eval = processed_data['X_eval']
+        # unpack goal variable
+        goalvar_train = processed_data['goalvar_train']
+        goalvar_eval = processed_data['goalvar_eval']
 
-    # unpack input variables
-    X_train=processed_data['X_train']
-    X_eval = processed_data['X_eval']
-    # unpack goal variable
-    goalvar_train = processed_data['goalvar_train']
-    goalvar_eval = processed_data['goalvar_eval']
+        supported_types=['decision_tree','gradient_boost','random_forest']
+        assert self.regtype in supported_types, 'entered regression type is not supported \n' \
+                                           'supported types are: {}'.format(','.join(supported_types))
 
-    supported_types=['decision_tree','gradient_boost','random_forest']
-    assert regtype in supported_types, 'entered regression type is not supported \n' \
-                                       'supported types are: {}'.format(','.join(supported_types))
+        # CHOOSE REGRESSION TYPE
+        if self.regtype == 'decision_tree':
+            logger.info("{} regression is chosen".format(self.regtype))
+            regtree = tree.DecisionTreeRegressor(max_depth = self.max_depth)
 
-    # CHOOSE REGRESSION TYPE
-    if regtype == 'decision_tree':
-        logger.info("{} regression is chosen".format(regtype))
-        regtree = tree.DecisionTreeRegressor(max_depth=max_depth_in)
+        elif self.regtype == 'gradient_boost':
+            logger.info("{} regression is chosen".format(self.regtype))
+            regtree = ensemble.GradientBoostingRegressor(max_depth = self.max_depth)
 
-    elif regtype == 'gradient_boost':
-        logger.info("{} regression is chosen".format(regtype))
-        regtree = ensemble.GradientBoostingRegressor(max_depth=max_depth_in)
+        elif self.regtype == 'random_forest':
+            logger.info("{} regression is chosen".format(self.regtype))
+            if self.max_depth == None:
+                regtree = ensemble.RandomForestRegressor()
+            else:
+                regtree = ensemble.RandomForestRegressor(n_estimators = self.max_depth,max_leaf_nodes = self.max_depth)
 
-    elif regtype == 'random_forest':
-        logger.info("{} regression is chosen".format(regtype))
-        if max_depth_in == None:
-            regtree = ensemble.RandomForestRegressor()
-        else:
-            regtree = ensemble.RandomForestRegressor(n_estimators=max_depth_in,max_leaf_nodes=max_depth_in)
+        a = datetime.datetime.now()
 
-    # TRAINING
-    regtree.fit(X_train, goalvar_train)
-    logger.info("Training complete")
-    # PREDICTION
-    goalvar_pred = regtree.predict(X_eval)
-    logger.info("Prediction complete")
+        # TRAINING
+        logger.info("++++++++++Training begins++++++++++")
+        regtree.fit(X_train, goalvar_train)
+        # PREDICTION
 
-    return goalvar_pred,goalvar_eval # TODO: should not return goalvar_eval, can be unpacked from processed_data dict
+        logger.info("++++++++++Prediction begins++++++++++")
+        goalvar_pred = regtree.predict(X_eval)
+        b = datetime.datetime.now()
+        logger.debug(f'execution time = {b-a}')
+        logger.debug("============================================================ \n")
+
+        return goalvar_pred,goalvar_eval # TODO: should not return goalvar_eval, can be unpacked from processed_data dict
+
 
 
 def hist_plot(goalvar_pred,goalvar_eval, eval_fraction,bins,vmax,cmax,norm):
@@ -320,12 +335,13 @@ def get_config_params(config_file_name='../config/config_variables.ini'):
 
 def main():
     # DATA PREPROCESSING
-    prepro=DataPrepro(curdir,fname,goal_var,input_vars,add_vars,eval_fraction)
+    prepro=DataPrepro(abspath, vars_dict, eval_fraction, regtype, ML_max_depth,resolution = size)
+
     # methods should be in this particular order!!
     processed_data = prepro.get_processed_data()
 
     # REGRESSION
-    goalvar_pred, goalvar_eval = regression(regtype,processed_data,max_depth_in)
+    goalvar_pred, goalvar_eval = regression(processed_data)
 
     # VISUALISATION
     hist_plot(goalvar_pred, goalvar_eval)
@@ -352,13 +368,11 @@ if __name__=='__main__':
     regtype = 'decision_tree'
     max_depth_in=None
 
-    start_time = time.time()
     logger = initLog()
     logger.debug("EXECUTION START, input file={}".format(fname))
 
     main()
 
-    end_time =time.time()
     logger.debug('EXECUTION FINISH %s seconds' % (start_time - end_time))
     logger.debug('----------------------------------------')
 

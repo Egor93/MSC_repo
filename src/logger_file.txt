@@ -1,0 +1,1185 @@
+2021-10-01 18:11:23,072 - cf_tree_regression - INFO - --RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']--
+2021-10-01 18:11:23,073 - cf_tree_regression - INFO - --REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2--
+2021-10-01 18:11:23,119 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 18:11:23,139 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 18:11:23,144 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 18:11:23,144 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-01 18:11:23,144 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 18:11:23,368 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 18:11:23,368 - cf_tree_regression - DEBUG - execution time = 0:00:00.224032
+2021-10-01 18:11:23,368 - cf_tree_regression - DEBUG - ============================================================
+2021-10-01 18:11:23,370 - cf_tree_regression - INFO - --RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]--
+2021-10-01 18:11:23,370 - cf_tree_regression - INFO - --REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2--
+2021-10-01 18:11:23,379 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 18:11:23,389 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 18:11:23,395 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 18:11:23,395 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-01 18:11:23,395 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 18:11:23,594 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 18:11:23,595 - cf_tree_regression - DEBUG - execution time = 0:00:00.199601
+2021-10-01 18:11:23,595 - cf_tree_regression - DEBUG - ============================================================
+2021-10-01 18:11:23,596 - cf_tree_regression - INFO - --RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']--
+2021-10-01 18:11:23,596 - cf_tree_regression - INFO - --REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2--
+2021-10-01 18:11:23,606 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 18:11:23,619 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 18:11:23,624 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 18:11:23,624 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-01 18:11:23,624 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 18:11:47,083 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 18:11:47,109 - cf_tree_regression - DEBUG - execution time = 0:00:23.485523
+2021-10-01 18:11:47,110 - cf_tree_regression - DEBUG - ============================================================
+2021-10-01 18:11:47,111 - cf_tree_regression - INFO - --RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]--
+2021-10-01 18:11:47,111 - cf_tree_regression - INFO - --REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2--
+2021-10-01 18:11:47,121 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 18:11:47,131 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 18:11:47,136 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 18:11:47,136 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-01 18:11:47,136 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 18:12:07,960 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 18:12:07,984 - cf_tree_regression - DEBUG - execution time = 0:00:20.847595
+2021-10-01 18:12:07,984 - cf_tree_regression - DEBUG - ============================================================
+2021-10-01 18:12:07,985 - cf_tree_regression - INFO - --RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']--
+2021-10-01 18:12:07,985 - cf_tree_regression - INFO - --REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2--
+2021-10-01 18:12:07,994 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 18:12:08,007 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 18:12:08,011 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 18:12:08,011 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-01 18:17:01,672 - cf_tree_regression - INFO - --RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']--
+2021-10-01 18:17:01,673 - cf_tree_regression - INFO - --REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2--
+2021-10-01 18:17:01,706 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 18:17:01,722 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 18:17:01,726 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 18:17:01,726 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-01 18:17:01,727 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 18:17:01,951 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 18:17:01,952 - cf_tree_regression - DEBUG - execution time = 0:00:00.225144
+2021-10-01 18:17:01,952 - cf_tree_regression - DEBUG - ============================================================
+2021-10-01 18:17:01,953 - cf_tree_regression - INFO - --RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]--
+2021-10-01 18:17:01,953 - cf_tree_regression - INFO - --REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2--
+2021-10-01 18:17:01,962 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 18:17:01,973 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 18:17:01,978 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 18:17:01,978 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-01 18:17:01,978 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 18:17:02,179 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 18:17:02,180 - cf_tree_regression - DEBUG - execution time = 0:00:00.201556
+2021-10-01 18:17:02,180 - cf_tree_regression - DEBUG - ============================================================
+2021-10-01 18:17:02,181 - cf_tree_regression - INFO - --RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']--
+2021-10-01 18:17:02,181 - cf_tree_regression - INFO - --REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2--
+2021-10-01 18:17:02,191 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 18:17:02,204 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 18:17:02,208 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 18:17:02,208 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-01 18:17:02,209 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 18:17:25,607 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 18:17:25,630 - cf_tree_regression - DEBUG - execution time = 0:00:23.421798
+2021-10-01 18:17:25,631 - cf_tree_regression - DEBUG - ============================================================
+2021-10-01 18:17:25,631 - cf_tree_regression - INFO - --RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]--
+2021-10-01 18:17:25,632 - cf_tree_regression - INFO - --REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2--
+2021-10-01 18:17:25,641 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 18:17:25,652 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 18:17:25,656 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 18:17:25,657 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-01 18:17:25,657 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 18:17:46,407 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 18:17:46,430 - cf_tree_regression - DEBUG - execution time = 0:00:20.773492
+2021-10-01 18:17:46,430 - cf_tree_regression - DEBUG - ============================================================
+2021-10-01 18:17:46,431 - cf_tree_regression - INFO - --RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']--
+2021-10-01 18:17:46,431 - cf_tree_regression - INFO - --REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2--
+2021-10-01 18:17:46,441 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 18:17:46,454 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 18:17:46,458 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 18:17:46,458 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-01 18:17:46,458 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 18:17:47,015 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 18:17:47,017 - cf_tree_regression - DEBUG - execution time = 0:00:00.559494
+2021-10-01 18:17:47,018 - cf_tree_regression - DEBUG - ============================================================
+2021-10-01 18:17:47,018 - cf_tree_regression - INFO - --RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]--
+2021-10-01 18:17:47,018 - cf_tree_regression - INFO - --REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2--
+2021-10-01 18:17:47,028 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 18:17:47,039 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 18:17:47,044 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 18:17:47,044 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-01 18:17:47,044 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 18:17:47,502 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 18:17:47,504 - cf_tree_regression - DEBUG - execution time = 0:00:00.460025
+2021-10-01 18:17:47,504 - cf_tree_regression - DEBUG - ============================================================
+2021-10-01 18:17:47,505 - cf_tree_regression - INFO - --RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']--
+2021-10-01 18:17:47,505 - cf_tree_regression - INFO - --REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2--
+2021-10-01 18:17:47,537 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 18:17:47,582 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 18:17:47,598 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 18:17:47,598 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-01 18:17:47,598 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 18:17:48,622 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 18:17:48,624 - cf_tree_regression - DEBUG - execution time = 0:00:01.025566
+2021-10-01 18:17:48,624 - cf_tree_regression - DEBUG - ============================================================
+2021-10-01 18:17:48,625 - cf_tree_regression - INFO - --RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]--
+2021-10-01 18:17:48,625 - cf_tree_regression - INFO - --REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2--
+2021-10-01 18:17:48,655 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 18:17:48,690 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 18:17:48,709 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 18:17:48,709 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-01 18:17:48,709 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 18:17:49,615 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 18:17:49,617 - cf_tree_regression - DEBUG - execution time = 0:00:00.907962
+2021-10-01 18:17:49,617 - cf_tree_regression - DEBUG - ============================================================
+2021-10-01 18:17:49,618 - cf_tree_regression - INFO - --RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']--
+2021-10-01 18:17:49,618 - cf_tree_regression - INFO - --REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2--
+2021-10-01 18:17:49,649 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 18:17:49,691 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 18:17:49,706 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 18:17:49,706 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-01 18:17:49,706 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 18:19:39,184 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 18:19:39,269 - cf_tree_regression - DEBUG - execution time = 0:01:49.562396
+2021-10-01 18:19:39,269 - cf_tree_regression - DEBUG - ============================================================
+2021-10-01 18:19:39,270 - cf_tree_regression - INFO - --RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]--
+2021-10-01 18:19:39,270 - cf_tree_regression - INFO - --REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2--
+2021-10-01 18:19:39,304 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 18:19:39,338 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 18:19:39,357 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 18:19:39,357 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-01 18:19:39,358 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 18:21:15,801 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 18:21:15,885 - cf_tree_regression - DEBUG - execution time = 0:01:36.527324
+2021-10-01 18:21:15,885 - cf_tree_regression - DEBUG - ============================================================
+2021-10-01 18:21:15,886 - cf_tree_regression - INFO - --RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']--
+2021-10-01 18:21:15,886 - cf_tree_regression - INFO - --REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2--
+2021-10-01 18:21:15,919 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 18:21:15,959 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 18:21:15,974 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 18:21:15,974 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-01 18:21:15,974 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 18:21:19,038 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 18:21:19,044 - cf_tree_regression - DEBUG - execution time = 0:00:03.069390
+2021-10-01 18:21:19,044 - cf_tree_regression - DEBUG - ============================================================
+2021-10-01 18:21:19,045 - cf_tree_regression - INFO - --RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]--
+2021-10-01 18:21:19,045 - cf_tree_regression - INFO - --REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2--
+2021-10-01 18:21:19,076 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 18:21:19,108 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 18:21:19,126 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 18:21:19,126 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-01 18:21:19,127 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 18:21:21,619 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 18:21:21,624 - cf_tree_regression - DEBUG - execution time = 0:00:02.497090
+2021-10-01 18:21:21,624 - cf_tree_regression - DEBUG - ============================================================
+2021-10-01 19:49:16,387 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-01 19:49:16,387 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 19:49:16,404 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 19:49:16,421 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 19:49:16,426 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 19:49:16,426 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-01 19:49:16,426 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 19:49:16,654 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 19:49:16,655 - cf_tree_regression - DEBUG - execution time = 0:00:00.228291
+2021-10-01 19:49:16,655 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 19:49:16,656 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-01 19:49:16,656 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 19:49:16,665 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 19:49:16,675 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 19:49:16,681 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 19:49:16,681 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-01 19:49:16,681 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 19:49:16,879 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 19:49:16,880 - cf_tree_regression - DEBUG - execution time = 0:00:00.198857
+2021-10-01 19:49:16,880 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 19:49:16,881 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-01 19:49:16,881 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 19:49:16,891 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 19:49:16,905 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 19:49:16,909 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 19:49:16,909 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-01 19:49:16,909 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 19:49:40,319 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 19:49:40,343 - cf_tree_regression - DEBUG - execution time = 0:00:23.433363
+2021-10-01 19:49:40,343 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 19:49:40,343 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-01 19:49:40,344 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 19:49:40,353 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 19:49:40,363 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 19:49:40,368 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 19:49:40,368 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-01 19:49:40,368 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 19:50:01,185 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 19:50:01,208 - cf_tree_regression - DEBUG - execution time = 0:00:20.839848
+2021-10-01 19:50:01,208 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 19:50:01,209 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-01 19:50:01,209 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 19:50:01,218 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 19:50:01,230 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 19:50:01,234 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 19:50:01,234 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-01 19:50:01,234 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 19:50:01,748 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 19:50:01,750 - cf_tree_regression - DEBUG - execution time = 0:00:00.515685
+2021-10-01 19:50:01,750 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 19:50:01,751 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-01 19:50:01,751 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 19:50:01,761 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 19:50:01,771 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 19:50:01,776 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 19:50:01,776 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-01 19:50:01,776 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 19:50:02,233 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 19:50:02,235 - cf_tree_regression - DEBUG - execution time = 0:00:00.458428
+2021-10-01 19:50:02,235 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 19:50:02,236 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-01 19:50:02,236 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 19:50:02,268 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 19:50:02,313 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 19:50:02,329 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 19:50:02,329 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-01 19:50:02,329 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 19:50:03,382 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 19:50:03,384 - cf_tree_regression - DEBUG - execution time = 0:00:01.054824
+2021-10-01 19:50:03,384 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 19:50:03,385 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-01 19:50:03,385 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 19:50:03,416 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 19:50:03,450 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 19:50:03,470 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 19:50:03,470 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-01 19:50:03,470 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 19:50:04,374 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 19:50:04,376 - cf_tree_regression - DEBUG - execution time = 0:00:00.905871
+2021-10-01 19:50:04,376 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 19:50:04,377 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-01 19:50:04,377 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 19:50:04,408 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 19:50:04,450 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 19:50:04,464 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 19:50:04,465 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-01 19:50:04,465 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 19:51:53,724 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 19:51:53,809 - cf_tree_regression - DEBUG - execution time = 0:01:49.344063
+2021-10-01 19:51:53,809 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 19:51:53,810 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-01 19:51:53,810 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 19:51:53,842 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 19:51:53,876 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 19:51:53,894 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 19:51:53,894 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-01 19:51:53,894 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 19:53:30,394 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 19:53:30,477 - cf_tree_regression - DEBUG - execution time = 0:01:36.582387
+2021-10-01 19:53:30,477 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 19:53:30,478 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-01 19:53:30,478 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 19:53:30,510 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 19:53:30,552 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 19:53:30,567 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 19:53:30,568 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-01 19:53:30,568 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 19:53:33,409 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 19:53:33,415 - cf_tree_regression - DEBUG - execution time = 0:00:02.846917
+2021-10-01 19:53:33,415 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 19:53:33,416 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-01 19:53:33,416 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 19:53:33,448 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 19:53:33,483 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 19:53:33,501 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 19:53:33,501 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-01 19:53:33,501 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 19:53:35,928 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 19:53:35,933 - cf_tree_regression - DEBUG - execution time = 0:00:02.431549
+2021-10-01 19:53:35,933 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 19:53:35,934 - cf_tree_regression - INFO - RESOLUTION=025_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-01 19:53:35,934 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 19:53:40,369 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 19:53:41,666 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 19:53:41,729 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 19:53:41,729 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-01 19:53:41,729 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 19:53:46,584 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 19:53:46,590 - cf_tree_regression - DEBUG - execution time = 0:00:04.860958
+2021-10-01 19:53:46,590 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 19:53:46,592 - cf_tree_regression - INFO - RESOLUTION=025_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-01 19:53:46,593 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 19:53:46,709 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 19:53:46,843 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 19:53:46,921 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 19:53:46,921 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-01 19:53:46,921 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 19:53:51,112 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 19:53:51,118 - cf_tree_regression - DEBUG - execution time = 0:00:04.197006
+2021-10-01 19:53:51,118 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 19:53:51,122 - cf_tree_regression - INFO - RESOLUTION=025_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-01 19:53:51,122 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 19:53:51,239 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 19:53:51,411 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 19:53:51,474 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 19:53:51,474 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-01 19:53:51,474 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 20:02:19,858 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 20:02:20,186 - cf_tree_regression - DEBUG - execution time = 0:08:28.712232
+2021-10-01 20:02:20,186 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 20:02:20,189 - cf_tree_regression - INFO - RESOLUTION=025_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-01 20:02:20,189 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 20:02:20,307 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 20:02:20,441 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 20:02:20,515 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 20:02:20,515 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-01 20:02:20,515 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 20:09:49,326 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 20:09:49,645 - cf_tree_regression - DEBUG - execution time = 0:07:29.130086
+2021-10-01 20:09:49,645 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 20:09:49,649 - cf_tree_regression - INFO - RESOLUTION=025_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-01 20:09:49,649 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 20:09:49,768 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 20:09:49,938 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 20:09:49,998 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 20:09:49,998 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-01 20:09:49,998 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 20:10:05,911 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 20:10:05,931 - cf_tree_regression - DEBUG - execution time = 0:00:15.933076
+2021-10-01 20:10:05,931 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 20:10:05,933 - cf_tree_regression - INFO - RESOLUTION=025_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-01 20:10:05,933 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 20:10:06,054 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 20:10:06,188 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 20:10:06,261 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 20:10:06,261 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-01 20:10:06,261 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 20:10:18,521 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 20:10:18,539 - cf_tree_regression - DEBUG - execution time = 0:00:12.277644
+2021-10-01 20:10:18,539 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 20:10:18,542 - cf_tree_regression - INFO - RESOLUTION=0125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-01 20:10:18,542 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 20:10:18,986 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 20:10:19,634 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 20:10:19,885 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 20:10:19,885 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-01 20:10:19,885 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 20:10:41,777 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 20:10:41,799 - cf_tree_regression - DEBUG - execution time = 0:00:21.913879
+2021-10-01 20:10:41,799 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 20:10:41,806 - cf_tree_regression - INFO - RESOLUTION=0125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-01 20:10:41,806 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 20:10:42,244 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 20:10:42,755 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 20:10:43,055 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 20:10:43,056 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-01 20:10:43,056 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 20:11:01,802 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 20:11:01,825 - cf_tree_regression - DEBUG - execution time = 0:00:18.768613
+2021-10-01 20:11:01,825 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 20:11:01,838 - cf_tree_regression - INFO - RESOLUTION=0125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-01 20:11:01,838 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 20:11:02,276 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 20:11:02,921 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 20:11:03,173 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 20:11:03,174 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-01 20:11:03,174 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 20:49:40,393 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 20:49:41,722 - cf_tree_regression - DEBUG - execution time = 0:38:38.548236
+2021-10-01 20:49:41,722 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 20:49:41,729 - cf_tree_regression - INFO - RESOLUTION=0125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-01 20:49:41,729 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 20:49:42,173 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 20:49:42,691 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 20:49:42,995 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 20:49:42,995 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-01 20:49:42,995 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 21:24:07,710 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 21:24:08,987 - cf_tree_regression - DEBUG - execution time = 0:34:25.991682
+2021-10-01 21:24:08,987 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 21:24:09,001 - cf_tree_regression - INFO - RESOLUTION=0125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-01 21:24:09,001 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 21:24:09,443 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 21:24:10,087 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 21:24:10,338 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 21:24:10,340 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-01 21:24:10,340 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 21:25:27,289 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 21:25:27,371 - cf_tree_regression - DEBUG - execution time = 0:01:17.031301
+2021-10-01 21:25:27,371 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-01 21:25:27,380 - cf_tree_regression - INFO - RESOLUTION=0125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-01 21:25:27,380 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-01 21:25:27,827 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-01 21:25:28,337 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-01 21:25:28,642 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-01 21:25:28,643 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-01 21:25:28,643 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-01 21:26:29,045 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-01 21:26:29,115 - cf_tree_regression - DEBUG - execution time = 0:01:00.472761
+2021-10-01 21:26:29,116 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-03 09:24:54,493 - cf_tree_regression - INFO - RESOLUTION=00625_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-03 09:24:54,493 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-03 09:25:56,643 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-03 09:26:14,626 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-03 09:26:15,797 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-03 09:26:15,797 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-03 09:26:15,797 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-03 09:27:53,455 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-03 09:27:53,551 - cf_tree_regression - DEBUG - execution time = 0:01:37.753556
+2021-10-03 09:27:53,551 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-03 09:27:53,582 - cf_tree_regression - INFO - RESOLUTION=00625_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-03 09:27:53,582 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-03 09:27:55,426 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-03 09:27:57,569 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-03 09:27:58,903 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-03 09:27:58,904 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-03 09:27:58,904 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-03 09:29:24,171 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-03 09:29:24,266 - cf_tree_regression - DEBUG - execution time = 0:01:25.361116
+2021-10-03 09:29:24,266 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-03 09:29:24,314 - cf_tree_regression - INFO - RESOLUTION=00625_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-03 09:29:24,314 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-03 09:29:26,165 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-03 09:29:28,899 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-03 09:29:30,061 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-03 09:29:30,063 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-03 09:29:30,063 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-03 12:20:13,684 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-03 12:20:18,968 - cf_tree_regression - DEBUG - execution time = 2:50:48.905213
+2021-10-03 12:20:18,968 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-03 12:20:18,995 - cf_tree_regression - INFO - RESOLUTION=00625_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-03 12:20:18,996 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-03 12:20:20,842 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-03 12:20:22,984 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-03 12:20:24,315 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-03 12:20:24,317 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-03 12:20:24,317 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-03 14:53:12,144 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-03 14:53:17,293 - cf_tree_regression - DEBUG - execution time = 2:32:52.975971
+2021-10-03 14:53:17,293 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-03 14:53:17,349 - cf_tree_regression - INFO - RESOLUTION=00625_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-03 14:53:17,349 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-03 14:53:19,205 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-03 14:53:21,942 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-03 14:53:23,112 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-03 14:53:23,113 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-03 14:53:23,113 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-03 14:58:54,678 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-03 14:58:54,994 - cf_tree_regression - DEBUG - execution time = 0:05:31.880203
+2021-10-03 14:58:54,994 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-03 14:58:55,019 - cf_tree_regression - INFO - RESOLUTION=00625_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-03 14:58:55,019 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-03 14:58:56,879 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-03 14:58:59,017 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-03 14:59:00,355 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-03 14:59:00,356 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-03 14:59:00,356 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-03 15:03:49,839 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-03 15:03:50,151 - cf_tree_regression - DEBUG - execution time = 0:04:49.794297
+2021-10-03 15:03:50,151 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-03 15:03:50,204 - cf_tree_regression - INFO - RESOLUTION=003125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-03 15:03:50,205 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-03 15:08:02,270 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-03 15:09:13,922 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-03 15:09:18,854 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-03 15:09:18,856 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-03 15:09:18,856 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-03 15:16:04,523 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-03 15:16:04,877 - cf_tree_regression - DEBUG - execution time = 0:06:46.021227
+2021-10-03 15:16:04,877 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-03 15:16:04,991 - cf_tree_regression - INFO - RESOLUTION=003125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-03 15:16:04,991 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-03 15:16:12,115 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-03 15:16:20,359 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-03 15:16:26,111 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-03 15:16:26,116 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-03 15:16:26,116 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-03 15:22:29,355 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-03 15:22:29,748 - cf_tree_regression - DEBUG - execution time = 0:06:03.631465
+2021-10-03 15:22:29,748 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-03 15:22:29,949 - cf_tree_regression - INFO - RESOLUTION=003125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-03 15:22:29,949 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-03 15:22:37,250 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-03 15:22:47,947 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-03 15:22:52,919 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-03 15:22:52,924 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-03 15:22:52,924 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 11:35:24,628 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 11:35:24,628 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 11:35:24,743 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 11:35:24,768 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 11:35:24,773 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 11:35:24,773 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-04 11:35:24,773 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 11:35:24,993 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 11:35:24,994 - cf_tree_regression - DEBUG - execution time = 0:00:00.220154
+2021-10-04 11:35:24,994 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 11:35:24,995 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 11:35:24,995 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 11:35:25,004 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 11:35:25,015 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 11:35:25,020 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 11:35:25,020 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-04 11:35:25,020 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 11:35:25,216 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 11:35:25,217 - cf_tree_regression - DEBUG - execution time = 0:00:00.196151
+2021-10-04 11:35:25,217 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 11:35:25,217 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 11:35:25,217 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 11:35:25,227 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 11:35:25,240 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 11:35:25,244 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 11:35:25,244 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-04 11:35:25,244 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 11:35:48,822 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 11:35:48,846 - cf_tree_regression - DEBUG - execution time = 0:00:23.602435
+2021-10-04 11:35:48,846 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 11:35:48,847 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 11:35:48,847 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 11:35:48,857 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 11:35:48,866 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 11:35:48,871 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 11:35:48,871 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-04 11:35:48,871 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 11:36:10,046 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 11:36:10,068 - cf_tree_regression - DEBUG - execution time = 0:00:21.196955
+2021-10-04 11:36:10,069 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 11:36:10,069 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 11:36:10,069 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 11:36:10,080 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 11:36:10,092 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 11:36:10,096 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 11:36:10,096 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-04 11:36:10,096 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 11:36:10,623 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 11:36:10,625 - cf_tree_regression - DEBUG - execution time = 0:00:00.528281
+2021-10-04 11:36:10,625 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 11:36:10,625 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 11:36:10,625 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 11:36:10,635 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 11:36:10,645 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 11:36:10,649 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 11:36:10,649 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-04 11:36:10,650 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 11:36:11,118 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 11:36:11,120 - cf_tree_regression - DEBUG - execution time = 0:00:00.470212
+2021-10-04 11:36:11,120 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 11:36:11,120 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 11:36:11,121 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 11:36:11,160 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 11:36:11,205 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 11:36:11,221 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 11:36:11,221 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-04 11:36:11,221 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 11:36:12,260 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 11:36:12,262 - cf_tree_regression - DEBUG - execution time = 0:00:01.040396
+2021-10-04 11:36:12,262 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 11:36:12,263 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 11:36:12,263 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 11:36:12,294 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 11:36:12,328 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 11:36:12,347 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 11:36:12,347 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-04 11:36:12,347 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 11:36:13,251 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 11:36:13,253 - cf_tree_regression - DEBUG - execution time = 0:00:00.905477
+2021-10-04 11:36:13,253 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 11:36:13,254 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 11:36:13,254 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 11:36:13,285 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 11:36:13,326 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 11:36:13,341 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 11:36:13,341 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-04 11:36:13,342 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 11:38:02,858 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 11:38:02,945 - cf_tree_regression - DEBUG - execution time = 0:01:49.603286
+2021-10-04 11:38:02,945 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 11:38:02,946 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 11:38:02,946 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 11:38:02,979 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 11:38:03,014 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 11:38:03,034 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 11:38:03,034 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-04 11:38:03,034 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 11:39:39,378 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 11:39:39,461 - cf_tree_regression - DEBUG - execution time = 0:01:36.426773
+2021-10-04 11:39:39,461 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 11:39:39,462 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 11:39:39,462 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 11:39:39,494 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 11:39:39,536 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 11:39:39,551 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 11:39:39,551 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-04 11:39:39,551 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 11:39:42,528 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 11:39:42,533 - cf_tree_regression - DEBUG - execution time = 0:00:02.982048
+2021-10-04 11:39:42,533 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 11:39:42,534 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 11:39:42,534 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 11:39:42,566 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 11:39:42,601 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 11:39:42,619 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 11:39:42,619 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-04 11:39:42,619 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 11:39:45,016 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 11:39:45,021 - cf_tree_regression - DEBUG - execution time = 0:00:02.401825
+2021-10-04 11:39:45,021 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 19:53:12,247 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 19:53:12,248 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 19:53:12,267 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 19:53:12,283 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 19:53:12,289 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 19:53:12,289 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-04 19:53:12,289 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 19:53:12,515 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 19:53:12,516 - cf_tree_regression - DEBUG - execution time = 0:00:00.226860
+2021-10-04 19:53:12,516 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 19:53:12,517 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 19:53:12,517 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 19:53:12,526 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 19:53:12,537 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 19:53:12,542 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 19:53:12,542 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-04 19:53:12,542 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 19:53:12,742 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 19:53:12,743 - cf_tree_regression - DEBUG - execution time = 0:00:00.200094
+2021-10-04 19:53:12,743 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 19:53:12,743 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 19:53:12,743 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 19:53:12,753 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 19:53:12,766 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 19:53:12,770 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 19:53:12,770 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-04 19:53:12,770 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 19:53:36,263 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 19:53:36,287 - cf_tree_regression - DEBUG - execution time = 0:00:23.516330
+2021-10-04 19:53:36,287 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 19:53:36,287 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 19:53:36,287 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 19:53:36,298 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 19:53:36,308 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 19:53:36,312 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 19:53:36,312 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-04 19:53:36,312 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 19:53:57,143 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 19:53:57,166 - cf_tree_regression - DEBUG - execution time = 0:00:20.853444
+2021-10-04 19:53:57,166 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 19:53:57,167 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 19:53:57,167 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 19:53:57,177 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 19:53:57,189 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 19:53:57,193 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 19:53:57,193 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-04 19:53:57,193 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 19:53:57,743 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 19:53:57,745 - cf_tree_regression - DEBUG - execution time = 0:00:00.551445
+2021-10-04 19:53:57,745 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 19:53:57,745 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 19:53:57,745 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 19:53:57,754 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 19:53:57,764 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 19:53:57,769 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 19:53:57,769 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-04 19:53:57,769 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 19:53:58,204 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 19:53:58,206 - cf_tree_regression - DEBUG - execution time = 0:00:00.437384
+2021-10-04 19:53:58,206 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 19:53:58,212 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 19:53:58,212 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 19:53:58,245 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 19:53:58,290 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 19:53:58,306 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 19:53:58,306 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-04 19:53:58,306 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 19:53:59,335 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 19:53:59,337 - cf_tree_regression - DEBUG - execution time = 0:00:01.030760
+2021-10-04 19:53:59,337 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 19:53:59,338 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 19:53:59,338 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 19:53:59,368 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 19:53:59,403 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 19:53:59,422 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 19:53:59,422 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-04 19:53:59,422 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 19:54:00,323 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 19:54:00,325 - cf_tree_regression - DEBUG - execution time = 0:00:00.902951
+2021-10-04 19:54:00,325 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 19:54:00,326 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 19:54:00,326 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 19:54:00,356 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 19:54:00,398 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 19:54:00,413 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 19:54:00,413 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-04 19:54:00,413 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 19:55:51,623 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 19:55:51,708 - cf_tree_regression - DEBUG - execution time = 0:01:51.294310
+2021-10-04 19:55:51,708 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 19:55:51,709 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 19:55:51,709 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 19:55:51,743 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 19:55:51,777 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 19:55:51,796 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 19:55:51,796 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-04 19:55:51,796 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 19:57:28,538 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 19:57:28,621 - cf_tree_regression - DEBUG - execution time = 0:01:36.824538
+2021-10-04 19:57:28,621 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 19:57:28,622 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 19:57:28,622 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 19:57:28,655 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 19:57:28,697 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 19:57:28,711 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 19:57:28,712 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-04 19:57:28,712 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 19:57:31,676 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 19:57:31,681 - cf_tree_regression - DEBUG - execution time = 0:00:02.969388
+2021-10-04 19:57:31,681 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 19:57:31,682 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 19:57:31,682 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 19:57:31,714 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 19:57:31,748 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 19:57:31,767 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 19:57:31,767 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-04 19:57:31,767 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 19:57:34,145 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 19:57:34,150 - cf_tree_regression - DEBUG - execution time = 0:00:02.382717
+2021-10-04 19:57:34,150 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 20:50:18,520 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 20:50:18,520 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 20:50:18,540 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 20:50:18,556 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 20:50:18,562 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 20:50:18,562 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-04 20:50:18,562 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 20:50:18,795 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 20:50:18,796 - cf_tree_regression - DEBUG - execution time = 0:00:00.233804
+2021-10-04 20:50:18,796 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 20:50:18,797 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 20:50:18,797 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 20:50:18,807 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 20:50:18,817 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 20:50:18,822 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 20:50:18,823 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-04 20:50:18,823 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 20:50:19,022 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 20:50:19,022 - cf_tree_regression - DEBUG - execution time = 0:00:00.199727
+2021-10-04 20:50:19,023 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 20:50:19,023 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 20:50:19,023 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 20:50:19,033 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 20:50:19,046 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 20:50:19,050 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 20:50:19,050 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-04 20:50:19,050 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 20:50:42,678 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 20:50:42,702 - cf_tree_regression - DEBUG - execution time = 0:00:23.651779
+2021-10-04 20:50:42,702 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 20:50:42,702 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 20:50:42,703 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 20:50:42,713 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 20:50:42,723 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 20:50:42,727 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 20:50:42,728 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-04 20:50:42,728 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 20:51:03,585 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 20:51:03,608 - cf_tree_regression - DEBUG - execution time = 0:00:20.880863
+2021-10-04 20:51:03,609 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 20:51:03,609 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 20:51:03,609 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 20:51:03,619 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 20:51:03,633 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 20:51:03,637 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 20:51:03,637 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-04 20:51:03,637 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 20:51:04,169 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 20:51:04,171 - cf_tree_regression - DEBUG - execution time = 0:00:00.534036
+2021-10-04 20:51:04,171 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 20:51:04,172 - cf_tree_regression - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 20:51:04,172 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 20:51:04,181 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 20:51:04,191 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 20:51:04,196 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 20:51:04,196 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-04 20:51:04,196 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 20:51:04,652 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 20:51:04,654 - cf_tree_regression - DEBUG - execution time = 0:00:00.458028
+2021-10-04 20:51:04,654 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 20:51:04,658 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 20:51:04,658 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 20:51:04,695 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 20:51:04,740 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 20:51:04,756 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 20:51:04,757 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-04 20:51:04,757 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 20:51:05,854 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 20:51:05,856 - cf_tree_regression - DEBUG - execution time = 0:00:01.099685
+2021-10-04 20:51:05,856 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 20:51:05,857 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 20:51:05,857 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 20:51:05,890 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 20:51:05,925 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 20:51:05,946 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 20:51:05,946 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-04 20:51:05,946 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 20:51:06,896 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 20:51:06,898 - cf_tree_regression - DEBUG - execution time = 0:00:00.952276
+2021-10-04 20:51:06,898 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 20:51:06,899 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 20:51:06,899 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 20:51:06,934 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 20:51:06,981 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 20:51:06,997 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 20:51:06,998 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-04 20:51:06,998 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 20:52:58,892 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 20:52:58,976 - cf_tree_regression - DEBUG - execution time = 0:01:51.978198
+2021-10-04 20:52:58,976 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 20:52:58,977 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 20:52:58,977 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 20:52:59,011 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 20:52:59,048 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 20:52:59,068 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 20:52:59,068 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-04 20:52:59,068 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 20:54:35,829 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 20:54:35,912 - cf_tree_regression - DEBUG - execution time = 0:01:36.844084
+2021-10-04 20:54:35,912 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 20:54:35,913 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 20:54:35,913 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 20:54:35,946 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 20:54:35,988 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 20:54:36,003 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 20:54:36,003 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-04 20:54:36,003 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 20:54:38,933 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 20:54:38,938 - cf_tree_regression - DEBUG - execution time = 0:00:02.934827
+2021-10-04 20:54:38,938 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 20:54:38,940 - cf_tree_regression - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 20:54:38,940 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 20:54:38,971 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 20:54:39,005 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 20:54:39,025 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 20:54:39,025 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-04 20:54:39,025 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 20:54:41,477 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 20:54:41,482 - cf_tree_regression - DEBUG - execution time = 0:00:02.457003
+2021-10-04 20:54:41,482 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 20:54:41,488 - cf_tree_regression - INFO - RESOLUTION=025_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 20:54:41,488 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 20:54:41,624 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 20:54:41,798 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 20:54:41,863 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 20:54:41,864 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-04 20:54:41,864 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 20:54:46,676 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 20:54:46,683 - cf_tree_regression - DEBUG - execution time = 0:00:04.818832
+2021-10-04 20:54:46,683 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 20:54:46,685 - cf_tree_regression - INFO - RESOLUTION=025_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 20:54:46,685 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 20:54:46,801 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 20:54:46,934 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 20:54:47,011 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 20:54:47,012 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-04 20:54:47,012 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 20:54:51,156 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 20:54:51,162 - cf_tree_regression - DEBUG - execution time = 0:00:04.149997
+2021-10-04 20:54:51,162 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 20:54:51,166 - cf_tree_regression - INFO - RESOLUTION=025_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 20:54:51,166 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 20:54:51,282 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 20:54:51,451 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 20:54:51,515 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 20:54:51,515 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-04 20:54:51,515 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 21:03:11,751 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 21:03:12,082 - cf_tree_regression - DEBUG - execution time = 0:08:20.566915
+2021-10-04 21:03:12,082 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 21:03:12,084 - cf_tree_regression - INFO - RESOLUTION=025_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 21:03:12,084 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 21:03:12,203 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 21:03:12,338 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 21:03:12,412 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 21:03:12,413 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-04 21:03:12,413 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 21:10:42,156 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 21:10:42,474 - cf_tree_regression - DEBUG - execution time = 0:07:30.061746
+2021-10-04 21:10:42,475 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 21:10:42,478 - cf_tree_regression - INFO - RESOLUTION=025_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 21:10:42,478 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 21:10:42,596 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 21:10:42,766 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 21:10:42,828 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 21:10:42,828 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-04 21:10:42,828 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 21:10:58,609 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 21:10:58,629 - cf_tree_regression - DEBUG - execution time = 0:00:15.800608
+2021-10-04 21:10:58,629 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 21:10:58,631 - cf_tree_regression - INFO - RESOLUTION=025_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 21:10:58,631 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 21:10:58,747 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 21:10:58,880 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 21:10:58,954 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 21:10:58,954 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-04 21:10:58,954 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 21:11:11,145 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 21:11:11,162 - cf_tree_regression - DEBUG - execution time = 0:00:12.208115
+2021-10-04 21:11:11,163 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 21:11:11,172 - cf_tree_regression - INFO - RESOLUTION=0125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 21:11:11,172 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 21:11:11,622 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 21:11:12,273 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 21:11:12,534 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 21:11:12,534 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-04 21:11:12,535 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 21:11:34,188 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 21:11:34,211 - cf_tree_regression - DEBUG - execution time = 0:00:21.676686
+2021-10-04 21:11:34,211 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 21:11:34,218 - cf_tree_regression - INFO - RESOLUTION=0125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 21:11:34,218 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 21:11:34,655 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 21:11:35,156 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 21:11:35,462 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 21:11:35,462 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-04 21:11:35,462 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 21:11:54,590 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 21:11:54,613 - cf_tree_regression - DEBUG - execution time = 0:00:19.150992
+2021-10-04 21:11:54,613 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 21:11:54,625 - cf_tree_regression - INFO - RESOLUTION=0125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 21:11:54,625 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 21:11:55,078 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 21:11:55,720 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 21:11:55,978 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 21:11:55,979 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-04 21:11:55,979 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 21:50:26,101 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 21:50:27,444 - cf_tree_regression - DEBUG - execution time = 0:38:31.465184
+2021-10-04 21:50:27,444 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 21:50:27,451 - cf_tree_regression - INFO - RESOLUTION=0125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 21:50:27,451 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 21:50:27,894 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 21:50:28,400 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 21:50:28,710 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 21:50:28,711 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-04 21:50:28,711 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 22:24:55,940 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 22:24:57,217 - cf_tree_regression - DEBUG - execution time = 0:34:28.506688
+2021-10-04 22:24:57,218 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 22:24:57,229 - cf_tree_regression - INFO - RESOLUTION=0125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 22:24:57,230 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 22:24:57,680 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 22:24:58,325 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 22:24:58,585 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 22:24:58,586 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-04 22:24:58,586 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 22:26:14,511 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 22:26:14,589 - cf_tree_regression - DEBUG - execution time = 0:01:16.002462
+2021-10-04 22:26:14,589 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 22:26:14,597 - cf_tree_regression - INFO - RESOLUTION=0125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 22:26:14,597 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 22:26:15,041 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 22:26:15,552 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 22:26:15,863 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 22:26:15,863 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-04 22:26:15,864 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 22:27:15,062 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 22:27:15,131 - cf_tree_regression - DEBUG - execution time = 0:00:59.267288
+2021-10-04 22:27:15,131 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 22:27:15,153 - cf_tree_regression - INFO - RESOLUTION=00625_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 22:27:15,153 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 22:27:17,028 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 22:27:19,758 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 22:27:20,947 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 22:27:20,949 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-04 22:27:20,949 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 22:29:00,225 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 22:29:00,317 - cf_tree_regression - DEBUG - execution time = 0:01:39.367751
+2021-10-04 22:29:00,317 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 22:29:00,345 - cf_tree_regression - INFO - RESOLUTION=00625_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-04 22:29:00,345 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 22:29:02,191 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 22:29:04,328 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 22:29:05,692 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 22:29:05,693 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-04 22:29:05,693 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-04 22:30:30,958 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-04 22:30:31,052 - cf_tree_regression - DEBUG - execution time = 0:01:25.358156
+2021-10-04 22:30:31,052 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-04 22:30:31,095 - cf_tree_regression - INFO - RESOLUTION=00625_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-04 22:30:31,096 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-04 22:30:32,942 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-04 22:30:35,668 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-04 22:30:36,861 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-04 22:30:36,862 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-04 22:30:36,862 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-05 01:21:34,813 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-05 01:21:40,066 - cf_tree_regression - DEBUG - execution time = 2:51:03.203304
+2021-10-05 01:21:40,066 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-05 01:21:40,090 - cf_tree_regression - INFO - RESOLUTION=00625_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-05 01:21:40,090 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-05 01:21:41,954 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-05 01:21:44,086 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-05 01:21:45,447 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-05 01:21:45,449 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-05 01:21:45,449 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-05 03:54:29,547 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-05 03:54:34,681 - cf_tree_regression - DEBUG - execution time = 2:32:49.232734
+2021-10-05 03:54:34,682 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-05 03:54:34,728 - cf_tree_regression - INFO - RESOLUTION=00625_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-05 03:54:34,728 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-05 03:54:36,578 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-05 03:54:39,318 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-05 03:54:40,511 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-05 03:54:40,513 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-05 03:54:40,513 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-05 04:00:04,065 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-05 04:00:04,378 - cf_tree_regression - DEBUG - execution time = 0:05:23.864719
+2021-10-05 04:00:04,378 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-05 04:00:04,406 - cf_tree_regression - INFO - RESOLUTION=00625_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-05 04:00:04,406 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-05 04:00:06,260 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-05 04:00:08,394 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-05 04:00:09,758 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-05 04:00:09,759 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-05 04:00:09,760 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-05 04:04:58,294 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-05 04:04:58,600 - cf_tree_regression - DEBUG - execution time = 0:04:48.840165
+2021-10-05 04:04:58,600 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-05 04:04:58,657 - cf_tree_regression - INFO - RESOLUTION=003125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-05 04:04:58,657 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-05 04:05:05,985 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-05 04:05:16,689 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-05 04:05:21,749 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-05 04:05:21,751 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-05 04:05:21,751 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-05 04:12:07,514 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-05 04:12:07,887 - cf_tree_regression - DEBUG - execution time = 0:06:46.136450
+2021-10-05 04:12:07,887 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-05 04:12:08,002 - cf_tree_regression - INFO - RESOLUTION=003125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-05 04:12:08,002 - cf_tree_regression - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-05 04:12:15,138 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-05 04:12:23,401 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-05 04:12:29,269 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-05 04:12:29,274 - cf_tree_regression - INFO - decision_tree regression is chosen
+2021-10-05 04:12:29,274 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-05 04:18:30,066 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-05 04:18:30,443 - cf_tree_regression - DEBUG - execution time = 0:06:01.168511
+2021-10-05 04:18:30,443 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-05 04:18:30,639 - cf_tree_regression - INFO - RESOLUTION=003125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-05 04:18:30,639 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-05 04:18:37,859 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-05 04:18:48,461 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-05 04:18:53,502 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-05 04:18:53,508 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-05 04:18:53,508 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-05 16:00:28,926 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-05 16:00:47,725 - cf_tree_regression - DEBUG - execution time = 11:41:54.217761
+2021-10-05 16:00:47,726 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-05 16:00:47,837 - cf_tree_regression - INFO - RESOLUTION=003125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-05 16:00:47,837 - cf_tree_regression - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-05 16:00:55,087 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-05 16:01:03,437 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-05 16:01:09,300 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-05 16:01:09,305 - cf_tree_regression - INFO - gradient_boost regression is chosen
+2021-10-05 16:01:09,305 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-06 02:26:08,096 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-06 02:26:26,905 - cf_tree_regression - DEBUG - execution time = 10:25:17.599666
+2021-10-06 02:26:26,905 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-06 02:26:27,108 - cf_tree_regression - INFO - RESOLUTION=003125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-06 02:26:27,108 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-06 02:26:34,356 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-06 02:26:44,988 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-06 02:26:50,051 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-06 02:26:50,056 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-06 02:26:50,057 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-06 02:45:59,755 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-06 02:46:01,196 - cf_tree_regression - DEBUG - execution time = 0:19:11.139304
+2021-10-06 02:46:01,196 - cf_tree_regression - DEBUG - ============================================================ 
+
+2021-10-06 02:46:01,317 - cf_tree_regression - INFO - RESOLUTION=003125_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-06 02:46:01,317 - cf_tree_regression - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-06 02:46:08,665 - cf_tree_regression - WARNING - Missing values in skew_l field were masked!
+2021-10-06 02:46:17,066 - cf_tree_regression - INFO - splitting the input/output data sets randomly
+2021-10-06 02:46:22,957 - cf_tree_regression - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-06 02:46:22,963 - cf_tree_regression - INFO - random_forest regression is chosen
+2021-10-06 02:46:22,963 - cf_tree_regression - INFO - ++++++++++Training begins++++++++++
+2021-10-06 03:03:27,510 - cf_tree_regression - INFO - ++++++++++Prediction begins++++++++++
+2021-10-06 03:03:28,906 - cf_tree_regression - DEBUG - execution time = 0:17:05.943519
+2021-10-06 03:03:28,906 - cf_tree_regression - DEBUG - ============================================================ 
+
