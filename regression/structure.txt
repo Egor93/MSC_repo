@@ -1,0 +1,40 @@
+# application code is now all held in the folder named after the package
+
+../
+├── README.md
+├── requirements.txt
+└── regression
+    ├── config
+	   └── config_variables.ini
+    data
+    	output/
+		img/
+		json/
+		    ├── ML_performance_out_1_003125.json
+		    ├── ML_performance_out1-0125.json
+		    ├── ML_performance_out_1_05.json
+    logs/
+	    ├── logger_file.txt
+    tests/
+	├── ML_algorithm_test
+	│   └── sklearn_tester.py
+	├── philipps_code
+	│   └── tree_test.ipynb
+	├── regression
+	│   └── tree_regression_plotter.ipynb
+	├── input_data_analysis
+	│   ├── missing_values_check.ipynb
+	│   ├── NetCDF_viewer.ipynb
+	│   ├── proper_netcdf_attributes.sh
+    src/     # contain the actual source files and resources
+		mypackages/
+			/regression
+				cf_tree_regression.py
+			/performance
+			        ├── Taylor_plot.py
+			        ├── ML_performance.py
+		external/
+			Taylor_Diagram
+    ├── main.sh
+    ├── structure.txt
+
