@@ -1,0 +1,132 @@
+2021-10-21 14:54:14,421 - NetCDFregression.tree - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-21 14:54:14,421 - NetCDFregression.tree - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-21 14:54:14,439 - NetCDFregression.tree - WARNING - Missing values in skew_l field were masked!
+2021-10-21 14:54:14,455 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-10-21 14:54:14,460 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-21 14:54:14,460 - NetCDFregression.tree - INFO - decision_tree regression is chosen
+2021-10-21 14:54:14,460 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-10-21 14:54:14,689 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-10-21 14:54:14,690 - NetCDFregression.tree - DEBUG - execution time = 0:00:00.230194
+2021-10-21 14:54:14,690 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-10-21 14:54:14,691 - NetCDFregression.tree - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-21 14:54:14,692 - NetCDFregression.tree - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-21 14:54:14,701 - NetCDFregression.tree - WARNING - Missing values in skew_l field were masked!
+2021-10-21 14:54:14,712 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-10-21 14:54:14,718 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-21 14:54:14,718 - NetCDFregression.tree - INFO - decision_tree regression is chosen
+2021-10-21 14:54:14,718 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-10-21 14:54:14,922 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-10-21 14:54:14,922 - NetCDFregression.tree - DEBUG - execution time = 0:00:00.204643
+2021-10-21 14:54:14,923 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-10-21 14:54:14,923 - NetCDFregression.tree - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-21 14:54:14,923 - NetCDFregression.tree - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-21 14:54:14,933 - NetCDFregression.tree - WARNING - Missing values in skew_l field were masked!
+2021-10-21 14:54:14,946 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-10-21 14:54:14,950 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-21 14:54:14,950 - NetCDFregression.tree - INFO - gradient_boost regression is chosen
+2021-10-21 14:54:14,950 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-10-21 14:54:39,279 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-10-21 14:54:39,304 - NetCDFregression.tree - DEBUG - execution time = 0:00:24.353270
+2021-10-21 14:54:39,304 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-10-21 14:54:39,305 - NetCDFregression.tree - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-21 14:54:39,305 - NetCDFregression.tree - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-21 14:54:39,314 - NetCDFregression.tree - WARNING - Missing values in skew_l field were masked!
+2021-10-21 14:54:39,325 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-10-21 14:54:39,329 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-21 14:54:39,330 - NetCDFregression.tree - INFO - gradient_boost regression is chosen
+2021-10-21 14:54:39,330 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-10-21 14:55:00,942 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-10-21 14:55:00,967 - NetCDFregression.tree - DEBUG - execution time = 0:00:21.637155
+2021-10-21 14:55:00,967 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-10-21 14:55:00,968 - NetCDFregression.tree - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-21 14:55:00,968 - NetCDFregression.tree - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-21 14:55:00,978 - NetCDFregression.tree - WARNING - Missing values in skew_l field were masked!
+2021-10-21 14:55:00,992 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-10-21 14:55:00,996 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-21 14:55:00,996 - NetCDFregression.tree - INFO - random_forest regression is chosen
+2021-10-21 14:55:00,997 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-10-21 14:55:01,517 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-10-21 14:55:01,520 - NetCDFregression.tree - DEBUG - execution time = 0:00:00.523008
+2021-10-21 14:55:01,520 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-10-21 14:55:01,520 - NetCDFregression.tree - INFO - RESOLUTION=1_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-21 14:55:01,521 - NetCDFregression.tree - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-21 14:55:01,530 - NetCDFregression.tree - WARNING - Missing values in skew_l field were masked!
+2021-10-21 14:55:01,540 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-10-21 14:55:01,546 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-21 14:55:01,546 - NetCDFregression.tree - INFO - random_forest regression is chosen
+2021-10-21 14:55:01,546 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-10-21 14:55:02,013 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-10-21 14:55:02,015 - NetCDFregression.tree - DEBUG - execution time = 0:00:00.469434
+2021-10-21 14:55:02,015 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-10-21 14:55:02,022 - NetCDFregression.tree - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-21 14:55:02,022 - NetCDFregression.tree - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-21 14:55:02,055 - NetCDFregression.tree - WARNING - Missing values in skew_l field were masked!
+2021-10-21 14:55:02,101 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-10-21 14:55:02,118 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-21 14:55:02,118 - NetCDFregression.tree - INFO - decision_tree regression is chosen
+2021-10-21 14:55:02,118 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-10-21 14:55:03,195 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-10-21 14:55:03,197 - NetCDFregression.tree - DEBUG - execution time = 0:00:01.079018
+2021-10-21 14:55:03,197 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-10-21 14:55:03,198 - NetCDFregression.tree - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-21 14:55:03,198 - NetCDFregression.tree - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-21 14:55:03,229 - NetCDFregression.tree - WARNING - Missing values in skew_l field were masked!
+2021-10-21 14:55:03,265 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-10-21 14:55:03,285 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-21 14:55:03,285 - NetCDFregression.tree - INFO - decision_tree regression is chosen
+2021-10-21 14:55:03,285 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-10-21 14:55:04,224 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-10-21 14:55:04,226 - NetCDFregression.tree - DEBUG - execution time = 0:00:00.940487
+2021-10-21 14:55:04,226 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-10-21 14:55:04,227 - NetCDFregression.tree - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-21 14:55:04,227 - NetCDFregression.tree - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-21 14:55:04,259 - NetCDFregression.tree - WARNING - Missing values in skew_l field were masked!
+2021-10-21 14:55:04,303 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-10-21 14:55:04,318 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-21 14:55:04,319 - NetCDFregression.tree - INFO - gradient_boost regression is chosen
+2021-10-21 14:55:04,319 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-10-21 14:56:59,386 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-10-21 14:56:59,476 - NetCDFregression.tree - DEBUG - execution time = 0:01:55.157699
+2021-10-21 14:56:59,477 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-10-21 14:56:59,478 - NetCDFregression.tree - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-21 14:56:59,478 - NetCDFregression.tree - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-21 14:56:59,513 - NetCDFregression.tree - WARNING - Missing values in skew_l field were masked!
+2021-10-21 14:56:59,550 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-10-21 14:56:59,570 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-21 14:56:59,570 - NetCDFregression.tree - INFO - gradient_boost regression is chosen
+2021-10-21 14:56:59,570 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-10-21 14:58:41,882 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-10-21 14:58:41,968 - NetCDFregression.tree - DEBUG - execution time = 0:01:42.397491
+2021-10-21 14:58:41,968 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-10-21 14:58:41,969 - NetCDFregression.tree - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=['qvlm', 'qsm']
+2021-10-21 14:58:41,969 - NetCDFregression.tree - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-21 14:58:42,002 - NetCDFregression.tree - WARNING - Missing values in skew_l field were masked!
+2021-10-21 14:58:42,045 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-10-21 14:58:42,061 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-21 14:58:42,061 - NetCDFregression.tree - INFO - random_forest regression is chosen
+2021-10-21 14:58:42,061 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-10-21 14:58:45,112 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-10-21 14:58:45,117 - NetCDFregression.tree - DEBUG - execution time = 0:00:03.056138
+2021-10-21 14:58:45,117 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-10-21 14:58:45,119 - NetCDFregression.tree - INFO - RESOLUTION=05_degr   INPUTVAR=['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']   ADDVAR=[]
+2021-10-21 14:58:45,119 - NetCDFregression.tree - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-10-21 14:58:45,153 - NetCDFregression.tree - WARNING - Missing values in skew_l field were masked!
+2021-10-21 14:58:45,189 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-10-21 14:58:45,209 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-10-21 14:58:45,209 - NetCDFregression.tree - INFO - random_forest regression is chosen
+2021-10-21 14:58:45,209 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-10-21 14:58:47,841 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-10-21 14:58:47,846 - NetCDFregression.tree - DEBUG - execution time = 0:00:02.637076
+2021-10-21 14:58:47,847 - NetCDFregression.tree - DEBUG - ============================================================ 
+

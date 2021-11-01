@@ -6,6 +6,7 @@ from matplotlib.colors import LogNorm
 import datetime
 import logging
 import configparser
+import os
 
 def initLog(logpath):
     # create logger
@@ -323,14 +324,17 @@ def hist_plot(goalvar_pred,goalvar_eval, eval_fraction,bins,vmax,cmax,norm):
     return None
 
 
-def get_config_params(confname):
+def get_config_params():
     
+    dirname = os.path.dirname(__file__)
+    confname = os.path.join(dirname, '../../config/config_variables.ini')
+
     configParser = configparser.ConfigParser()
     configParser.read(confname)
-    filedir = configParser.get('INPUT','filedir')
+    inputfiledir = configParser.get('INPUT','filedir')
     logdir = configParser.get('INPUT','logdir') 
     
-    return filedir,logdir
+    return inputfiledir,logdir
 
 
 
@@ -354,9 +358,14 @@ try   :
 except:
 	pass
 
-confname = '../../config/config_variables.ini'
-filedir,logdir = get_config_params(confname)
-logger = initLog(logdir+'logger_file.txt')
+import os
+print(__file__)
+print(f'current DIR is {os.getcwd()}')
+inputfiledir,logdir = get_config_params()
+#create separate logger file for each day
+today = datetime.date.today()
+today_string = today.strftime("%d-%m-%Y")
+logger = initLog(f'{logdir}logger_file_{today_string}.txt')
 
 if __name__=='__main__':
 
