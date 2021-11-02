@@ -331,11 +331,9 @@ def get_config_params():
 
     configParser = configparser.ConfigParser()
     configParser.read(confname)
-    inputfiledir = configParser.get('INPUT','filedir')
     logdir = configParser.get('INPUT','logdir') 
     
-    return inputfiledir,logdir
-
+    return logdir
 
 
 def main():
@@ -350,7 +348,10 @@ def main():
 
     # VISUALISATION
     hist_plot(goalvar_pred, goalvar_eval)
+# main function ends here!
 
+
+# START LOGGER - lines below executed at import of tree.py file from some other .py 
 try   :
 	# close previously opened handlers, if the cft is reimported
 	# this is necessary to avoid multiplying logger outputs
@@ -361,11 +362,12 @@ except:
 import os
 print(__file__)
 print(f'current DIR is {os.getcwd()}')
-inputfiledir,logdir = get_config_params()
+logdir = get_config_params()
 #create separate logger file for each day
 today = datetime.date.today()
 today_string = today.strftime("%d-%m-%Y")
 logger = initLog(f'{logdir}logger_file_{today_string}.txt')
+
 
 if __name__=='__main__':
 

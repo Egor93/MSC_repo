@@ -10,15 +10,17 @@ def get_arg_params():
     parser.add_argument("-o","--output_file",required = True, help = "output setup.csv file")
     parser.add_argument("-r","--rootvars",required = True, help = "rootvariables for permutation")
     parser.add_argument("-e","--extravars",required = True, help = "extra variables for permutation")
+    parser.add_argument("-s","--subdomain_sizes",nargs = '+',required = True, help = "list of subdomain sizes in string format")
 
     # should be called like ML_performance.py -s 1 05 025 0125
     args = parser.parse_args()
     output_file = args.output_file
     rootvars = tuple(str.split(args.rootvars,sep=','))
-    print(len(rootvars))
     extravars = tuple(str.split(args.extravars,sep=','))
+    subdomain_sizes = (tuple(args.subdomain_sizes),)
 
-    return  output_file ,rootvars, extravars
+    return  output_file ,rootvars, extravars,subdomain_sizes 
+
 
 def uniqify(perm):
     '''
@@ -33,6 +35,7 @@ def uniqify(perm):
     unique_tuples = [tuple(i) for i in unique_perm]
 
     return unique_tuples
+
 
 # get all the permutations
 def input_combinations(root_inputvars, extra_inputvars):
@@ -58,7 +61,7 @@ def input_combinations(root_inputvars, extra_inputvars):
     return sequence_pack
 
 
-def setup_to_DF(inputs_dict, satdeficit, eval_fraction,regtypes, tree_maxdepth):
+def setup_to_DF(inputs_dict, satdeficit, eval_fraction,regtypes, tree_maxdepth,subdomain_sizes):
     '''
     Write down a table of experiments parameters into pandas DataFrame.
     This table will be consequently read by ML_performance.py
@@ -68,7 +71,7 @@ def setup_to_DF(inputs_dict, satdeficit, eval_fraction,regtypes, tree_maxdepth):
     for var in (satdeficit,eval_fraction,regtypes,tree_maxdepth):
         assert len(var)==nexperiments,"function argument Error, check len of argument!"
 
-    df = pd.DataFrame(columns = ['input_vars','input_vars_id','satdeficit','eval_fraction','regtypes','tree_maxdepth'])
+    df = pd.DataFrame(columns = ['input_vars','input_vars_id','satdeficit','eval_fraction','regtypes','tree_maxdepth','subdomain_sizes'])
     # inputs_dict - dictionary with permutated input variables combinations of different length
     expkeys = list(inputs_dict.keys())
     
@@ -76,7 +79,7 @@ def setup_to_DF(inputs_dict, satdeficit, eval_fraction,regtypes, tree_maxdepth):
     for expid in range(nexperiments):
         expkey = expkeys[expid]  
         input_vars = inputs_dict[expkey]
-        df.loc[expid] = [input_vars, expkey, satdeficit[expid],eval_fraction[expid],regtypes[expid],tree_maxdepth[expid]]
+        df.loc[expid] = [input_vars, expkey, satdeficit[expid],eval_fraction[expid],regtypes[expid],tree_maxdepth[expid],subdomain_sizes[expid]]
 
     return df
 
@@ -87,13 +90,14 @@ def main():
     # add_vars = list with additional variables and without
     # saturation deficit - two states - with or without
     satdeficit = ((True,False),)
-    eval_fraction = ((0.2),)
+    eval_fraction = (tuple([0.2]),)
     regtypes = (('decision_tree','gradient_boost','random_forest'),)
-    tree_maxdepth = ((10),)
+    tree_maxdepth = (tuple([10]),)
 
     # Split variables into root part(defualt sequence) and extra_variables to add
     # output_csv = 'data/input/setup.csv'
-    output_csv,root_inputvars,extra_inputvars = get_arg_params()
+    #TODO:subdomain_sizes should provided as an input to the DataFrame constructor
+    output_csv,root_inputvars,extra_inputvars,subdomain_sizes  = get_arg_params()
     print(root_inputvars,extra_inputvars)
     #root_inputvars = tuple(['qlm','qtm','pm','tm'])
     #extra_inputvars = tuple(['qsm', 'skew_l', 'var_l', 'var_t'])
@@ -101,10 +105,11 @@ def main():
     # generate all possible sequences of adding extra_inputvars to the root variables
     # put these sequences into dictionary, where keys are experiments id's(represent variables sequence)
     inputs_dict = input_combinations(root_inputvars, extra_inputvars)
+    # nexp - number of experiments to run
     nexp = len(inputs_dict)
 
     # multiply arguments by the number of experiments if necessary
-    df = setup_to_DF(inputs_dict, satdeficit*nexp,eval_fraction*nexp,regtypes*nexp,tree_maxdepth*nexp)
+    df = setup_to_DF(inputs_dict, satdeficit*nexp,eval_fraction*nexp,regtypes*nexp,tree_maxdepth*nexp,subdomain_sizes*nexp)
     # write experiment setup table down to the csv file which will be read by ML_performance.py 
     df.to_csv(output_csv,sep='\t')
 

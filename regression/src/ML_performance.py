@@ -12,15 +12,18 @@ def get_arg_params():
     process argument parameters provided by the call of this .py script
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument("-s","--subdomain_sizes",nargs = '+',required = True, help = "list of subdomain sizes in string format")
+#    parser.add_argument("-s","--subdomain_sizes",nargs = '+',required = True, help = "list of subdomain sizes in string format")
     parser.add_argument("-o","--output_file",required = True, help = "output JSON file")
+    parser.add_argument("-i","--netcdfdir",required = True, help = "folder containing input NetCDF files")
 
     # should be called like ML_performance.py -s 1 05 025 0125
     args = parser.parse_args()
-    subdomain_sizes = args.subdomain_sizes
+#    subdomain_sizes = args.subdomain_sizes
     output_file = args.output_file
+    netcdfdir = args.netcdfdir
 
-    return subdomain_sizes, output_file 
+    return netcdfdir, output_file 
+
 
 def skill_estimation(goalvar_pred, goalvar_eval): 
             # calculate performance estimators - std and correlation coeff
@@ -33,9 +36,42 @@ def skill_estimation(goalvar_pred, goalvar_eval):
 
     return corr, std, refstd
 
-#inputfiledir= '/home/igor/UNI/Master_Project/001_Code/002_Data/'
-# inputfiledir= '/home/egordeev/002_Data'
-inputfiledir,logdir = nctree.get_config_params()
+#netcdfdir= '/home/igor/UNI/Master_Project/001_Code/002_Data/'
+# netcdfdir= '/home/egordeev/002_Data'
+netcdfdir,output_file = get_arg_params() 
+
+#TODO: read all the stuff below from data/input/setup/setup.csv !! Including subdomain sizes
+
+def string_to_touple(inputstr,dtype=None):
+    cleanstr = inputstr.replace('\'','').strip('(),')
+    tupleout = cleanstr.split(',')
+    
+    if dtype:
+        if dtype==bool:
+            # eval() is better then using bool(" False") which will return True
+            tupleout = [eval(i) for i in tupleout]
+        else:
+            tupleout = [dtype(i) for i in tupleout]
+
+    return tupleout
+
+# read csv as pandas DF
+# create output DF to be written into data/output/setup/setup_out.csv -
+experiment_params = ['input_vars','input_vars_id','satdeficit','eval_fraction','regtypes','tree_maxdepth','subdomain_sizes']
+df_input = pd.read_csv('data/input/setup/setup.csv',sep='\t',usecols = experiment_params)
+nexp = df_input.shape[0] # n of experiments==n rows
+for exp in range(nexp):
+    exp_package = df_input.iloc[exp]
+    # extract the experiment parameters for each run (each DF row)
+    input_vars = string_to_touple(exp_package.input_vars)
+    satdeficit = string_to_touple(exp_package.satdeficit,dtype=bool)
+    regtypes = string_to_touple(exp_package.regtypes)
+    eval_fraction = string_to_touple(exp_package.eval_fraction,dtype=float)
+    tree_maxdepth = string_to_touple(exp_package.tree_maxdepth,dtype=int)
+    
+
+# run the experiment cycle 
+# write additional columns to the setup_out.csv
 
 fnames = [f'ncr_pdf_douze_{i}deg.nc' for i in subdomain_sizes ]
 goal_var = 'cl_l'
@@ -44,6 +80,7 @@ input_vars = ['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']
 add_vars = [['qvlm','qsm'],[]]
 eval_fraction=0.2
 regtypes = ['decision_tree','gradient_boost','random_forest']
+
 # ML_max_depth=None
 ML_max_depth=10
 
@@ -52,7 +89,7 @@ samples = dict()
 references = dict()
 for size in subdomain_sizes:
     fname = f'ncr_pdf_douze_{size}deg.nc' 
-    abspath = inputfiledir + fname
+    abspath = netcdfdir + fname
 
     sampvals = []
     refvals = []
