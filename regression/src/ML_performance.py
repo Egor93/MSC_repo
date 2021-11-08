@@ -25,16 +25,6 @@ def get_arg_params():
     return netcdfdir, output_file 
 
 
-def skill_estimation(goalvar_pred, goalvar_eval): 
-            # calculate performance estimators - std and correlation coeff
-            # goalvar_pred -  ndarray of predicted(using regression) goal variable
-            corrmat=np.corrcoef(goalvar_pred, goalvar_eval)
-            corr=corrmat[0,1]
-            std = np.std(goalvar_pred)
-            # goalvar_eval  -  Masked array of goal variable read from netcdf douze file
-            refstd = np.std(goalvar_eval)
-
-    return corr, std, refstd
 
 #netcdfdir= '/home/igor/UNI/Master_Project/001_Code/002_Data/'
 # netcdfdir= '/home/egordeev/002_Data'
@@ -55,21 +45,32 @@ def string_to_touple(inputstr,dtype=None):
 
     return tupleout
 
-# read csv as pandas DF
-# create output DF to be written into data/output/setup/setup_out.csv -
-experiment_params = ['input_vars','input_vars_id','satdeficit','eval_fraction','regtypes','tree_maxdepth','subdomain_sizes']
-df_input = pd.read_csv('data/input/setup/setup.csv',sep='\t',usecols = experiment_params)
-nexp = df_input.shape[0] # n of experiments==n rows
-for exp in range(nexp):
-    exp_package = df_input.iloc[exp]
-    # extract the experiment parameters for each run (each DF row)
-    input_vars = string_to_touple(exp_package.input_vars)
-    satdeficit = string_to_touple(exp_package.satdeficit,dtype=bool)
-    regtypes = string_to_touple(exp_package.regtypes)
-    eval_fraction = string_to_touple(exp_package.eval_fraction,dtype=float)
-    tree_maxdepth = string_to_touple(exp_package.tree_maxdepth,dtype=int)
-    
 
+def extract_setup(setup_path='data/input/setup/setup.csv'):
+    '''
+    Extract experiment setup settings from corresponding setup.csv 
+    '''
+    experiment_params = ['input_vars','input_vars_id','satdeficit','eval_fraction','regtypes','tree_maxdepth','subdomain_sizes']
+    df_input = pd.read_csv(setup_path,sep='\t',usecols = experiment_params)
+    nexp = df_input.shape[0] # n of experiments==n rows
+
+    setup_params = dict()
+    # extract the experiment parameters for each run (each DF row)
+    for exp in range(nexp):
+        exp_package = df_input.iloc[exp]
+        setup_params['input_vars']=string_to_touple(exp_package.input_vars)
+        setup_params['satdeficit ']=string_to_touple(exp_package.satdeficit,dtype=bool)
+        setup_params['regtypes']=string_to_touple(exp_package.regtypes)
+        setup_params['eval_fraction']=string_to_touple(exp_package.eval_fraction,dtype=float)
+        setup_params['tree_maxdepth']=string_to_touple(exp_package.tree_maxdepth,dtype=int)
+
+   
+    return setup_params, df_input
+
+setup_params, df_input = extract_setup()
+
+
+# create output DF to be written into data/output/setup/setup_out.csv -
 # run the experiment cycle 
 # write additional columns to the setup_out.csv
 
@@ -81,8 +82,8 @@ add_vars = [['qvlm','qsm'],[]]
 eval_fraction=0.2
 regtypes = ['decision_tree','gradient_boost','random_forest']
 
-# ML_max_depth=None
-ML_max_depth=10
+# tree_maxdepth=None
+tree_maxdepth=10
 
 # dictionary of ML perfomance samples, will be later used for Taylor diagram
 samples = dict()
@@ -102,14 +103,14 @@ for size in subdomain_sizes:
 
             # DATA PREPROCESSING
             vars_dict = {"input_vars":input_vars,"add_var":add_var,"goal_var":goal_var}
-            Regressor=nctree.DataPrepro(abspath, vars_dict, eval_fraction, regtype, ML_max_depth,resolution = size)
-            # methods should be in this particular order!!
-            processed_data = Regressor.get_processed_data(split_randomly=True)
+            experiment=nctree.SingleExperiment(abspath, vars_dict, eval_fraction, regtype, tree_maxdepth,resolution = size)
+            # PREPARE EXPERIMENT DATA
+            processed_data = experiment.process_input(split_randomly=True)
 
-            # REGRESSION
-            goalvar_pred, goalvar_eval = Regressor.regression(processed_data)
-            # SKILL ESTIMATION
-            corr, std, refstd = skill_estimation(goalvar_pred, goalvar_eval)
+            # RUN REGRESSION
+            goalvar_pred, goalvar_eval = experiment.regression(processed_data)
+            # ESTIMATE SKILL OF REGRESSION 
+            corr, std, refstd = experiment.estimate_skill(goalvar_pred, goalvar_eval)
 
             if add_var: # if there are some additional variables
                 fname_postfix = 'satur_deficit'

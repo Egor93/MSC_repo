@@ -31,10 +31,12 @@ def initLog(logpath):
     return logger
 
 
+
+
 ###################
 # DATA PREPROCESSING
 ###################
-class DataPrepro():
+class SingleExperiment():
     # DESCRIPTION
     #           Class for prepocessing of netcdf data.
     #           Preprocessed data then used in various regression methods.
@@ -81,7 +83,7 @@ class DataPrepro():
         return check_result,missing_values_bool
 
 
-    def proc_goalvar(self):
+    def goalvar_reshaper(self):
         goalvar_arr = self.ds[self.goalvar][:]
         #ravel -> from 3D(nx*ny, 1, 150) to 1D(nx*ny*150)
         self.goalvar_flat = goalvar_arr.ravel()
@@ -89,7 +91,7 @@ class DataPrepro():
         return None
 
 
-    def proc_inputvars(self):
+    def invars_reshaper(self):
         # returns X_arr - 2D arr 
         # of shape (n input_vars,nx*ny*150)
         rows = len(self.input_vars)
@@ -117,7 +119,7 @@ class DataPrepro():
 
         return None
 
-    def proc_addvars(self):
+    def addvars_reshaper(self):
         assert len(self.add_vars) == 2
         qvlm_arr = self.ds[self.add_vars[0]][:]
         qvlm_arr_flat = qvlm_arr.ravel()
@@ -174,51 +176,19 @@ class DataPrepro():
         self.X_train = self.X_train.transpose()
         self.X_eval = self.X_eval.transpose()    
         
-    def split_data_randomly_failed(self):
-        logger.info("splitting the input/output data sets randomly")
-    	 # SHUFFLE both input and output arrays before splitting
-        assert self.eval_fraction<1
-        total_len=self.goalvar_flat.shape[0]
-        fractional_len = int(total_len * self.eval_fraction)
-        train_len=total_len-fractional_len
-        
-        # shuffle output(goal) variable
-        bool_arr=np.array([True]*train_len+[False]*fractional_len)
-        np.random.shuffle(bool_arr)
-        # split goal variable
-        self.goalvar_train = self.goalvar_flat[bool_arr]
-        self.goalvar_eval = self.goalvar_flat[:fractional_len]
-        #invert boolean array values to get the rest of shuffled set
-        bool_arr_invert=np.invert(bool_arr)
-        self.goalvar_eval = self.goalvar_flat[bool_arr_invert]
-        
-        # shuffle input variable INDEPNDENTLY FROM INPUT VARIABLE
-        bool_arr=np.array([True]*train_len+[False]*fractional_len)
-        np.random.shuffle(bool_arr) 
-        # split input variable
-        self.X_train = self.X_arr[:,bool_arr]
-        #invert boolean array values to get the rest of shuffled set
-        bool_arr_invert=np.invert(bool_arr)
-        self.X_eval  = self.X_arr[:,bool_arr_invert]
-        
-        self.X_train = self.X_train.transpose()
-        self.X_eval = self.X_eval.transpose()
- 
 
-    def get_processed_data(self,split_randomly=True):
+    def process_input(self,split_randomly=True):
 
         logger.info(f'RESOLUTION={self.resolution}_degr   INPUTVAR={self.input_vars}   ADDVAR={self.add_vars}') 
         logger.info(f'REGTYPE={self.regtype}      ML_max_depth={self.max_depth}       EVAL_FRACTION={self.eval_fraction}')
-        
+        # READ 
         self.read_netcdf()
-        self.proc_goalvar()
-       #logger.info("Processed goal vars ={}".format(self.goalvar))
-        
-        self.proc_inputvars()
-       #logger.info("Processed input vars ={}".format(','.join(self.input_vars)))
-        
+
+        # "RESHAPE" - put variables into a vector X of particular shape
+        self.goalvar_reshaper()
+        self.invars_reshaper()
         if self.add_vars:
-            self.proc_addvars()
+            self.addvars_reshaper()
         #   logger.info("Processed add vars ={}".format(','.join(self.add_vars)))
         #else:
         #   logger.info("No additional data provided")
@@ -302,6 +272,25 @@ class DataPrepro():
         return goalvar_pred,goalvar_eval # TODO: should not return goalvar_eval, can be unpacked from processed_data dict
 
 
+    ###########################
+    # EVALUTATE REGRESSION SKILL
+    ##########################
+    def estimate_skill(self,goalvar_pred, goalvar_eval): 
+        # calculate performance estimators - std and correlation coeff
+        # goalvar_pred -  ndarray of predicted(using regression) goal variable
+        corrmat=np.corrcoef(goalvar_pred, goalvar_eval)
+        corr=corrmat[0,1]
+        std = np.std(goalvar_pred)
+        # goalvar_eval  -  Masked array of goal variable read from netcdf douze file
+        refstd = np.std(goalvar_eval)
+
+        return corr, std, refstd
+
+
+class SeriesExperiment(SingleExperiment):
+    pass
+
+
 
 def hist_plot(goalvar_pred,goalvar_eval, eval_fraction,bins,vmax,cmax,norm):
     corrmat=np.corrcoef(goalvar_pred, goalvar_eval)
@@ -338,10 +327,10 @@ def get_config_params():
 
 def main():
     # DATA PREPROCESSING
-    prepro=DataPrepro(abspath, vars_dict, eval_fraction, regtype, ML_max_depth,resolution = size)
+    prepro=SingleExperiment(abspath, vars_dict, eval_fraction, regtype, ML_max_depth,resolution = size)
 
     # methods should be in this particular order!!
-    processed_data = prepro.get_processed_data()
+    processed_data = prepro.process_input()
 
     # REGRESSION
     goalvar_pred, goalvar_eval = regression(processed_data)
