@@ -266,10 +266,11 @@ class SingleExperiment():
         logger.info("++++++++++Prediction begins++++++++++")
         goalvar_pred = regtree.predict(X_eval)
         b = datetime.datetime.now()
-        logger.debug(f'execution time = {b-a}')
+        regression_time = b-a
+        logger.debug(f'execution time = {regression_time}')
         logger.debug("============================================================ \n")
 
-        return goalvar_pred,goalvar_eval # TODO: should not return goalvar_eval, can be unpacked from processed_data dict
+        return goalvar_pred,goalvar_eval,regression_time # TODO: should not return goalvar_eval, can be unpacked from processed_data dict
 
 
     ###########################

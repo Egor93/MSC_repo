@@ -25,6 +25,9 @@ def get_rows_cols(nplots):
 
 
 def multiplot_image(nplots, jdict, output_file, plot_keys):
+    '''
+    All Taylor diagrams in one .png file
+    '''
     nrows, ncols = get_rows_cols(nplots)
     plot_coords = [f'{nrows}{ncols}{i}' for i in range(1,nplots+1)]
     subplot_coords = dict(zip(plot_keys, plot_coords))
@@ -87,12 +90,14 @@ def singleplot_image(nplots, jdict, output_file, plot_keys,colors):
         #ref = jdict['references'][resolution][0][0]
 
         ##########CREATE SEPARATE DIAGRAM-PICTURE##########
+        # value of the reference standart deviation used only once per plot
         taylor_diagram = taylor(refstd, fig=fig, rect=subplot_coords,
                                 label='Reference')
         # dia.ax.plot(x95,y95,color='red')
         fig.tight_layout()
 
         # WITHIN EACH SEPARATE PICTURE
+        # TODO : df.loc[df['column_name'] == some_value]
         samples = jdict['samples']
         for i,(stddev,corrcoef,name) in enumerate(samples[resolution]):
 
