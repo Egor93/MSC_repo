@@ -18,11 +18,9 @@ initialize ()
 	subdomain_sizes=(1 05)
 	
 	######## OUTPUT DIRECTORIES #########
-	RESULT_DIR="${PWD}/data/ouput"
-	JSONOUT_DIR="${RESULT_DIR}/json"
+	RESULT_DIR="${PWD}/data/output"
 	CSVOUT_DIR="${RESULT_DIR}/csv"
 	PLOTOUT_DIR="${RESULT_DIR}/img"
-	#output_json="${JSONOUT_DIR}/ML_performance_out_${subdomain_sizes[0]}_${subdomain_sizes[-1]}.json"
 }
 
 
@@ -102,7 +100,7 @@ main ()
 	then
 		visualize ${output_type}
 	else 
-		echo "-----generation of json output failed, execution stops"
+		echo "-----generation of output file failed, execution stops"
 	fi
 }
 

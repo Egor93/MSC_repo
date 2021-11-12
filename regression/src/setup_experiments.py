@@ -89,9 +89,11 @@ def main():
     input_vars = tuple(['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm'])
     # add_vars = list with additional variables and without
     # saturation deficit - two states - with or without
-    satdeficit = ((True,False),)
+    #satdeficit = ((True,False),)
+    satdeficit = ((False),)
     eval_fraction = (tuple([0.2]),)
-    regtypes = (('decision_tree','gradient_boost','random_forest'),)
+    #regtypes = (('decision_tree','gradient_boost','random_forest'),)
+    regtypes = (('decision_tree'),)
     tree_maxdepth = (tuple([10]),)
 
     # Split variables into root part(defualt sequence) and extra_variables to add

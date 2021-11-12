@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+
 import pandas as pd
 import os
 #from matplotlib.colors import LogNorm
@@ -84,9 +85,6 @@ def run_set(currsetup,netcdfdir,csvout_dir,goal_var='cl_l'):
         netcdfdir - directory with input netCDF files to train ML algorithm on
         csvout_dir- directory to store results of the set of experiments
     '''
-    # OUTPUT DATAFRAME
-    # whole dataframe - set of experiments, one row - particular experiments setup
-    # last three columns - refstd, samplestd, samplevar will be used to plot Taylor Diagram
     df_setresult = pd.DataFrame(columns = ['input_vars_id','input_vars','satdeficit','eval_fraction','regtypes','tree_maxdepth','subdomain_sizes',
                                         'refstd','samplestd','samplevar','exectime'])
 
@@ -96,7 +94,6 @@ def run_set(currsetup,netcdfdir,csvout_dir,goal_var='cl_l'):
 
         sampvals = []
         refvals = []
-        #print(f'-------PROCESS_FILE{netcdfname}--------') 
         expindex = 0 # to used for appending rows to the df.loc[expindex]
 
         for regtype in currsetup['regtypes']:
@@ -107,10 +104,9 @@ def run_set(currsetup,netcdfdir,csvout_dir,goal_var='cl_l'):
                             add_vars = ['qvlm','qsm']
                         else:
                             add_vars = []
-                        #print(f'-------REGTYPE={regtype}/////ADDVAR={add_var}--------') 
                         
                         input_vars = currsetup['input_vars']
-                        vars_dict = {"input_vars":input_vars,"add_var":add_var,"goal_var":goal_var}
+                        vars_dict = {"input_vars":input_vars,"add_var":add_vars,"goal_var":goal_var}
 
                         # CREATE EXPERIMENT OBJECT
                         experiment=nctree.SingleExperiment(netcdfpath, vars_dict, eval_fraction, regtype, tree_maxdepth,resolution = size)
@@ -122,7 +118,7 @@ def run_set(currsetup,netcdfdir,csvout_dir,goal_var='cl_l'):
                         samplecorr, samplestd, refstd = experiment.estimate_skill(goalvar_pred, goalvar_eval)
 
                         # write output
-                        input_vars_id = currsetup['input_vars_id']
+                        input_vars_id = currsetup['input_vars_id'][0]
                         expresult = [
                                 input_vars_id,
                                 [",".join(input_vars)],
@@ -130,7 +126,7 @@ def run_set(currsetup,netcdfdir,csvout_dir,goal_var='cl_l'):
                                 eval_fraction,
                                 regtype,
                                 tree_maxdepth,
-                                size,
+                                str(size),
                                 refstd,
                                 samplestd,
                                 samplecorr,
