@@ -11,6 +11,7 @@ def get_arg_params():
     parser.add_argument("-r","--rootvars",required = True, help = "rootvariables for permutation")
     parser.add_argument("-e","--extravars",required = True, help = "extra variables for permutation")
     parser.add_argument("-s","--subdomain_sizes",nargs = '+',required = True, help = "list of subdomain sizes in string format")
+    parser.add_argument("-t","--regtypes",required = True, help = "list of regression types")
 
     # should be called like ML_performance.py -s 1 05 025 0125
     args = parser.parse_args()
@@ -18,8 +19,9 @@ def get_arg_params():
     rootvars = tuple(str.split(args.rootvars,sep=','))
     extravars = tuple(str.split(args.extravars,sep=','))
     subdomain_sizes = (tuple(args.subdomain_sizes),)
+    regtypes = (tuple(str.split(args.regtypes,sep=',')),)
 
-    return  output_file ,rootvars, extravars,subdomain_sizes 
+    return  output_file ,rootvars, extravars,subdomain_sizes, regtypes
 
 
 def uniqify(perm):
@@ -86,23 +88,21 @@ def setup_to_DF(inputs_dict, satdeficit, eval_fraction,regtypes, tree_maxdepth,s
 
 def main():
    
-    input_vars = tuple(['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm'])
     # add_vars = list with additional variables and without
     # saturation deficit - two states - with or without
     #satdeficit = ((True,False),)
     satdeficit = ((False),)
     eval_fraction = (tuple([0.2]),)
     #regtypes = (('decision_tree','gradient_boost','random_forest'),)
-    regtypes = (('decision_tree'),)
+    #regtypes = (('decision_tree'),)
     tree_maxdepth = (tuple([10]),)
 
     # Split variables into root part(defualt sequence) and extra_variables to add
     # output_csv = 'data/input/setup.csv'
-    #TODO:subdomain_sizes should provided as an input to the DataFrame constructor
-    output_csv,root_inputvars,extra_inputvars,subdomain_sizes  = get_arg_params()
+    output_csv,root_inputvars,extra_inputvars,subdomain_sizes,regtypes  = get_arg_params()
     print(root_inputvars,extra_inputvars)
-    #root_inputvars = tuple(['qlm','qtm','pm','tm'])
-    #extra_inputvars = tuple(['qsm', 'skew_l', 'var_l', 'var_t'])
+    #root_inputvars = tuple(['qtm','qsm','pm','tm'])
+    #extra_inputvars = tuple(['qlm', 'skew_l', 'var_l', 'var_t'])
 
     # generate all possible sequences of adding extra_inputvars to the root variables
     # put these sequences into dictionary, where keys are experiments id's(represent variables sequence)

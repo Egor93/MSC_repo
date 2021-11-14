@@ -8,14 +8,20 @@ initialize ()
 
 	SRC_DIR="${PWD}/src"
 
-	######## SETUP AND INPUT #########
+	######## I/O FILES/DIRECTORIES SETUP #########
 	NETCDFDIR="${PWD}/../../002_Data/"
 	#NETCDFDIR="/home/egordeev/002_Data/"
 	SETUP_DIR="${PWD}/data/input/setup"
 	setup_csv="${SETUP_DIR}/setup.csv"
 	#subdomain_sizes=(1 05 025 0125 00625 003125)
 	#subdomain_sizes=(00625 003125)
-	subdomain_sizes=(1 05)
+
+	######## EXPERIMENT SETUP #########
+	subdomain_sizes=(1 05 025 0125 00625)
+    	root_inputvars="qtm,qsm,pm,tm"
+      	extra_inputvars="qlm,skew_l,var_l,var_t"
+    	#regtypes=("decision_tree" "gradient_boost" "random_forest")
+    	regtypes="decision_tree,gradient_boost"
 	
 	######## OUTPUT DIRECTORIES #########
 	RESULT_DIR="${PWD}/data/output"
@@ -27,14 +33,17 @@ initialize ()
 setup_experiments ()
 {
 	setup_csv=$1
-	rootvars=$2
-	extravars=$3
+	root_inputvars=$2
+	extra_inputvars=$3
 	subdomain_sizes=$4
+	regtypes=$5
 	# if input csv file exists
 	if [ ! -e $setup_csv ]
 	then
-		echo  -----generate input csv setup file ${setup_csv}
-		python ${SRC_DIR}/setup_experiments.py -o $setup_csv -r ${rootvars} -e ${extravars} -s ${subdomain_sizes[@]} 
+		echo  -----generate csv setup file ${setup_csv}
+		python ${SRC_DIR}/setup_experiments.py -o $setup_csv -r ${root_inputvars} -e ${extra_inputvars} -s ${subdomain_sizes[@]} -t ${regtypes} 
+		# debug option: python -m ipdb
+		#python -m ipdb ${SRC_DIR}/setup_experiments.py -o $setup_csv -r ${root_inputvars} -e ${extra_inputvars} -s ${subdomain_sizes[@]} -t ${regtypes[@]} 
 		return $?
 	else
 		echo "-----${setup_csv} already generated"
@@ -47,19 +56,11 @@ run_experiments ()
 	NETCDFDIR=$1
 	setup_csv=$2
 	CSVOUT_DIR=$3
-	echo  -----output json is ${output_json}
-	# if output json file exists
-	if [ ! -e $output_json ]
-	then
-		echo "-----calling ML_performance.py, generating JSON results"
-		echo "-----chosen following subdomain sizes (degrees)" : ${subdomain_sizes[@]} 
-		python ${SRC_DIR}/ML_performance.py -n ${NETCDFDIR} -s ${setup_csv} -o ${CSVOUT_DIR} 
+	echo  -----running experiments using SETUP ${setup_csv}
+	echo "-----chosen following subdomain sizes (degrees)" : ${subdomain_sizes[@]} 
+	python ${SRC_DIR}/ML_performance.py -n ${NETCDFDIR} -s ${setup_csv} -o ${CSVOUT_DIR} 
+	# TODO if expout_R0.csv exists proceed with the following experiment
 
-		#python3 ${SRC_DIR}/ML_performance.py -s ${subdomain_sizes[@]} -o $output_json & disown
-		return $?
-	else
-		echo "-----${output_json} already generated"
-	fi
 }
 
 
@@ -92,20 +93,20 @@ main ()
 	output_type=$1	
 	initialize	
 	# setup - create csv table of ML runs parameters for each experiment
-	setup_experiments ${setup_csv} ${inputvars} ${extravars} ${subdomain_sizes}  
+	setup_experiments ${setup_csv} ${root_inputvars} ${extra_inputvars} ${subdomain_sizes} ${regtypes}
 
 	run_experiments ${NETCDFDIR} ${setup_csv} ${CSVOUT_DIR} 
-	return_status=$?
-	if [ $return_status -eq 0 ]
-	then
-		visualize ${output_type}
-	else 
-		echo "-----generation of output file failed, execution stops"
-	fi
+	#return_status=$?
+	#if [ $return_status -eq 0 ]
+	#then
+		#visualize ${output_type}
+	#else 
+		#echo "-----generation of output file failed, execution stops"
+	#fi
 }
 
 #set -x
-#main $1
+main $1
 #set +x
 
-"$@"
+#"$@"

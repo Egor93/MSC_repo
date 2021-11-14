@@ -38,6 +38,8 @@ def get_arg_params():
 #TODO: read all the stuff below from data/input/setup/setup.csv !! Including subdomain sizes
 
 def string_to_touple(inputstr,dtype=None):
+    if type(inputstr)!= str:
+        inputstr=str(inputstr)
     cleanstr = inputstr.replace('\'','').replace(' ','').strip('(),')
     tupleout = cleanstr.split(',')
     
