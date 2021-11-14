@@ -47,16 +47,20 @@ class SingleExperiment():
     #           input_vars    -  LES 'observed' variables, used as regression algorithm input
     #                            to get the model variable - goalvar
 
-    def __init__(self, abspath, vars_dict, eval_fraction, regtype, ML_max_depth, resolution):
+    def __init__(self, abspath, singlexp_setup):
         self.abspath         = abspath
-        self.goalvar         = vars_dict['goal_var']
-        self.input_vars      = vars_dict['input_vars']
-        self.add_vars        = vars_dict['add_var']
-        self.eval_fraction   = eval_fraction
-        self.regtype         = regtype
-        self.max_depth       = ML_max_depth
-        self.resolution      = resolution
-
+        # unpack setup params from dictionary
+        self.input_vars      = singlexp_setup['input_vars']
+        self.eval_fraction   = singlexp_setup['eval_fraction']
+        self.regtype         = singlexp_setup['regtype']
+        self.max_depth       = singlexp_setup['tree_maxdepth']
+        self.resolution      = singlexp_setup['size']
+        # below are conditional and default variables
+        if singlexp_setup['satdeficit']:
+            self.add_vars    = ['qvlm','qsm']
+        else:
+            self.add_vars    = []
+        self.goalvar         = 'cl_l'
 
 
     def read_netcdf(self):
@@ -349,6 +353,7 @@ try   :
 except:
 	pass
 
+# TODO: provide logger to the calling file!
 import os
 print(__file__)
 print(f'current DIR is {os.getcwd()}')
@@ -359,6 +364,7 @@ today_string = today.strftime("%d-%m-%Y")
 logger = initLog(f'{logdir}logger_file_{today_string}.txt')
 
 
+# if .py script called directly instead of being imported
 if __name__=='__main__':
 
     # DEFAULT PARAMETERS - global variables

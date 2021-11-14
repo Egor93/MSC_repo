@@ -31,16 +31,14 @@ def get_arg_params():
     return netcdfdir, setup_csv, csvout_dir 
 
 
-
 #netcdfdir= '/home/igor/UNI/Master_Project/001_Code/002_Data/'
 # netcdfdir= '/home/egordeev/002_Data'
 
-#TODO: read all the stuff below from data/input/setup/setup.csv !! Including subdomain sizes
 
 def string_to_touple(inputstr,dtype=None):
     if type(inputstr)!= str:
         inputstr=str(inputstr)
-    cleanstr = inputstr.replace('\'','').replace(' ','').strip('(),')
+    cleanstr = inputstr.replace('\'','').replace(' ','').strip('()[],')
     tupleout = cleanstr.split(',')
     
     if dtype:
@@ -65,8 +63,8 @@ def setup_sequence(df_input,nsets):
         setup_params = dict()
         exp_package = df_input.iloc[exp]
 
-        setup_params['input_vars']=string_to_touple(exp_package.input_vars)
         setup_params['input_vars_id']=string_to_touple(exp_package.input_vars_id)
+        setup_params['input_vars']=string_to_touple(exp_package.input_vars)
         setup_params['satdeficit']=string_to_touple(exp_package.satdeficit,dtype=bool)
         setup_params['regtypes']=string_to_touple(exp_package.regtypes)
         setup_params['eval_fraction']=string_to_touple(exp_package.eval_fraction,dtype=float)
@@ -76,74 +74,153 @@ def setup_sequence(df_input,nsets):
         yield setup_params
 
 
-def run_set(currsetup,netcdfdir,csvout_dir,goal_var='cl_l'):
+def samesetup_in_series(existing_series,singlexp_setup):
+    '''
+    DESCRIPTION
+        Check if existing_series from particular existing expout_{input_vars_id}.csv 
+        already exist, in such case skip the experiment, proceed to the next one.
+        If not run the experiment and append the result to the df from existing csv file.
+    OUTPUT
+        returns True if the setups are the same
+                False - if at least one parameter differes
+    '''
+    # if same combination of input vars
+    if existing_series['satdeficit']!=singlexp_setup['satdeficit']: 
+        return False
+    elif existing_series['eval_fraction']!=singlexp_setup['eval_fraction']:
+        return False
+    elif existing_series['regtypes']!=singlexp_setup['regtype']:
+        return False
+    elif existing_series['tree_maxdepth']!=singlexp_setup['tree_maxdepth']:
+        return False
+    elif existing_series['subdomain_sizes']!=float(singlexp_setup['size']):
+        return False
+    else:
+        # in case of all setup params are the same
+        return True
+
+   
+def samesetup_in_df(existing_df,singlexp_setup):
+    '''
+    DESCRIPTION
+        If the current experiment setup already exists as some particular row withing 
+        existing csv output file. In such case we need to skip the experiment
+        df - dataframe, consists of rows (series)
+    '''
+    for index,series in existing_df.iterrows():
+        # if setup parameters within particular row and current experiment settings are the same
+        # meaning that such experiment was already executed and results saved in corresponding CSV
+        if samesetup_in_series(series,singlexp_setup):
+            return True
+
+    return False
+
+
+def pack_result(expset_setup,singlexp_setup,expresults,result_cols):
+    '''
+    DESCRIPTION
+        pack the experiment results,prepare for  the pandas dataframe
+    INPUT
+        expset_setup - setup parameters of the set of experiments
+        singlexp_setup - setup parameters of the single experiment,a member of a set
+        expresults - results of the single experiment run
+    '''
+    # write output
+
+    expresults_packed = [
+            expset_setup['input_vars_id'][0],
+            [",".join(expset_setup['input_vars'])],
+            singlexp_setup['satdeficit'],
+            singlexp_setup['eval_fraction'],
+            singlexp_setup['regtype'],
+            singlexp_setup['tree_maxdepth'],
+            str(singlexp_setup['size']),
+            expresults['refstd'],
+            expresults['samplestd'],
+            expresults['samplecorr'],
+            str(expresults['regression_time']),
+            ]
+    expdict = dict(zip(result_cols,expresults_packed))
+    expresult_series = pd.Series(data=expdict)
+
+    return expresult_series 
+            
+
+def run_experiment(netcdfpath, singlexp_setup,split_randomly=True):
+
+    # CREATE EXPERIMENT OBJECT
+    experiment=nctree.SingleExperiment(netcdfpath, singlexp_setup)
+    # PREPARE EXPERIMENT DATA
+    processed_data = experiment.process_input(split_randomly)
+    # RUN EXPERIMENT -  REGRESSION
+    goalvar_pred, goalvar_eval,regression_time = experiment.regression(processed_data)
+    # ESTIMATE SKILL OF REGRESSION 
+    samplecorr, samplestd, refstd = experiment.estimate_skill(goalvar_pred, goalvar_eval)
+    
+    expresults = {'samplecorr':samplecorr, 'samplestd':samplestd, 'refstd':refstd, 'regression_time':regression_time}
+
+    return expresults
+
+
+def run_set(df_existing,expset_setup,netcdfdir,csvout_dir,csvout_name):
     '''
     DESCRIPTION
         generates CSV output file for the set of experiments
         CSV file contains setup params as well as regression skill estimation, e.g. STD, VAR
         set of experiments - one row within setup.csv, superset setup file
     INPUT
-        currsetup - parameters setup for the current set of experiments 
+        df_existing - None or pandas Dataframe from existing CSV output of current set of experiments
+        expset_setup - parameters setup for the current set of experiments 
         netcdfdir - directory with input netCDF files to train ML algorithm on
         csvout_dir- directory to store results of the set of experiments
     '''
-    df_setresult = pd.DataFrame(columns = ['input_vars_id','input_vars','satdeficit','eval_fraction','regtypes','tree_maxdepth','subdomain_sizes',
-                                        'refstd','samplestd','samplevar','exectime'])
+    result_cols = ['input_vars_id','input_vars','satdeficit','eval_fraction','regtypes','tree_maxdepth','subdomain_sizes',
+                            'refstd','samplestd','samplevar','exectime']
+    df_setresult = pd.DataFrame(columns = result_cols)
 
-    for size in currsetup['subdomain_sizes']:
+    expindex = 0 # to used for appending rows to the df.loc[expindex]
+    for size in expset_setup['subdomain_sizes']:
         netcdfname = f'ncr_pdf_douze_{size}deg.nc' 
         netcdfpath = os.path.join(netcdfdir,netcdfname)
 
-        sampvals = []
-        refvals = []
-        expindex = 0 # to used for appending rows to the df.loc[expindex]
-
-        for regtype in currsetup['regtypes']:
-            for eval_fraction in currsetup['eval_fraction']:
-                for tree_maxdepth in currsetup['tree_maxdepth']:
-                    for satdeficit in currsetup['satdeficit']:
-                        if satdeficit:
-                            add_vars = ['qvlm','qsm']
+        for regtype in expset_setup['regtypes']:
+            for eval_fraction in expset_setup['eval_fraction']:
+                for tree_maxdepth in expset_setup['tree_maxdepth']:
+                    for satdeficit in expset_setup['satdeficit']:
+                        
+                        input_vars = expset_setup['input_vars']
+                        input_vars_id = expset_setup['input_vars_id'][0]
+                        # parameters of a particular experiment,member of a set of experiments
+                        singlexp_setup = {'input_vars':input_vars,'satdeficit':satdeficit,
+                                'eval_fraction':eval_fraction,'regtype':regtype,'tree_maxdepth':tree_maxdepth,'size':size} 
+                        
+                        ######### UPDATE CSV BRANCHING ##########
+                        # if there exists output for the same set of experiments (with the same ID) 
+                        if df_existing is not None:
+                            # if current experiment setup NON-UNIQUE,same as already existing in CSV
+                            if samesetup_in_df(df_existing,singlexp_setup):
+                                # proceed to the next,unique experiment setup
+                                print(f"skipping experiment N {expindex},results are already in {csvout_name}")
+                                continue
+                            else:
+                                # but the current experiment has UNIQUE setup params
+                                expresults = run_experiment(netcdfpath,singlexp_setup,split_randomly=True)
+                                expresults_series = pack_result(expset_setup,singlexp_setup,expresults,result_cols)
+                                df_setresult = df_setresult.append(expresults_series, ignore_index=True)
+                                # concatenate new experiments to the existing set results
+                                df_updated = pd.concat([df_existing,df_setresult])
                         else:
-                            add_vars = []
-                        
-                        input_vars = currsetup['input_vars']
-                        vars_dict = {"input_vars":input_vars,"add_var":add_vars,"goal_var":goal_var}
+                            # if there are no previous output CSV file for the current set of experiments
+                                expresults = run_experiment(netcdfpath,singlexp_setup,split_randomly=True)
+                                expresults_series = pack_result(expset_setup,singlexp_setup,expresults,result_cols)
+                                df_setresult = df_setresult.append(expresults_series, ignore_index=True)
+                                df_updated = df_setresult
 
-                        # CREATE EXPERIMENT OBJECT
-                        experiment=nctree.SingleExperiment(netcdfpath, vars_dict, eval_fraction, regtype, tree_maxdepth,resolution = size)
-                        # PREPARE EXPERIMENT DATA
-                        processed_data = experiment.process_input(split_randomly=True)
-                        # RUN EXPERIMENT -  REGRESSION
-                        goalvar_pred, goalvar_eval,regression_time = experiment.regression(processed_data)
-                        # ESTIMATE SKILL OF REGRESSION 
-                        samplecorr, samplestd, refstd = experiment.estimate_skill(goalvar_pred, goalvar_eval)
-
-                        # write output
-                        input_vars_id = currsetup['input_vars_id'][0]
-                        expresult = [
-                                input_vars_id,
-                                [",".join(input_vars)],
-                                satdeficit,
-                                eval_fraction,
-                                regtype,
-                                tree_maxdepth,
-                                str(size),
-                                refstd,
-                                samplestd,
-                                samplecorr,
-                                str(regression_time),
-                                ]
-
-                        df_setresult.loc[expindex] = expresult 
-                        
-                        # every row of df_input is a set of experiments, written to separate CSV
-                        # set of experiments is uniquely indexed by input_vars_id - combination of input variables
-                        csvout_name = f'expset_{input_vars_id}.csv'
-                        csvout_path = os.path.join(csvout_dir,csvout_name)
                         #If the CSV file already exists, it will be overwritten. 
                         #This is done to preserve at least some results in case of a crash of hours-long simulation
-                        df_setresult.to_csv(csvout_path,sep='\t')
+                        csvout_path = os.path.join(csvout_dir,csvout_name)
+                        df_updated.to_csv(csvout_path,sep='\t')
+
                         # incremental increase of experiment index to be used with df.loc[]
                         expindex += 1
 
@@ -166,9 +243,24 @@ def run_superset(experiment_params,netcdfdir,setup_csv,csvout_dir):
 
     for iset in range(nsets):
         # yield current setup dictionary, containing all experiment set parameters
-        currsetup = next(setup_generator) 
-        run_set(currsetup,netcdfdir,csvout_dir,goal_var='cl_l')
-        #fnames = [f'ncr_pdf_douze_{i}deg.nc' for i in currsetup['subdomain_sizes'] ]
+        expset_setup = next(setup_generator) 
+
+        # if expriments for current experiment set, e.g. R0 were already generated
+        df_existing= None # assume by default that it wasn't
+        input_vars_id = expset_setup['input_vars_id'][0]
+
+        # set of experiments is uniquely indexed by input_vars_id - combination of input variables
+        # every row of df_input is a set of experiments, written to separate CSV
+        csvout_name = f'expset_{input_vars_id}.csv'
+        csvout_path = os.path.join(csvout_dir,csvout_name)
+        if csvout_name in os.listdir(csvout_dir):
+            # index_col = 0 because index can be non-unique, e.g. 0,1,2,0
+            df_existing = pd.read_csv(csvout_path,index_col=0,sep='\t')
+            
+        # check if the file with same input_vars_id already has been generated
+        # if yes throw away set params from expset_setup which already have been executed
+        run_set(df_existing,expset_setup,netcdfdir,csvout_dir,csvout_name)
+        #fnames = [f'ncr_pdf_douze_{i}deg.nc' for i in expset_setup['subdomain_sizes'] ]
 
 
 def main():
@@ -177,7 +269,7 @@ def main():
     netcdfdir, setup_csv, csvout_dir= get_arg_params() 
 
     ######          LOCAL SETUP        #######
-    experiment_params = ['input_vars','input_vars_id','satdeficit','eval_fraction','regtypes','tree_maxdepth','subdomain_sizes']
+    experiment_params = ['input_vars_id','input_vars','satdeficit','eval_fraction','regtypes','tree_maxdepth','subdomain_sizes']
 
     run_superset(experiment_params,netcdfdir,setup_csv,csvout_dir)
 

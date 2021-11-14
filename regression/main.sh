@@ -17,11 +17,12 @@ initialize ()
 	#subdomain_sizes=(00625 003125)
 
 	######## EXPERIMENT SETUP #########
-	subdomain_sizes=(1 05 025 0125 00625)
+	#subdomain_sizes=(1 05 025 0125 00625)
+	subdomain_sizes=(00625)
     	root_inputvars="qtm,qsm,pm,tm"
       	extra_inputvars="qlm,skew_l,var_l,var_t"
     	#regtypes=("decision_tree" "gradient_boost" "random_forest")
-    	regtypes="decision_tree,gradient_boost"
+    	regtypes="decision_tree"
 	
 	######## OUTPUT DIRECTORIES #########
 	RESULT_DIR="${PWD}/data/output"
@@ -59,6 +60,7 @@ run_experiments ()
 	echo  -----running experiments using SETUP ${setup_csv}
 	echo "-----chosen following subdomain sizes (degrees)" : ${subdomain_sizes[@]} 
 	python ${SRC_DIR}/ML_performance.py -n ${NETCDFDIR} -s ${setup_csv} -o ${CSVOUT_DIR} 
+	#python -m ipdb ${SRC_DIR}/ML_performance.py -n ${NETCDFDIR} -s ${setup_csv} -o ${CSVOUT_DIR} 
 	# TODO if expout_R0.csv exists proceed with the following experiment
 
 }

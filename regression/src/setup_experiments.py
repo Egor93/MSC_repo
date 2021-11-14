@@ -73,7 +73,7 @@ def setup_to_DF(inputs_dict, satdeficit, eval_fraction,regtypes, tree_maxdepth,s
     for var in (satdeficit,eval_fraction,regtypes,tree_maxdepth):
         assert len(var)==nexperiments,"function argument Error, check len of argument!"
 
-    df = pd.DataFrame(columns = ['input_vars','input_vars_id','satdeficit','eval_fraction','regtypes','tree_maxdepth','subdomain_sizes'])
+    df = pd.DataFrame(columns = ['input_vars_id','input_vars','satdeficit','eval_fraction','regtypes','tree_maxdepth','subdomain_sizes'])
     # inputs_dict - dictionary with permutated input variables combinations of different length
     expkeys = list(inputs_dict.keys())
     
@@ -81,7 +81,7 @@ def setup_to_DF(inputs_dict, satdeficit, eval_fraction,regtypes, tree_maxdepth,s
     for expid in range(nexperiments):
         expkey = expkeys[expid]  
         input_vars = inputs_dict[expkey]
-        df.loc[expid] = [input_vars, expkey, satdeficit[expid],eval_fraction[expid],regtypes[expid],tree_maxdepth[expid],subdomain_sizes[expid]]
+        df.loc[expid] = [expkey,input_vars, satdeficit[expid],eval_fraction[expid],regtypes[expid],tree_maxdepth[expid],subdomain_sizes[expid]]
 
     return df
 
