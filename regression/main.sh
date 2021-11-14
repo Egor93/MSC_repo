@@ -1,4 +1,4 @@
-#! /bin/bash 
+#!/bin/bash 
 # call example $ ./main.sh singleplot
 
 initialize () 
