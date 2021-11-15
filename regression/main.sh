@@ -17,12 +17,11 @@ initialize ()
 	#subdomain_sizes=(00625 003125)
 
 	######## EXPERIMENT SETUP #########
-	#subdomain_sizes=(1 05 025 0125 00625)
-	subdomain_sizes=(00625)
+	subdomain_sizes=(1 05 025 0125 00625)
     	root_inputvars="qtm,qsm,pm,tm"
       	extra_inputvars="qlm,skew_l,var_l,var_t"
     	#regtypes=("decision_tree" "gradient_boost" "random_forest")
-    	regtypes="decision_tree"
+    	regtypes="decision_tree,gradient_boost"
 	
 	######## OUTPUT DIRECTORIES #########
 	RESULT_DIR="${PWD}/data/output"
@@ -40,6 +39,7 @@ setup_experiments ()
 	regtypes=$5
 	# if input csv file exists
 	if [ ! -e $setup_csv ]
+	# TODO: check if setup.csv should be updated
 	then
 		echo  -----generate csv setup file ${setup_csv}
 		python ${SRC_DIR}/setup_experiments.py -o $setup_csv -r ${root_inputvars} -e ${extra_inputvars} -s ${subdomain_sizes[@]} -t ${regtypes} 

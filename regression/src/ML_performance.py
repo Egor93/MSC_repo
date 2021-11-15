@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-
+import itertools
 import pandas as pd
 import os
 #from matplotlib.colors import LogNorm
@@ -252,8 +252,20 @@ def run_superset(experiment_params,netcdfdir,setup_csv,csvout_dir):
         # set of experiments is uniquely indexed by input_vars_id - combination of input variables
         # every row of df_input is a set of experiments, written to separate CSV
         csvout_name = f'expset_{input_vars_id}.csv'
-        csvout_path = os.path.join(csvout_dir,csvout_name)
-        if csvout_name in os.listdir(csvout_dir):
+
+        # take care of all possible permutations of digits in the id part of the CSV filename 
+        # e.g. R01==R10
+        id_digits=[i for i in input_vars_id.strip('R')]
+        permutated_names = set(f'expset_R{"".join(i)}.csv' for i in itertools.permutations(id_digits))
+        present_csvnames = set(os.listdir(csvout_dir))
+        intersection_name = present_csvnames.intersection(permutated_names)
+        assert len(intersection_name) < 2, f'>1 CSV ouput files {intersection_name} for the same ID!; make 1 CSV per ID!'
+
+        # if csvout_name exists for current variable ID
+        if intersection_name:
+            print(f'intersection of possible and existing CSVout names is {intersection_name}')
+            csvout_name = intersection_name.pop()
+            csvout_path = os.path.join(csvout_dir,csvout_name)
             # index_col = 0 because index can be non-unique, e.g. 0,1,2,0
             df_existing = pd.read_csv(csvout_path,index_col=0,sep='\t')
             
