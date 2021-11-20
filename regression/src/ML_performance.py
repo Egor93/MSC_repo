@@ -175,7 +175,7 @@ def run_set(df_existing,expset_setup,netcdfdir,csvout_dir,csvout_name):
         csvout_dir- directory to store results of the set of experiments
     '''
     result_cols = ['input_vars_id','input_vars','satdeficit','eval_fraction','regtypes','tree_maxdepth','subdomain_sizes',
-                            'refstd','samplestd','samplevar','exectime']
+                            'refstd','samplestd','samplecorr','exectime']
     df_setresult = pd.DataFrame(columns = result_cols)
 
     expindex = 0 # to used for appending rows to the df.loc[expindex]

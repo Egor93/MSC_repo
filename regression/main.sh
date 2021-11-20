@@ -26,9 +26,11 @@ initialize ()
 	######## OUTPUT DIRECTORIES #########
 	RESULT_DIR="${PWD}/data/output"
 	CSVOUT_DIR="${RESULT_DIR}/csv"
-	PLOTOUT_DIR="${RESULT_DIR}/img"
-}
+	PLOTOUT_DIR="${RESULT_DIR}/img/taylor_plot"
 
+	######## PLOTTING SETUP #########
+	multiplot="False"
+}
 
 setup_experiments ()
 {
@@ -69,46 +71,33 @@ run_experiments ()
 visualize ()
 {
 
-	output_type=$1
-	echo "-----proceed to visualization in  PNG"
-	# visualization of the JSON file as PNG file
-	if [[ ${output_type} == "singleplot" ]]
-	then
-		echo "-----one Taylor diagram per PNG file will be plotted"
-		output_taylor="${PLOTOUT_DIR}/Taylor_plot"
-		# resolution is appended to the plot name in Taylor_plot.py plot 
-		python ${SRC_DIR}/Taylor_plot.py -f ${output_json} -o ${output_taylor} -t singleplot
-	elif [[ ${output_type} == "multiplot" ]]
-	then
-		echo "-----multiple Taylor diagrams per PNG file will be plotted"
-		output_taylor="${PLOTOUT_DIR}/Taylor_plot_${subdomain_sizes[0]}_${subdomain_sizes[-1]}"
-		python ${SRC_DIR}/Taylor_plot.py -f ${output_json} -o ${output_taylor} -t multiplot
-	else
-		echo "-----incorrect output type was chosen!!"
-	fi
+	multiplot=$1 # True of False
+	# visualization of the experiment results as PNG file
+	echo "-----Taylor diagram will be plotted, multiplot = ${multiplot}"
+	python ${SRC_DIR}/Taylor_plot.py -i ${CSVOUT_DIR} -o ${PLOTOUT_DIR} -m ${multiplot} 
+	#python -m ipdb ${SRC_DIR}/Taylor_plot.py -i ${CSVOUT_DIR} -o ${PLOTOUT_DIR} -m ${multiplot} 
 }
 
 
 # establish run order
 main ()
 {
-	output_type=$1	
 	initialize	
 	# setup - create csv table of ML runs parameters for each experiment
-	setup_experiments ${setup_csv} ${root_inputvars} ${extra_inputvars} ${subdomain_sizes} ${regtypes}
+	#setup_experiments ${setup_csv} ${root_inputvars} ${extra_inputvars} ${subdomain_sizes} ${regtypes}
 
-	run_experiments ${NETCDFDIR} ${setup_csv} ${CSVOUT_DIR} 
+	#run_experiments ${NETCDFDIR} ${setup_csv} ${CSVOUT_DIR} 
+	visualize ${multiplot}
 	#return_status=$?
 	#if [ $return_status -eq 0 ]
 	#then
-		#visualize ${output_type}
+		#visualize ${multiplot}
 	#else 
 		#echo "-----generation of output file failed, execution stops"
 	#fi
 }
 
 #set -x
-main $1
+main 
 #set +x
-
 #"$@"
