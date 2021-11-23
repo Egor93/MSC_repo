@@ -2,11 +2,12 @@ import json
 import numpy as np
 import matplotlib.pyplot as plt
 import argparse
+import itertools
 import os
 import pandas as pd
 # Taylor Diagram from Yannick Copin <yannick.copin@laposte.net> 
 from external.diagram.taylorDiagram import TaylorDiagram as taylor
-
+import ML_performance as mlp
 
 def get_rows_cols(nplots):
     '''
@@ -78,6 +79,130 @@ def multiplot_image(nplots, jdict, output_file, plot_keys):
     plt.show()
 
 
+def get_readable_expid(unsorted_indices):
+    '''
+    DESCRIPTION
+        sorting experiment id's to more readable form 
+        from 'R3021' -> 'R0123', 
+        from 'R102'  -> 'R012'
+        where R - root input vars,integers - additional vars
+    INPUT
+        unsorted_indices - pandas series, containing
+        index strings as in description
+    '''
+
+    sorted_indices = []
+    for uindex in unsorted_indices:
+        index_integers = sorted([int(i) for i in uindex.strip('R')])
+        index_strings = [str(i) for i in index_integers]
+        sorted_index = f'R{"".join(index_strings)}'
+        sorted_indices.append(sorted_index)
+
+    return sorted_indices
+
+
+def get_threadset(rootexpid,readable_expids):
+    '''
+    DESCRIPTION
+        e.g. get 'R0123', -> 'R012','R013','R023','R123'
+    '''
+    rootexpid 
+    addvars=[i for i in rootexpid.strip('R')]
+    nvars = len(addvars)
+    perm = list(itertools.permutations(addvars))
+    nthreads = len(perm)
+
+    threadset = []
+    for indexset in perm:
+        thread = []
+        for i in range(0,nvars):
+            branch = f"R{''.join(sorted(indexset[i:]))}"
+            thread.append(branch)
+        threadset.append(sorted(thread,key=len,reverse=True))
+
+    #It's possible that not all of the theoretical
+    #input values combinations were generated - intersection is necessary
+    for i in range(nthreads):
+        currthread = threadset[i]
+        actual_thread = set(readable_expids).intersection(set(currthread))
+        threadset[i] = sorted(list(actual_thread),key=len,reverse=True)
+
+    return threadset
+
+
+def get_rootid(readable_expids):
+    
+    # start from the experiment with maximum amount of input vars
+    maxlen = np.max([len(i) for i in readable_expids])
+    longest_index = [i for i in readable_expids if len(i)==maxlen]
+    assert len(longest_index)==1 , f"Warning! More then one Longest expindex {longest_index}"
+    root_index = longest_index[0]
+
+    return root_index
+
+
+def get_varslegend(subdf,rootexpid):
+    '''
+    DESCRIPTION
+        get Root and additional variables to show later in the plot legend
+    '''
+    rootvarsdict = dict()
+    addvarsdict = dict()
+    rootexp = subdf.loc[subdf['input_vars_id']==rootexpid]
+    varslist = mlp.string_to_touple(rootexp['input_vars'].values[0])
+    # split the longest list of input vars intp root and additional vars
+    naddvars = len(rootexpid.strip('R'))
+    rootvarsdict['rootvars'] = varslist[:naddvars]
+
+    for i in range(naddvars):
+        try:
+            addseries = subdf.loc[subdf['input_vars_id']==f'R{i}']
+            expvars = mlp.string_to_touple(addseries['input_vars'].values[0])
+            addvarsdict[i] = expvars[-1]
+        except:
+            print(f'addvar N{i} is not in expresult database, skipping')
+            continue
+
+    return rootvarsdict,addvarsdict
+
+
+def display_text(taylor_diagram,subdf,rootexpid,fixed_params,perplot_key,perplot_val):
+    '''
+    DESCRIPTION
+        plot text boxes and title containing all important information 
+        regarding the plot of ML experiment set
+        Parameters to show:
+        1)perplot parameters - fixed for the image, change from one to another
+        2)fixed   paramterrs - fixed for the set of images
+        3)changing parameters- change within particular image
+    '''
+
+    ax = taylor_diagram._ax
+
+    perplot_str = f'Taylor diagram of set of ML experiments, fixed {perplot_key}={perplot_val}'
+    title = f'{perplot_str}'
+    ax.set_title(title)
+                                
+    # rootvarsdict contains root and additional variables
+    rootvarsdict,addvarsdict = get_varslegend(subdf,rootexpid)
+    
+    # create text box with explanation
+    fixed_str   = '\n'.join((f"tree maxdepth:{fixed_params['tree_maxdepth']}", 
+                                    f"part of input data used for evaluation:{fixed_params['eval_fraction']}",    
+                                    f"regression type:{fixed_params['regtypes']}",    
+                                    f"saturation deficit input data used:{fixed_params['satdeficit']}"))
+    props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+
+    # text(x,y - position where to put text 
+    ax.text(0.05, 0.95, fixed_str, transform=ax.transAxes, fontsize=14,
+            position=(1.0,1.0), bbox=props)
+
+    unfixed_str = '\n'.join((f'root variables',f"{rootvarsdict['rootvars']}",f'additional vars',f'{addvarsdict}'))
+    props = dict(boxstyle='round', facecolor='blue', alpha=0.5)
+    ax.text(0.05, 0.95, unfixed_str, transform=ax.transAxes, fontsize=14,
+            position=(1.0,0.7), bbox=props)
+
+
 def singleplot_image(df_merged,fixed_params,perplot_params,unfixed_params,output_dir):
     '''
     Make a separate .png diagram for each resolution
@@ -98,7 +223,15 @@ def singleplot_image(df_merged,fixed_params,perplot_params,unfixed_params,output
         npoints = subdf.shape[0]
         # correct index
         subdf.index=list(range(npoints))
-        colors = plt.matplotlib.cm.brg(np.linspace(0,1,npoints))
+        # correct expid's 
+        readable_expids = get_readable_expid(subdf['input_vars_id'])
+        subdf = subdf.assign(input_vars_id=readable_expids)
+        rootexpid = get_rootid(readable_expids)
+
+
+        expid_threads = get_threadset(rootexpid,readable_expids)
+
+        colors = plt.matplotlib.cm.brg(np.linspace(0,1,len(expid_threads)))
         # calculate references std as average of different runs (due to random splitting of dataset)
         refstd_mean = subdf.refstd.mean()
 
@@ -110,34 +243,38 @@ def singleplot_image(df_merged,fixed_params,perplot_params,unfixed_params,output
         fig.tight_layout()
 
         ######### ITERATE OVER FIG POINTS(EXPERIMENTS) ##################
-        expgenerator = subdf.iterrows()
-        for expindex,series in expgenerator:
+        for tindex,thread in enumerate(expid_threads):
+            expstd_list = []
+            expcorr_list = []
+            for expid in thread:
+                branch=subdf.loc[subdf['input_vars_id']==expid]     
+                expstd_list.append(branch['samplestd'].values[0])
+                expcorr_list.append(branch['samplecorr'].values[0])
+
             
-            explabel  = str(series[unfixed_params[0]]) # e.g. input_vars_id 
-            expcorr  = series.samplecorr
-            expstd = series.samplestd
             # add samples
-            taylor_diagram.add_sample(expstd, expcorr,
+            taylor_diagram.add_sample(expstd_list, expcorr_list,
                                    # ls - line style, supported values are '-', '--', '-.', ':', 'None', ' ', '', 'solid', 'dashed'
                                    # marker - how the point will be shown on the plot
-                                   marker='$%d$' % (expindex+1), ms=10, ls='',
+                                   color = colors[tindex],
+                                   marker='.', ms=10, ls='-',lw=1.0,
+                                   label = '->'.join(thread))
+
+            #taylor_diagram.add_sample(expstd, expcorr,
+                                   # ls - line style, supported values are '-', '--', '-.', ':', 'None', ' ', '', 'solid', 'dashed'
+                                   # marker - how the point will be shown on the plot
+            #                       marker='$%d$' % (expindex+1), ms=10, ls='',
                                    #mfc='k', mec='k', # B&W
-                                   mfc=colors[expindex], mec=colors[expindex], # Colors
-                                   label=explabel)
+            #                       mfc=colors[expindex], mec=colors[expindex], # Colors
+            #                       label=explabel)
 
             # Add RMS contours, and label them
         contours = taylor_diagram.add_contours(levels=5, colors='0.5') # 5 levels
         taylor_diagram.ax.clabel(contours, inline=1, fontsize=10, fmt='%.2f')
         # Tricky: ax is the polar ax (used for plots), _ax is the
         # container (used for layout)
-
-        perplot_str = f'perplot parameters:{perplot_key}={perplot_val}'
-        fixed_str   = f'fixed parameters {fixed_params}'
-        title = f'{perplot_str} \n {fixed_str}'
-        taylor_diagram._ax.set_title(title)
-                                    
+        display_text(taylor_diagram,subdf,rootexpid,fixed_params,perplot_key,perplot_val)
         
-
         fig.legend(taylor_diagram.samplePoints,
                    [ p.get_label() for p in taylor_diagram.samplePoints ],
                    numpoints=1, prop=dict(size='small'), loc='lower right')
