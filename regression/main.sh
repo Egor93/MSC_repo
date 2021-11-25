@@ -20,8 +20,8 @@ initialize ()
 	subdomain_sizes=(1 05 025 0125 00625)
     	root_inputvars="qtm,qsm,pm,tm"
       	extra_inputvars="qlm,skew_l,var_l,var_t"
-    	#regtypes=("decision_tree" "gradient_boost" "random_forest")
-    	regtypes="decision_tree,gradient_boost"
+    	#regtypes="decision_tree,gradient_boost"
+    	regtypes="random_forest"
 	
 	######## OUTPUT DIRECTORIES #########
 	RESULT_DIR="${PWD}/data/output"
@@ -84,10 +84,11 @@ main ()
 {
 	initialize	
 	# setup - create csv table of ML runs parameters for each experiment
-	#setup_experiments ${setup_csv} ${root_inputvars} ${extra_inputvars} ${subdomain_sizes} ${regtypes}
+	# TODO: need to manually delete setup csv to generate new one
+	setup_experiments ${setup_csv} ${root_inputvars} ${extra_inputvars} ${subdomain_sizes} ${regtypes}
 
-	#run_experiments ${NETCDFDIR} ${setup_csv} ${CSVOUT_DIR} 
-	visualize ${multiplot}
+	run_experiments ${NETCDFDIR} ${setup_csv} ${CSVOUT_DIR} 
+	#visualize ${multiplot}
 	#return_status=$?
 	#if [ $return_status -eq 0 ]
 	#then

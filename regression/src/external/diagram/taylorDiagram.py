@@ -109,6 +109,28 @@ class TaylorDiagram(object):
         # Collect sample points for latter use (e.g. legend)
         self.samplePoints = [l]
 
+
+    def add_sample_multimarkers(self, stddev, corrcoef,tindex,marker_list = ['o','o','o','o'],
+                                color_list=['r','g','b','m'],marker_labels=['ROOT=Rxxxx','Rxxx','Rxx','Rx'],*args, **kwargs):
+        """
+        Add sample (*stddev*, *corrcoeff*) to the Taylor
+        diagram. *args* and *kwargs* are directly propagated to the
+        `Figure.plot` command.
+        """
+        # first add the whole line
+        l, = self.ax.plot(NP.arccos(corrcoef), stddev,
+                          *args,**kwargs)  # (theta, radius)
+        self.samplePoints.append(l)
+
+        assert (len(stddev)>1 and len(corrcoef)>1), "Wrong multisample use, use add_samlpe instead"
+        for i,marker in enumerate(marker_list):
+            # add separate points with distinct markers 
+            l, = self.ax.plot(NP.arccos(corrcoef[i]), stddev[i],marker=marker,color=color_list[i],label=marker_labels[i])  # (theta, radius)
+            if tindex==0:
+                self.samplePoints.append(l)
+
+
+
     def add_sample(self, stddev, corrcoef, *args, **kwargs):
         """
         Add sample (*stddev*, *corrcoeff*) to the Taylor
@@ -121,6 +143,7 @@ class TaylorDiagram(object):
         self.samplePoints.append(l)
 
         return l
+
 
     def add_grid(self, *args, **kwargs):
         """Add a grid."""

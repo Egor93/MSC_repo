@@ -122,12 +122,21 @@ def get_threadset(rootexpid,readable_expids):
 
     #It's possible that not all of the theoretical
     #input values combinations were generated - intersection is necessary
+
     for i in range(nthreads):
         currthread = threadset[i]
         actual_thread = set(readable_expids).intersection(set(currthread))
         threadset[i] = sorted(list(actual_thread),key=len,reverse=True)
+    
+    threadset_corrlen = []  # threadset with correct length
+    for tr in threadset:
+        if len(tr)==nvars:
+            threadset_corrlen.append(tr)
+        else:
+            print(f"skipping thread {tr}, not full,DBase lacks experiments results")
+    
 
-    return threadset
+    return threadset_corrlen
 
 
 def get_rootid(readable_expids):
@@ -173,13 +182,13 @@ def display_text(taylor_diagram,subdf,rootexpid,fixed_params,perplot_key,perplot
         regarding the plot of ML experiment set
         Parameters to show:
         1)perplot parameters - fixed for the image, change from one to another
-        2)fixed   paramterrs - fixed for the set of images
+        2)fixed   parameters - fixed for the set of images
         3)changing parameters- change within particular image
     '''
 
     ax = taylor_diagram._ax
 
-    perplot_str = f'Taylor diagram of set of ML experiments, fixed {perplot_key}={perplot_val}'
+    perplot_str = f'Taylor diagram of set of ML experiments'
     title = f'{perplot_str}'
     ax.set_title(title)
                                 
@@ -187,7 +196,8 @@ def display_text(taylor_diagram,subdf,rootexpid,fixed_params,perplot_key,perplot
     rootvarsdict,addvarsdict = get_varslegend(subdf,rootexpid)
     
     # create text box with explanation
-    fixed_str   = '\n'.join((f"tree maxdepth:{fixed_params['tree_maxdepth']}", 
+    fixed_str   = '\n'.join((f'{perplot_key}:{perplot_val}',
+                                    f"tree maxdepth:{fixed_params['tree_maxdepth']}", 
                                     f"part of input data used for evaluation:{fixed_params['eval_fraction']}",    
                                     f"regression type:{fixed_params['regtypes']}",    
                                     f"saturation deficit input data used:{fixed_params['satdeficit']}"))
@@ -195,7 +205,7 @@ def display_text(taylor_diagram,subdf,rootexpid,fixed_params,perplot_key,perplot
 
     # text(x,y - position where to put text 
     ax.text(0.05, 0.95, fixed_str, transform=ax.transAxes, fontsize=14,
-            position=(1.0,1.0), bbox=props)
+            position=(1.0,0.9), bbox=props)
 
     unfixed_str = '\n'.join((f'root variables',f"{rootvarsdict['rootvars']}",f'additional vars',f'{addvarsdict}'))
     props = dict(boxstyle='round', facecolor='blue', alpha=0.5)
@@ -253,11 +263,11 @@ def singleplot_image(df_merged,fixed_params,perplot_params,unfixed_params,output
 
             
             # add samples
-            taylor_diagram.add_sample(expstd_list, expcorr_list,
+            taylor_diagram.add_sample_multimarkers(expstd_list, expcorr_list,tindex,
                                    # ls - line style, supported values are '-', '--', '-.', ':', 'None', ' ', '', 'solid', 'dashed'
                                    # marker - how the point will be shown on the plot
                                    color = colors[tindex],
-                                   marker='.', ms=10, ls='-',lw=1.0,
+                                   marker='', ms=10, ls='-',lw=1.0,
                                    label = '->'.join(thread))
 
             #taylor_diagram.add_sample(expstd, expcorr,
@@ -284,7 +294,8 @@ def singleplot_image(df_merged,fixed_params,perplot_params,unfixed_params,output
         fname = f'{perplot_key}_{perplot_val}.png'
         fpath = os.path.join(output_dir,fname)
         plt.savefig(fpath)
-        # plt.clf() clears the entire current figure with all its axes, but leaves the window opened, such that it may be reused for other plots.
+        # plt.clf() clears the entire current figure with all its axes, but leaves the window 
+        #opened, such that it may be reused for other plots.
         plt.clf()
 
 
@@ -362,7 +373,6 @@ def main():
     # TODO: Is it necessary to explicitly define unfixed parameters?
     # TODO: Can be defined instead as the rest of the parameters.
     unfixed_params = ['input_vars_id']
-
     if multiplot is True:
         nplots = len(plot_keys)
         #multiplot_image(nplots,jdict,output_file,plot_keys,colors)
