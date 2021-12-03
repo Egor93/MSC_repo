@@ -1,0 +1,4 @@
+	input_vars_id	input_vars	satdeficit	eval_fraction	regtypes	tree_maxdepth	subdomain_sizes	refstd	samplestd	samplecorr	exectime
+0	R321	['qtm,qsm,pm,tm,var_t,var_l,skew_l']	False	0.2	decision_tree	10	1	0.10544518381357193	0.09442885491719054	0.8746007353323457	0:00:00.196050
+1	R321	['qtm,qsm,pm,tm,var_t,var_l,skew_l']	False	0.2	decision_tree	10	05	0.12250732630491257	0.11213270212443352	0.9087091005585872	0:00:00.909585
+2	R321	['qtm,qsm,pm,tm,var_t,var_l,skew_l']	False	0.2	decision_tree	10	025	0.12794166803359985	0.11685096333087795	0.9127260951616042	0:00:04.137660

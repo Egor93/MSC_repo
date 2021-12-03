@@ -9,6 +9,26 @@ import pandas as pd
 from external.diagram.taylorDiagram import TaylorDiagram as taylor
 import ML_performance as mlp
 
+def get_arg_params():
+    # parse input variables
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-i","--input_dir",required = True, help = "input JSON file name")
+    parser.add_argument("-o","--output_dir",required = True, help = "output PNG file")
+    # there are two possible output types: singleplot or multiplot
+    parser.add_argument("-m","--multiplot",required = True, help = "vals=True/False; output several PNG files, one file per Taylor diagram or single plot")
+    parser.add_argument("-N","--nexprepeat",required = True,type=int, help = "how many times should each experiment be repeated")
+    parser.add_argument("-R","--root_inputvars",required = True,type=str, help = "root input variables")
+
+    args = parser.parse_args()
+    # input_dir where results of experiments are stored, e.g. as CSV
+    input_dir = args.input_dir
+    output_dir = args.output_dir
+    multiplot = eval(args.multiplot)
+    nexprepeat = args.nexprepeat
+    root_inputvars = args.root_inputvars
+    return input_dir,output_dir,multiplot,nexprepeat,root_inputvars
+
+
 def get_rows_cols(nplots):
     '''
     create rectangular plot coordinates for 
@@ -28,7 +48,7 @@ def get_rows_cols(nplots):
     return int(rows),int(cols)
 
 
-def multiplot_image(nplots, jdict, output_file, plot_keys):
+def multiaxes_plot(nplots, output_file, plot_keys):
     '''
     All Taylor diagrams in one .png file
     '''
@@ -39,6 +59,7 @@ def multiplot_image(nplots, jdict, output_file, plot_keys):
 
     fig = plt.figure(figsize=(18,9))
     fig.suptitle("Taylor diagram of ML cloud fraction simulations \n (max_depth_in=10) ", size='x-large')
+
     for resolution in plot_keys:
 
         # calculate references std as average of different runs (due to random splitting of dataset)
@@ -175,7 +196,7 @@ def get_varslegend(subdf,rootexpid):
     return rootvarsdict,addvarsdict
 
 
-def display_text(taylor_diagram,subdf,rootexpid,fixed_params,perplot_key,perplot_val):
+def display_text(taylor_diagram,subdf,rootexpid,fixed_params,perplot_key,perplot_val,nexprepeat,title):
     '''
     DESCRIPTION
         plot text boxes and title containing all important information 
@@ -188,12 +209,16 @@ def display_text(taylor_diagram,subdf,rootexpid,fixed_params,perplot_key,perplot
 
     ax = taylor_diagram._ax
 
-    perplot_str = f'Taylor diagram of set of ML experiments'
-    title = f'{perplot_str}'
     ax.set_title(title)
                                 
     # rootvarsdict contains root and additional variables
-    rootvarsdict,addvarsdict = get_varslegend(subdf,rootexpid)
+    if nexprepeat==0:
+        # if every experiment has unique input values combination
+        rootvarsdict,addvarsdict = get_varslegend(subdf,rootexpid)
+    else:
+        # repeating experiments, same input vars, no additional vars
+        rootvarsdict = {'rootvars':subdf.loc[0]['input_vars']}  
+        addvarsdict  = dict()
     
     # create text box with explanation
     fixed_str   = '\n'.join((f'{perplot_key}:{perplot_val}',
@@ -211,92 +236,6 @@ def display_text(taylor_diagram,subdf,rootexpid,fixed_params,perplot_key,perplot
     props = dict(boxstyle='round', facecolor='blue', alpha=0.5)
     ax.text(0.05, 0.95, unfixed_str, transform=ax.transAxes, fontsize=14,
             position=(1.0,0.7), bbox=props)
-
-
-def singleplot_image(df_merged,fixed_params,perplot_params,unfixed_params,output_dir):
-    '''
-    Make a separate .png diagram for each resolution
-    '''
-    subplot_coords = 111 # one subplot per .png
-
-    fig = plt.figure(figsize=(18,9))
-
-    # select unique perplot parameter, e.g. 'subdomain_sizes'
-    perplot_key = list(perplot_params.keys())[0]
-    perplot_vals=perplot_params[perplot_key]
-    for perplot_val in perplot_vals:
-
-        # SELECT DATA
-        subdf = select_subdf(df_merged,perplot_key,perplot_val,fixed_params)
-        subdf = subdf.sort_values(by=unfixed_params)
-        # npoints on a plot = n rows in the Pandas DF = n experiments
-        npoints = subdf.shape[0]
-        # correct index
-        subdf.index=list(range(npoints))
-        # correct expid's 
-        readable_expids = get_readable_expid(subdf['input_vars_id'])
-        subdf = subdf.assign(input_vars_id=readable_expids)
-        rootexpid = get_rootid(readable_expids)
-
-
-        expid_threads = get_threadset(rootexpid,readable_expids)
-
-        colors = plt.matplotlib.cm.brg(np.linspace(0,1,len(expid_threads)))
-        # calculate references std as average of different runs (due to random splitting of dataset)
-        refstd_mean = subdf.refstd.mean()
-
-        ##########CREATE SEPARATE DIAGRAM-PICTURE##########
-        # value of the reference standart deviation used only once per plot
-        taylor_diagram = taylor(refstd_mean, fig=fig, rect=subplot_coords,
-                                label='Reference')
-        # dia.ax.plot(x95,y95,color='red')
-        fig.tight_layout()
-
-        ######### ITERATE OVER FIG POINTS(EXPERIMENTS) ##################
-        for tindex,thread in enumerate(expid_threads):
-            expstd_list = []
-            expcorr_list = []
-            for expid in thread:
-                branch=subdf.loc[subdf['input_vars_id']==expid]     
-                expstd_list.append(branch['samplestd'].values[0])
-                expcorr_list.append(branch['samplecorr'].values[0])
-
-            
-            # add samples
-            taylor_diagram.add_sample_multimarkers(expstd_list, expcorr_list,tindex,
-                                   # ls - line style, supported values are '-', '--', '-.', ':', 'None', ' ', '', 'solid', 'dashed'
-                                   # marker - how the point will be shown on the plot
-                                   color = colors[tindex],
-                                   marker='', ms=10, ls='-',lw=1.0,
-                                   label = '->'.join(thread))
-
-            #taylor_diagram.add_sample(expstd, expcorr,
-                                   # ls - line style, supported values are '-', '--', '-.', ':', 'None', ' ', '', 'solid', 'dashed'
-                                   # marker - how the point will be shown on the plot
-            #                       marker='$%d$' % (expindex+1), ms=10, ls='',
-                                   #mfc='k', mec='k', # B&W
-            #                       mfc=colors[expindex], mec=colors[expindex], # Colors
-            #                       label=explabel)
-
-            # Add RMS contours, and label them
-        contours = taylor_diagram.add_contours(levels=5, colors='0.5') # 5 levels
-        taylor_diagram.ax.clabel(contours, inline=1, fontsize=10, fmt='%.2f')
-        # Tricky: ax is the polar ax (used for plots), _ax is the
-        # container (used for layout)
-        display_text(taylor_diagram,subdf,rootexpid,fixed_params,perplot_key,perplot_val)
-        
-        fig.legend(taylor_diagram.samplePoints,
-                   [ p.get_label() for p in taylor_diagram.samplePoints ],
-                   numpoints=1, prop=dict(size='small'), loc='lower right')
-
-        fig.tight_layout()
-        # full filepath is provided in the main.sh call
-        fname = f'{perplot_key}_{perplot_val}.png'
-        fpath = os.path.join(output_dir,fname)
-        plt.savefig(fpath)
-        # plt.clf() clears the entire current figure with all its axes, but leaves the window 
-        #opened, such that it may be reused for other plots.
-        plt.clf()
 
 
 def get_df_merged(input_dir,dtypedict):
@@ -339,45 +278,203 @@ def select_subdf(df_merged,perplot_key,perplot_val,fixed_params):
     return subdf
 
 
-def main():
-    # parse input variables
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-i","--input_dir",required = True, help = "input JSON file name")
-    parser.add_argument("-o","--output_dir",required = True, help = "output PNG file")
-    # there are two possible output types: singleplot or multiplot
-    parser.add_argument("-m","--multiplot",required = True, help = "vals=True/False; output several PNG files, one file per Taylor diagram or single plot")
-    args = parser.parse_args()
-    # input_dir where results of experiments are stored, e.g. as CSV
-    input_dir = args.input_dir
-    output_dir = args.output_dir
-    multiplot = eval(args.multiplot)
-    
+def singlexp_plot(subdf,readable_expids,fixed_params,output_dir,subplot_coords,nexprepeat,perplot_key,perplot_val):
+        '''
+        DESCRIPTION
+            plot unordered single sequence of points, representing
+            multiple runs of the experiment with the same input_vars_id.
+            Differences of exp results are thus only* due to randomness of 
+            input datatset division
+            * - probably some other factors influencing ML run
+            outputs only 1 .PNG
 
-    #with open(input_file,'r') as f:
-    #    jdict = dict(json.load(f))
-    
-    #result_cols = ['input_vars_id','input_vars','satdeficit','eval_fraction','regtypes','tree_maxdepth','subdomain_sizes',
-    #                        'refstd','samplestd','samplevar','exectime']
+        '''
+        fig = plt.figure(figsize=(18,9))
+        unfixed_params = 'input_vars_id'
+        rootexpid = subdf['input_vars_id'][0]
+
+
+        refstd_mean = subdf.refstd.mean()
+        ##########CREATE SEPARATE DIAGRAM-PICTURE##########
+        # value of the reference standart deviation used only once per plot
+        taylor_diagram = taylor(refstd_mean, fig=fig, rect=subplot_coords,
+                                label='Reference')
+        # dia.ax.plot(x95,y95,color='red')
+        fig.tight_layout()
+
+        ######### ITERATE OVER FIG POINTS(SAME EXP,DIFFERENT RUNS) ##################
+        expgenerator = subdf.iterrows()
+        for expindex,series in expgenerator:
+            
+            explabel  = str(series[unfixed_params][0]) # e.g. input_vars_id 
+            expcorr  = series.samplecorr
+            expstd = series.samplestd
+            # add samples
+            taylor_diagram.add_sample(expstd, expcorr,
+                                   # ls - line style, supported values are '-', '--', '-.', ':', 'None', ' ', '', 'solid', 'dashed'
+                                   # marker - how the point will be shown on the plot
+                                   marker='.', ms=10, ls='',
+                                   #mfc='k', mec='k', # B&W
+                                   label=explabel)
+        
+        # Add RMS contours, and label them
+        contours = taylor_diagram.add_contours(levels=5, colors='0.5') # 5 levels
+        taylor_diagram.ax.clabel(contours, inline=1, fontsize=10, fmt='%.2f')
+
+        # Tricky: ax is the polar ax (used for plots), _ax is the
+        # container (used for layout)
+        title = '\n'.join(('plot unordered single sequence of points, representing',
+'multiple runs of the experiment with the same input_vars_id'))
+
+        display_text(taylor_diagram,subdf,rootexpid,fixed_params,perplot_key,perplot_val,nexprepeat,title)
+        
+        fig.legend(taylor_diagram.samplePoints,
+                   [ p.get_label() for p in taylor_diagram.samplePoints ],
+                   numpoints=1, prop=dict(size='small'), loc='lower right')
+
+        fig.tight_layout() # TODO: called 2 times, is it necessary?
+        # full filepath is provided in the main.sh call
+
+        ninput_vars = len(mlp.string_to_touple(fixed_params['input_vars']))
+        fname = f"{perplot_key}_{perplot_val}_{fixed_params['regtypes'][0]}_REPEAT_{ninput_vars}invars.png"
+        fpath = os.path.join(output_dir,fname)
+        plt.savefig(fpath)
+        # plt.clf() clears the entire current figure with all its axes, but leaves the window 
+        #opened, such that it may be reused for other plots.
+        plt.clf()
+
+
+def multiexp_plot(subdf,readable_expids,fixed_params,output_dir,subplot_coords,nexprepeat,perplot_key,perplot_val):
+        '''
+        DESCRIPTION
+            plot ordered multiple sequences of points, each representing
+            how exp results change while adding extra variables
+            outputs only 1 .PNG
+        '''
+        fig = plt.figure(figsize=(18,9))
+
+        rootexpid = get_rootid(readable_expids)
+        expid_threads = get_threadset(rootexpid,readable_expids)
+        colors = plt.matplotlib.cm.brg(np.linspace(0,1,len(expid_threads)))
+        # calculate references std as average of different runs (due to random splitting of dataset)
+        refstd_mean = subdf.refstd.mean()
+
+        ##########CREATE SEPARATE DIAGRAM-PICTURE##########
+        # value of the reference standart deviation used only once per plot
+        taylor_diagram = taylor(refstd_mean, fig=fig, rect=subplot_coords,
+                                label='Reference')
+        # dia.ax.plot(x95,y95,color='red')
+        fig.tight_layout()
+
+
+        ######### ITERATE OVER FIG POINTS(EXPERIMENTS) ##################
+        for tindex,thread in enumerate(expid_threads):
+            expstd_list = []
+            expcorr_list = []
+            for expid in thread:
+                branch=subdf.loc[subdf['input_vars_id']==expid]     
+                expstd_list.append(branch['samplestd'].values[0])
+                expcorr_list.append(branch['samplecorr'].values[0])
+
+            # add samples
+            taylor_diagram.add_sample_multimarkers(expstd_list, expcorr_list,tindex,
+                                   # ls - line style, supported values are '-', '--', '-.', ':', 'None', ' ', '', 'solid', 'dashed'
+                                   # marker - how the point will be shown on the plot
+                                   color = colors[tindex],
+                                   marker='', ms=10, ls='-',lw=1.0,
+                                   label = '->'.join(thread))
+
+        # Add RMS contours, and label them
+        contours = taylor_diagram.add_contours(levels=5, colors='0.5') # 5 levels
+        taylor_diagram.ax.clabel(contours, inline=1, fontsize=10, fmt='%.2f')
+        # Tricky: ax is the polar ax (used for plots), _ax is the
+        # container (used for layout)
+        title = '\n'.join(('plot ordered multiple sequences of points, each representing',
+                'how exp results change while adding extra variables'))
+        display_text(taylor_diagram,subdf,rootexpid,fixed_params,perplot_key,perplot_val,nexprepeat,title)
+        
+        fig.legend(taylor_diagram.samplePoints,
+                   [ p.get_label() for p in taylor_diagram.samplePoints ],
+                   numpoints=1, prop=dict(size='small'), loc='lower right')
+
+        fig.tight_layout()
+        # full filepath is provided in the main.sh call
+        fname = f"{perplot_key}_{perplot_val}_{fixed_params['regtypes'][0]}.png"
+        fpath = os.path.join(output_dir,fname)
+        plt.savefig(fpath)
+        # plt.clf() clears the entire current figure with all its axes, but leaves the window 
+        #opened, such that it may be reused for other plots.
+        plt.clf()
+
+
+def singleaxes_plot(df_merged,fixed_params,perplot_params,sorting_param,output_dir,nexprepeat):
+    '''
+    DESCRIPTION
+        Plot with one axes per plot, several .png files
+    '''
+    subplot_coords = 111 # one subplot per .png
+
+
+    # select unique perplot parameter, e.g. 'subdomain_sizes'
+    perplot_key = list(perplot_params.keys())[0]
+    perplot_vals=perplot_params[perplot_key]
+    for perplot_val in perplot_vals:
+
+        # SELECT DATA
+        subdf = select_subdf(df_merged,perplot_key,perplot_val,fixed_params)
+        subdf = subdf.sort_values(by=sorting_param)
+        # npoints on a plot = n rows in the Pandas DF = n experiments
+        npoints = subdf.shape[0]
+        # correct index
+        subdf.index=list(range(npoints))
+        # correct expid's 
+        readable_expids = get_readable_expid(subdf['input_vars_id'])
+        subdf = subdf.assign(input_vars_id=readable_expids)
+        
+        if nexprepeat==0:
+            multiexp_plot(subdf,readable_expids,fixed_params,output_dir,subplot_coords,nexprepeat,perplot_key,perplot_val)
+        else:
+            singlexp_plot(subdf,readable_expids,fixed_params,output_dir,subplot_coords,nexprepeat,perplot_key,perplot_val)       
+
+
+def main():
+
+    ###### SETUP FROM CALLING FUNCTION ########
+    input_dir,output_dir,multiplot,nexprepeat,root_inputvars = get_arg_params()
+
+    ######          LOCAL SETUP        #######
     # perplot_params - one parameter per one plot
+    perplot_params= {'subdomain_sizes':['1','05','025','0125']} 
+    assert len(perplot_params)==1, "should choose only one such parameter!"
+    # fixed parameters within one plot
+
+
+    # rootvarsdict contains root and additional variables
+    if nexprepeat==0:
+        # if every experiment has unique input values combination
+        fixed_params = {'tree_maxdepth':10,'eval_fraction':0.2,'regtypes':['gradient_boost'],'satdeficit':False}
+    else:
+        # repeating experiments, same input vars, no additional vars
+        fixed_params = {'tree_maxdepth':10,'eval_fraction':0.2,'regtypes':['random_forest'],'satdeficit':False,
+            'input_vars_id':'R','input_vars':f"['{root_inputvars}']"}
+
+    # varying parameters within one plot
+    # TODO: Is it necessary to explicitly define unfixed parameters?
+    # TODO: Can be defined instead as the rest of the parameters.
+    #sorting_param = ['input_vars_id']
+    sorting_param = ['input_vars_id']
+
+    # dtypedict - columns data types for the Pandas DataFrame
     dtypedict= {'input_vars_id':str,'input_vars':str, 'satdeficit':np.bool_,'eval_fraction':np.float64,
                  'regtypes':str,'tree_maxdepth':np.int_,'subdomain_sizes':str,'refstd':np.float64,
                  'samplestd':np.float64,'samplecorr':np.float64,'exectime':str}
     df_merged = get_df_merged(input_dir,dtypedict)
 
-
-    perplot_params= {'subdomain_sizes':['1','05','025']} 
-    assert len(perplot_params)==1, "should choose only one such parameter!"
-    # fixed parameters within one plot
-    fixed_params = {'tree_maxdepth':10,'eval_fraction':0.2,'regtypes':['decision_tree'],'satdeficit':False}
-    # varying parameters within one plot
-    # TODO: Is it necessary to explicitly define unfixed parameters?
-    # TODO: Can be defined instead as the rest of the parameters.
-    unfixed_params = ['input_vars_id']
     if multiplot is True:
         nplots = len(plot_keys)
-        #multiplot_image(nplots,jdict,output_file,plot_keys,colors)
+        #multiaxes_plot(nplots,output_file,plot_keys,colors)
     elif multiplot is False:
-        singleplot_image(df_merged,fixed_params,perplot_params,unfixed_params,output_dir)
+        singleaxes_plot(df_merged,fixed_params,perplot_params,sorting_param,output_dir,nexprepeat)
     else:
         print("Error of defining output_type, try again!")
 

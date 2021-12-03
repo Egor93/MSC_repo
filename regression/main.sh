@@ -6,27 +6,45 @@ initialize ()
 	# activate MSC environment (includes sklearn)
 	#source /home/egordeev/.local/bin/pyenvs/MSC_env_hegoa/bin/activate
 
+	######## INPUT FILES/DIRECTORIES SETUP #########
 	SRC_DIR="${PWD}/src"
-
-	######## I/O FILES/DIRECTORIES SETUP #########
 	NETCDFDIR="${PWD}/../../002_Data/"
-	#NETCDFDIR="/home/egordeev/002_Data/"
 	SETUP_DIR="${PWD}/data/input/setup"
-	setup_csv="${SETUP_DIR}/setup.csv"
-	#subdomain_sizes=(1 05 025 0125 00625 003125)
-	#subdomain_sizes=(00625 003125)
+
 
 	######## EXPERIMENT SETUP #########
 	subdomain_sizes=(1 05 025 0125 00625)
-    	root_inputvars="qtm,qsm,pm,tm"
-      	extra_inputvars="qlm,skew_l,var_l,var_t"
-    	#regtypes="decision_tree,gradient_boost"
-    	regtypes="random_forest"
+	root_inputvars="qtm,qsm,pm,tm"
+
+	# its important to PRESERVE THE SAME SEQUENCE of extra vars for every run!!!
+	#    		var0, var1, var2, var3
+	extra_inputvars="qlm,skew_l,var_l,var_t"
+	#extra_inputvars="None"
+
+	#nexprepeat=10
+	nexprepeat=0
+
+    	#regtypes="decision_tree,gradient_boost,random_forest"
+    	regtypes="decision_tree"
+
+	split_dataset_randomly="True"
 	
+
 	######## OUTPUT DIRECTORIES #########
 	RESULT_DIR="${PWD}/data/output"
-	CSVOUT_DIR="${RESULT_DIR}/csv"
 	PLOTOUT_DIR="${RESULT_DIR}/img/taylor_plot"
+
+	if [[ $nexprepeat -eq 0 ]]
+	then
+		# Default behaviour, no repetitons
+		setup_csv="${SETUP_DIR}/setup.csv"
+		CSVOUT_DIR="${RESULT_DIR}/csv"
+	else
+		# Modified behaviour, with repetitons
+		setup_csv="${SETUP_DIR}/setup_repeat.csv"
+		CSVOUT_DIR="${RESULT_DIR}/csv/repeat"
+	fi
+
 
 	######## PLOTTING SETUP #########
 	multiplot="False"
@@ -36,21 +54,14 @@ setup_experiments ()
 {
 	setup_csv=$1
 	root_inputvars=$2
-	extra_inputvars=$3
-	subdomain_sizes=$4
-	regtypes=$5
-	# if input csv file exists
-	if [ ! -e $setup_csv ]
-	# TODO: check if setup.csv should be updated
-	then
-		echo  -----generate csv setup file ${setup_csv}
-		python ${SRC_DIR}/setup_experiments.py -o $setup_csv -r ${root_inputvars} -e ${extra_inputvars} -s ${subdomain_sizes[@]} -t ${regtypes} 
-		# debug option: python -m ipdb
-		#python -m ipdb ${SRC_DIR}/setup_experiments.py -o $setup_csv -r ${root_inputvars} -e ${extra_inputvars} -s ${subdomain_sizes[@]} -t ${regtypes[@]} 
-		return $?
-	else
-		echo "-----${setup_csv} already generated"
-	fi
+	subdomain_sizes=$3
+	regtypes=$4
+	extra_inputvars=$5
+	nexprepeat=$6
+	# generate setup in any case
+	echo  -----generate csv setup file ${setup_csv}
+	python ${SRC_DIR}/setup_experiments.py -o $setup_csv -r ${root_inputvars} -e ${extra_inputvars} -s ${subdomain_sizes[@]} -t ${regtypes} -N ${nexprepeat}
+	#python -m ipdb ${SRC_DIR}/setup_experiments.py -o $setup_csv -r ${root_inputvars} -e ${extra_inputvars} -s ${subdomain_sizes[@]} -t ${regtypes} -N ${nexprepeat}
 }
 
 
@@ -59,10 +70,14 @@ run_experiments ()
 	NETCDFDIR=$1
 	setup_csv=$2
 	CSVOUT_DIR=$3
+	nexprepeat=$4
+	split_randomly=$5
 	echo  -----running experiments using SETUP ${setup_csv}
 	echo "-----chosen following subdomain sizes (degrees)" : ${subdomain_sizes[@]} 
-	python ${SRC_DIR}/ML_performance.py -n ${NETCDFDIR} -s ${setup_csv} -o ${CSVOUT_DIR} 
-	#python -m ipdb ${SRC_DIR}/ML_performance.py -n ${NETCDFDIR} -s ${setup_csv} -o ${CSVOUT_DIR} 
+	# TODO: multirun - run the same setup several times
+	echo ${nexprepeat}
+	python -m ipdb ${SRC_DIR}/ML_performance.py -n ${NETCDFDIR} -s ${setup_csv} -o ${CSVOUT_DIR} -N ${nexprepeat} -R ${split_randomly}
+	#python ${SRC_DIR}/ML_performance.py -n ${NETCDFDIR} -s ${setup_csv} -o ${CSVOUT_DIR} -N ${nexprepeat} -R ${split_randomly}
 	# TODO if expout_R0.csv exists proceed with the following experiment
 
 }
@@ -72,10 +87,14 @@ visualize ()
 {
 
 	multiplot=$1 # True of False
+	CSVOUT_DIR=$2
+	PLOTOUT_DIR=$3
+	nexprepeat=$4
+	root_inputvars=$5
 	# visualization of the experiment results as PNG file
 	echo "-----Taylor diagram will be plotted, multiplot = ${multiplot}"
-	python ${SRC_DIR}/Taylor_plot.py -i ${CSVOUT_DIR} -o ${PLOTOUT_DIR} -m ${multiplot} 
-	#python -m ipdb ${SRC_DIR}/Taylor_plot.py -i ${CSVOUT_DIR} -o ${PLOTOUT_DIR} -m ${multiplot} 
+	#python  ${SRC_DIR}/Taylor_plot.py -i ${CSVOUT_DIR} -o ${PLOTOUT_DIR} -m ${multiplot} -N ${nexprepeat} -R ${root_inputvars}
+	python   ${SRC_DIR}/Taylor_plot.py -i ${CSVOUT_DIR} -o ${PLOTOUT_DIR} -m ${multiplot} -N ${nexprepeat} -R ${root_inputvars}
 }
 
 
@@ -83,12 +102,12 @@ visualize ()
 main ()
 {
 	initialize	
+
 	# setup - create csv table of ML runs parameters for each experiment
 	# TODO: need to manually delete setup csv to generate new one
-	setup_experiments ${setup_csv} ${root_inputvars} ${extra_inputvars} ${subdomain_sizes} ${regtypes}
-
-	run_experiments ${NETCDFDIR} ${setup_csv} ${CSVOUT_DIR} 
-	#visualize ${multiplot}
+	setup_experiments ${setup_csv} ${root_inputvars} ${subdomain_sizes} ${regtypes} ${extra_inputvars} ${nexprepeat}
+	run_experiments ${NETCDFDIR} ${setup_csv} ${CSVOUT_DIR} ${nexprepeat} ${split_dataset_randomly}
+	#visualize ${multiplot} ${CSVOUT_DIR} ${PLOTOUT_DIR} ${nexprepeat} ${root_inputvars}
 	#return_status=$?
 	#if [ $return_status -eq 0 ]
 	#then
@@ -98,7 +117,7 @@ main ()
 	#fi
 }
 
-#set -x
-main 
-#set +x
+set -x
+main
+set +x
 #"$@"

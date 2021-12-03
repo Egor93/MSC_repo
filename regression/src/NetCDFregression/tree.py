@@ -181,7 +181,7 @@ class SingleExperiment():
         self.X_eval = self.X_eval.transpose()    
         
 
-    def process_input(self,split_randomly=True):
+    def process_input(self,split_randomly):
 
         logger.info(f'RESOLUTION={self.resolution}_degr   INPUTVAR={self.input_vars}   ADDVAR={self.add_vars}') 
         logger.info(f'REGTYPE={self.regtype}      ML_max_depth={self.max_depth}       EVAL_FRACTION={self.eval_fraction}')
@@ -251,14 +251,15 @@ class SingleExperiment():
 
         elif self.regtype == 'gradient_boost':
             logger.info("{} regression is chosen".format(self.regtype))
-            regtree = ensemble.GradientBoostingRegressor(max_depth = self.max_depth)
+            regtree = ensemble.GradientBoostingRegressor(max_depth = self.max_depth,verbose=2)
 
         elif self.regtype == 'random_forest':
             logger.info("{} regression is chosen".format(self.regtype))
             if self.max_depth == None:
-                regtree = ensemble.RandomForestRegressor()
+                # n_jobs=-1: Use all available cores
+                regtree = ensemble.RandomForestRegressor(n_jobs=-1,verbose=2)
             else:
-                regtree = ensemble.RandomForestRegressor(n_estimators = self.max_depth,max_leaf_nodes = self.max_depth)
+                regtree = ensemble.RandomForestRegressor(n_jobs=-1,verbose=2,n_estimators = self.max_depth,max_leaf_nodes = self.max_depth)
 
         a = datetime.datetime.now()
 

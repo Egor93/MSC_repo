@@ -20,6 +20,8 @@ def get_arg_params():
     parser.add_argument("-n","--netcdfdir",required = True, help = "folder containing input NetCDF files")
     parser.add_argument("-s","--setup_csv",required = True, help = "setup csv file, superset of experiments")
     parser.add_argument("-o","--csvout_dir",required = True, help = "directory to store output csv file to")
+    parser.add_argument("-N","--nexprepeat",required = True,type=int, help = "how many times should each experiment be repeated")
+    parser.add_argument("-R","--dataset_randomsplit",required = True, help = "how to split input dataset into training and evaluation parts")
 
     # should be called like ML_performance.py -s 1 05 025 0125
     args = parser.parse_args()
@@ -27,8 +29,10 @@ def get_arg_params():
     netcdfdir = args.netcdfdir
     setup_csv = args.setup_csv
     csvout_dir = args.csvout_dir
+    nexprepeat = args.nexprepeat
+    dataset_randomsplit = eval(args.dataset_randomsplit)
 
-    return netcdfdir, setup_csv, csvout_dir 
+    return netcdfdir, setup_csv, csvout_dir, nexprepeat,dataset_randomsplit
 
 
 #netcdfdir= '/home/igor/UNI/Master_Project/001_Code/002_Data/'
@@ -146,7 +150,7 @@ def pack_result(expset_setup,singlexp_setup,expresults,result_cols):
     return expresult_series 
             
 
-def run_experiment(netcdfpath, singlexp_setup,split_randomly=True):
+def run_experiment(netcdfpath, singlexp_setup,split_randomly):
 
     # CREATE EXPERIMENT OBJECT
     experiment=nctree.SingleExperiment(netcdfpath, singlexp_setup)
@@ -162,7 +166,7 @@ def run_experiment(netcdfpath, singlexp_setup,split_randomly=True):
     return expresults
 
 
-def run_set(df_existing,expset_setup,netcdfdir,csvout_dir,csvout_name):
+def run_set(df_existing,expset_setup,netcdfdir,csvout_dir,csvout_name,nexprepeat,dataset_randomsplit):
     '''
     DESCRIPTION
         generates CSV output file for the set of experiments
@@ -196,22 +200,24 @@ def run_set(df_existing,expset_setup,netcdfdir,csvout_dir,csvout_name):
                         
                         ######### UPDATE CSV BRANCHING ##########
                         # if there exists output for the same set of experiments (with the same ID) 
-                        if df_existing is not None:
+                        # AND norepeat setting is used
+                        if (df_existing is not None) :
                             # if current experiment setup NON-UNIQUE,same as already existing in CSV
-                            if samesetup_in_df(df_existing,singlexp_setup):
+                            # AND experiments should not be repeated (nexprepeat option)
+                            if samesetup_in_df(df_existing,singlexp_setup) and (nexprepeat==0):
                                 # proceed to the next,unique experiment setup
                                 print(f"skipping experiment N {expindex},results are already in {csvout_name}")
                                 continue
                             else:
-                                # but the current experiment has UNIQUE setup params
-                                expresults = run_experiment(netcdfpath,singlexp_setup,split_randomly=True)
+                                # but the current experiment has UNIQUE setup params or repeat setting is chosen
+                                expresults = run_experiment(netcdfpath,singlexp_setup,split_randomly=dataset_randomsplit)
                                 expresults_series = pack_result(expset_setup,singlexp_setup,expresults,result_cols)
                                 df_setresult = df_setresult.append(expresults_series, ignore_index=True)
                                 # concatenate new experiments to the existing set results
                                 df_updated = pd.concat([df_existing,df_setresult])
                         else:
                             # if there are no previous output CSV file for the current set of experiments
-                                expresults = run_experiment(netcdfpath,singlexp_setup,split_randomly=True)
+                                expresults = run_experiment(netcdfpath,singlexp_setup,split_randomly=dataset_randomsplit)
                                 expresults_series = pack_result(expset_setup,singlexp_setup,expresults,result_cols)
                                 df_setresult = df_setresult.append(expresults_series, ignore_index=True)
                                 df_updated = df_setresult
@@ -225,7 +231,7 @@ def run_set(df_existing,expset_setup,netcdfdir,csvout_dir,csvout_name):
                         expindex += 1
 
 
-def run_superset(experiment_params,netcdfdir,setup_csv,csvout_dir):
+def run_superset(experiment_params,netcdfdir,setup_csv,csvout_dir,nexprepeat,dtypedict,dataset_randomsplit):
     '''
     DESCRIPTION
         Superset of experiments - all experiment sets withing setup.csv file
@@ -267,23 +273,26 @@ def run_superset(experiment_params,netcdfdir,setup_csv,csvout_dir):
             csvout_name = intersection_name.pop()
             csvout_path = os.path.join(csvout_dir,csvout_name)
             # index_col = 0 because index can be non-unique, e.g. 0,1,2,0
-            df_existing = pd.read_csv(csvout_path,index_col=0,sep='\t')
+            df_existing = pd.read_csv(csvout_path,index_col=0,sep='\t',dtype=dtypedict)
             
         # check if the file with same input_vars_id already has been generated
         # if yes throw away set params from expset_setup which already have been executed
-        run_set(df_existing,expset_setup,netcdfdir,csvout_dir,csvout_name)
+        run_set(df_existing,expset_setup,netcdfdir,csvout_dir,csvout_name,nexprepeat,dataset_randomsplit)
         #fnames = [f'ncr_pdf_douze_{i}deg.nc' for i in expset_setup['subdomain_sizes'] ]
 
 
 def main():
 
     ###### SETUP FROM CALLING FUNCTION ########
-    netcdfdir, setup_csv, csvout_dir= get_arg_params() 
+    netcdfdir, setup_csv, csvout_dir, nexprepeat,dataset_randomsplit = get_arg_params() 
 
     ######          LOCAL SETUP        #######
     experiment_params = ['input_vars_id','input_vars','satdeficit','eval_fraction','regtypes','tree_maxdepth','subdomain_sizes']
 
-    run_superset(experiment_params,netcdfdir,setup_csv,csvout_dir)
+    dtypedict= {'input_vars_id':str,'input_vars':str, 'satdeficit':np.bool_,'eval_fraction':np.float64,
+                 'regtypes':str,'tree_maxdepth':np.int_,'subdomain_sizes':str,'refstd':np.float64,
+                 'samplestd':np.float64,'samplecorr':np.float64,'exectime':str}
+    run_superset(experiment_params,netcdfdir,setup_csv,csvout_dir,nexprepeat,dtypedict,dataset_randomsplit)
 
 
 # if .py script called directly instead of being imported
