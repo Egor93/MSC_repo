@@ -59,7 +59,7 @@ PDF cloud scheme parameterizes thermodynamic variables which ICON-LES resolves e
 ### Files list
 "douze" stands for 12; douze files contain all the values from all 12 snapshots indepenetly<br>
 Grid cells called SUBDOMAINS below<br>
-![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/Files_list.png)
+![alt text](https://github.com/Egor93/MSC_repo/blob/master/regression/data/output/img/Files_list.png)
 
 
 ICON-LEM has 156-m triangle edge grid cells<br>
@@ -95,8 +95,8 @@ Naming system: q means water content, v is vapor, l is liquid, m is mean. so qvl
 
 Below are plots of some variable from ncr_pdf_douze_1deg.nc. <br>
 There are 20 horizontal subdomains of size 110 × 110 km for each of 12 snapshots. Thus 20*12=240 subdomain columns - Y AXIS. Each of these subdomain columns has nz=150 values of each variable, such as pm. These values were calculated over all the LES gridcells(156m size) in the subdomain.
-![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/pm_tm_zm_1degree.png)
-![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/qvm_1degree.png)
+![alt text](https://github.com/Egor93/MSC_repo/blob/master/regression/data/output/img/pm_tm_zm_1degree.png)
+![alt text](https://github.com/Egor93/MSC_repo/blob/master/regression/data/output/img/qvm_1degree.png)
 
 <br><br>
 CLOUD FRACTIONS<br>
@@ -107,7 +107,7 @@ cl_zsl : cloud fraction of parametrization VI "zero buoyancy" closure<br>
 cl_rel : cloud fraction of parametrization II - "relative humidity" closure<br>
 cl_zff : cloud fraction of parametrization VIII - no closure<br>
 *only liquid clouds are considered in liquid c.fraction as opposed to ice cloud fraction. Ice clouds are not taken into account for simplicity. <br>
-![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/cl_l_1degree.png)
+![alt text](https://github.com/Egor93/MSC_repo/blob/master/regression/data/output/img/cl_l_1degree.png)
 
 
 ## Machine learning
@@ -121,17 +121,17 @@ These varaibles were packed in the input vector of shape:
 ([N_snapshots * N_subdomains * N_vertical_levels] X N input variables) <br>
 Below the histograms of input variables for ncr_pdf_douze_1deg.nc and ncr_pdf_douze_05deg.nc are shown:<br>
 
-![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/ncr_pdf_douze_IOvars_HIST_1deg_05deg.png)
+![alt text](https://github.com/Egor93/MSC_repo/blob/master/regression/data/output/img/ncr_pdf_douze_IOvars_HIST_1deg_05deg.png)
 
 <br>
 Spatial averaging influences distributions of IO variables as one can see below:<br>
 Axis are be set to a log scale to better see the difference between the various scales. <br>
 
-![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/ncr_pdf_douze_cl_l_HIST.png)
+![alt text](https://github.com/Egor93/MSC_repo/blob/master/regression/data/output/img/ncr_pdf_douze_cl_l_HIST.png)
 
 <br>
 
-![alt text](https://github.com/Egor93/MSC_repo/blob/master/Img/ncr_pdf_douze_skew_l_HIST.png)
+![alt text](https://github.com/Egor93/MSC_repo/blob/master/regression/data/output/img/ncr_pdf_douze_skew_l_HIST.png)
 
 #### goal variables:
 - cl_l   :  liquid cloud fraction of LES, determined from the number of saturated cells(156m) divided by the total number of cells per slice(subdomain)<br>
