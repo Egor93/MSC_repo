@@ -81,7 +81,7 @@ douze files contain 63 variables, among them such variables as:
 - qcm    : Mean cloud water mixing ratio [kg/kg]
 - qsm    : Saturation mixing ratio [kg/kg] - ratio of the mass of water vapor to the mass of dry air in a parcel of air at saturation.
 - qvm    : Mean water vapour mixing ratio[kg/kg] - ratio of the mass of water vapour to the mass of dry air
-- 
+- qlm    : Liquid water mixing ratio [kg/kg]  - the ratio of the mass of liquid water to the mass of dry air in a unit volume of air. Units are mass of liquid water per mass of dry air
 - skew   : LES water vapor skewness
 - skew_l : LES liquid water+water vapor skewness
 - 
