@@ -345,6 +345,10 @@ class PlotEnv():
         # root_inputvars="qtm,qsm,pm,tm"
         self.root_inputvars = ROOT_INPUTVARS
         self.nexprepeat     = NEXPREPEAT
+        if NEXPREPEAT==0:
+            self.repeated_exps = False
+        else:
+            self.repeated_exps = True
         self.subgroup_key   = SUBGROUP_KEY
         self.subgroup_val   = SUBGROUP_VAL
         self.multiplot      = MULTIPLOT
@@ -370,24 +374,23 @@ class PlotEnv():
         '''  
         pkey = self.perplot_key
         for pval in self.perplot_vals:
-            
-            repeated_exps = True
-            if nexprepeat==0:
-                repeated_exps = False
-                sgval = self.subgroup_val
-                sgkey = self.subgroup_key
-                df_dict,binary_split = dproc.singleplot_data(pval,pkey,sgval,sgkey)
-                self.generic_plot(df_dict,repeated_exps,binary_split)
+            sgval = self.subgroup_val
+            sgkey = self.subgroup_key
+            df_dict,binary_split = dproc.singleplot_data(pval,pkey,sgval,sgkey)
+            self.generic_plot(df_dict,binary_split)
 
 
-    def generic_plot(self,df_dict,repeated_exps,binary_split):
+    def generic_plot(self,df_dict,binary_split):
+        '''
+        The logic of specifying the particular plots
+        is hidden within the generic_plot intentionally.
+        '''
         subdf = df_dict.pop('subdf',None)
         df_with = df_dict.pop('df_with',None)
         df_without = df_dict.pop('df_without',None)
         sorted_expids = subdf['input_vars_id']
-        # the logic of specifying the particular plots
-        # is hidden within the generic_plot intentionally
-        if repeated_exps:
+
+        if self.repeated_exps:
             # plot T.diagram for the result of exps with REPEATED Invars
             self.repexp_plot(subdf,sorted_expids)
         else:
