@@ -1,0 +1,11 @@
+	input_vars_id	input_vars	satdeficit	eval_fraction	regtypes	tree_maxdepth	subdomain_sizes
+0	R	('qtm', 'qsm', 'pm', 'tm', 'qlm', 'skew_l', 'var_t')	False	(0.2,)	('decision_tree',)	(10,)	('1', '05', '025', '0125', '00625')
+1	R	('qtm', 'qsm', 'pm', 'tm', 'qlm', 'skew_l', 'var_t')	False	(0.2,)	('decision_tree',)	(10,)	('1', '05', '025', '0125', '00625')
+2	R	('qtm', 'qsm', 'pm', 'tm', 'qlm', 'skew_l', 'var_t')	False	(0.2,)	('decision_tree',)	(10,)	('1', '05', '025', '0125', '00625')
+3	R	('qtm', 'qsm', 'pm', 'tm', 'qlm', 'skew_l', 'var_t')	False	(0.2,)	('decision_tree',)	(10,)	('1', '05', '025', '0125', '00625')
+4	R	('qtm', 'qsm', 'pm', 'tm', 'qlm', 'skew_l', 'var_t')	False	(0.2,)	('decision_tree',)	(10,)	('1', '05', '025', '0125', '00625')
+5	R	('qtm', 'qsm', 'pm', 'tm', 'qlm', 'skew_l', 'var_t')	False	(0.2,)	('decision_tree',)	(10,)	('1', '05', '025', '0125', '00625')
+6	R	('qtm', 'qsm', 'pm', 'tm', 'qlm', 'skew_l', 'var_t')	False	(0.2,)	('decision_tree',)	(10,)	('1', '05', '025', '0125', '00625')
+7	R	('qtm', 'qsm', 'pm', 'tm', 'qlm', 'skew_l', 'var_t')	False	(0.2,)	('decision_tree',)	(10,)	('1', '05', '025', '0125', '00625')
+8	R	('qtm', 'qsm', 'pm', 'tm', 'qlm', 'skew_l', 'var_t')	False	(0.2,)	('decision_tree',)	(10,)	('1', '05', '025', '0125', '00625')
+9	R	('qtm', 'qsm', 'pm', 'tm', 'qlm', 'skew_l', 'var_t')	False	(0.2,)	('decision_tree',)	(10,)	('1', '05', '025', '0125', '00625')

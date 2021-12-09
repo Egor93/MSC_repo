@@ -123,6 +123,7 @@ class SingleExperiment():
 
         return None
 
+
     def addvars_reshaper(self):
         assert len(self.add_vars) == 2
         qvlm_arr = self.ds[self.add_vars[0]][:]
@@ -134,6 +135,7 @@ class SingleExperiment():
         self.X_arr = np.vstack([self.X_arr, qvl_qs])
 
         return None
+
 
     def split_data_sequentially(self):
         logger.info("splitting the input/output data sets sequentially")
@@ -150,6 +152,7 @@ class SingleExperiment():
         self.X_train = self.X_train.transpose()
         self.X_eval = self.X_eval.transpose()
         
+
     def split_data_randomly(self):
         logger.info("splitting the input/output data sets randomly")
     	 # SHUFFLE both input and output arrays before splitting
@@ -214,6 +217,7 @@ class SingleExperiment():
 
         return data_dict
 
+
     ###########################
     # REGRESSION TRAIN/PREDICT
     ##########################
@@ -276,6 +280,7 @@ class SingleExperiment():
         logger.debug("============================================================ \n")
 
         return goalvar_pred,goalvar_eval,regression_time # TODO: should not return goalvar_eval, can be unpacked from processed_data dict
+
 
 
     ###########################

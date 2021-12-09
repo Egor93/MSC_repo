@@ -20,12 +20,20 @@ def get_arg_params():
     output_file = args.output_file
     nexprepeat = args.nexprepeat
     rootvars = tuple(str.split(args.rootvars,sep=','))
+
     try:
+        # if argument is provided
+        # AND evaluates to None
         if eval(args.extravars)==None:
             extravars = None
             print('No extravars provided')
+        else:
+        # AND is a string, should be split
+            extravars = tuple(str.split(args.extravars,sep=','))
     except NameError:
-        extravars = tuple(str.split(args.extravars,sep=','))
+        # if argument not provided, assign default value
+        extravars = None
+
     subdomain_sizes = (tuple(args.subdomain_sizes),)
     regtypes = (tuple(str.split(args.regtypes,sep=',')),)
 

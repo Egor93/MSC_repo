@@ -14,20 +14,57 @@ initialize ()
 
 	######## EXPERIMENT SETUP #########
 	subdomain_sizes=(1 05 025 0125 00625)
-	root_inputvars="qtm,qsm,pm,tm"
 
 	# its important to PRESERVE THE SAME SEQUENCE of extra vars for every run!!!
 	#    		var0, var1, var2, var3
-	extra_inputvars="qlm,skew_l,var_l,var_t"
 	#extra_inputvars="None"
 
+	mode1="binary subgroup comparison"
+	# mode 1: unique invars run divided into 2 subgroups 
+	#        with and without key setup variable
+	#        TaylorPlot - each group of runs=separate key= separate label
+	mode2="input variables reduction"
+	# mode 2: unique invars  run, TaylorPlot - each reduction sequence=separate label
+	mode3="determinicity check"
+	# mode 3: compare several runs with same setup each,
+	#         check impact of nondeterminicity of ML algorithm on the exp results 
+
+
+	MODE="binary subgroup comparison"
+
+	if [[ "$MODE" == "$mode1" ]]
+	then 
+		# binary subgroup comparison
+		echo "MODE SELECTION:${MODE}"
+		subgroup_key="input_vars"
+		subgroup_val="qlm"
+		root_inputvars="qtm,qsm,pm,tm"
+		extra_inputvars="qlm,skew_l,var_l,var_t"
+		nexprepeat=0
+	elif [[ "$MODE" == "$mode2" ]]
+	then
+		#input variables reduction
+		echo "MODE SELECTION:${MODE}"
+		root_inputvars="qtm,qsm,pm,tm"
+		extra_inputvars="qlm,skew_l,var_l,var_t"
+		nexprepeat=0
+	elif [[ "$MODE" == "$mode3" ]]
+	then
+		# ML determinicity check 
+		echo "MODE SELECTION:${MODE}"
+		root_inputvars="qtm,qsm,pm,tm"
+		extra_inputvars="None"
+		nexprepeat=10
+		split_dataset_randomly="True"
+	else
+		echo "no valid mode chosen"
+	fi
+	
+
 	#nexprepeat=10
-	nexprepeat=0
 
     	#regtypes="decision_tree,gradient_boost,random_forest"
     	regtypes="decision_tree"
-
-	split_dataset_randomly="True"
 	
 
 	######## OUTPUT DIRECTORIES #########
@@ -91,10 +128,20 @@ visualize ()
 	PLOTOUT_DIR=$3
 	nexprepeat=$4
 	root_inputvars=$5
+	subgroup_key=$6
+	subgroup_val=$7
 	# visualization of the experiment results as PNG file
 	echo "-----Taylor diagram will be plotted, multiplot = ${multiplot}"
 	#python  ${SRC_DIR}/Taylor_plot.py -i ${CSVOUT_DIR} -o ${PLOTOUT_DIR} -m ${multiplot} -N ${nexprepeat} -R ${root_inputvars}
-	python   ${SRC_DIR}/Taylor_plot.py -i ${CSVOUT_DIR} -o ${PLOTOUT_DIR} -m ${multiplot} -N ${nexprepeat} -R ${root_inputvars}
+	python -m ipdb  ${SRC_DIR}/Taylor_plot.py \
+		-i ${CSVOUT_DIR} \
+		-o ${PLOTOUT_DIR} \
+		-m ${multiplot} \
+		-N ${nexprepeat} \
+		-R ${root_inputvars}\
+		-k ${subgroup_key} \
+		-v ${subgroup_val}
+
 }
 
 
@@ -105,9 +152,9 @@ main ()
 
 	# setup - create csv table of ML runs parameters for each experiment
 	# TODO: need to manually delete setup csv to generate new one
-	setup_experiments ${setup_csv} ${root_inputvars} ${subdomain_sizes} ${regtypes} ${extra_inputvars} ${nexprepeat}
-	run_experiments ${NETCDFDIR} ${setup_csv} ${CSVOUT_DIR} ${nexprepeat} ${split_dataset_randomly}
-	#visualize ${multiplot} ${CSVOUT_DIR} ${PLOTOUT_DIR} ${nexprepeat} ${root_inputvars}
+	#setup_experiments ${setup_csv} ${root_inputvars} ${subdomain_sizes} ${regtypes} ${extra_inputvars} ${nexprepeat}
+	#run_experiments ${NETCDFDIR} ${setup_csv} ${CSVOUT_DIR} ${nexprepeat} ${split_dataset_randomly}
+	visualize ${multiplot} ${CSVOUT_DIR} ${PLOTOUT_DIR} ${nexprepeat} ${root_inputvars} ${subgroup_key} ${subgroup_val}
 	#return_status=$?
 	#if [ $return_status -eq 0 ]
 	#then

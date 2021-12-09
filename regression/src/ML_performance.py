@@ -21,7 +21,7 @@ def get_arg_params():
     parser.add_argument("-s","--setup_csv",required = True, help = "setup csv file, superset of experiments")
     parser.add_argument("-o","--csvout_dir",required = True, help = "directory to store output csv file to")
     parser.add_argument("-N","--nexprepeat",required = True,type=int, help = "how many times should each experiment be repeated")
-    parser.add_argument("-R","--dataset_randomsplit",required = True, help = "how to split input dataset into training and evaluation parts")
+    parser.add_argument("-R","--dataset_randomsplit",nargs='?',required = False, help = "how to split input dataset into training and evaluation parts")
 
     # should be called like ML_performance.py -s 1 05 025 0125
     args = parser.parse_args()
@@ -30,7 +30,12 @@ def get_arg_params():
     setup_csv = args.setup_csv
     csvout_dir = args.csvout_dir
     nexprepeat = args.nexprepeat
-    dataset_randomsplit = eval(args.dataset_randomsplit)
+    try:
+        # if argument provided
+        dataset_randomsplit = eval(args.dataset_randomsplit)
+    except NameError:
+        # if argument not provided - assign default value
+        dataset_randomsplit = True
 
     return netcdfdir, setup_csv, csvout_dir, nexprepeat,dataset_randomsplit
 
