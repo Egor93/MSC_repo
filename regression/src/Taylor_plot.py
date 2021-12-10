@@ -58,13 +58,13 @@ def get_rows_cols(nplots):
     return int(rows),int(cols)
 
 
-def get_threadset(rootexpid,sorted_expids):
+def get_threadset(longest_expid,sorted_expids):
     '''
     DESCRIPTION
         e.g. get 'R0123', -> 'R012','R013','R023','R123'
     '''
-    rootexpid 
-    addvars=[i for i in rootexpid.strip('R')]
+    longest_expid 
+    addvars=[i for i in longest_expid.strip('R')]
     nvars = len(addvars)
     perm = list(itertools.permutations(addvars))
     nthreads = len(perm)
@@ -96,28 +96,28 @@ def get_threadset(rootexpid,sorted_expids):
     return threadset_corrlen
 
 
-def get_rootid(sorted_expids):
+def get_longest_id(sorted_expids):
     
     # start from the experiment with maximum amount of input vars
     maxlen = np.max([len(i) for i in sorted_expids])
     longest_index = [i for i in sorted_expids if len(i)==maxlen]
     assert len(longest_index)==1 , f"Warning! More then one Longest expindex {longest_index}"
-    root_index = longest_index[0]
+    
+    return longest_index[0]
 
-    return root_index
 
 
-def get_varslegend(subdf,rootexpid):
+def get_varslegend(subdf,longest_expid):
     '''
     DESCRIPTION
         get Root and additional variables to show later in the plot legend
     '''
     rootvarsdict = dict()
     addvarsdict = dict()
-    rootexp = subdf.loc[subdf['input_vars_id']==rootexpid]
+    rootexp = subdf.loc[subdf['input_vars_id']==longest_expid]
     varslist = mlp.string_to_touple(rootexp['input_vars'].values[0])
     # split the longest list of input vars intp root and additional vars
-    naddvars = len(rootexpid.strip('R'))
+    naddvars = len(longest_expid.strip('R'))
     rootvarsdict['rootvars'] = varslist[:naddvars]
 
     for i in range(naddvars):
@@ -131,47 +131,6 @@ def get_varslegend(subdf,rootexpid):
 
     return rootvarsdict,addvarsdict
 
-def display_text(taylor_diagram,subdf,rootexpid,fixed_params,perplot_key,perplot_val,nexprepeat,title):
-    '''
-    DESCRIPTION
-        plot text boxes and title containing all important information 
-        regarding the plot of ML experiment set
-        Parameters to show:
-        1)perplot parameters - fixed for the image, change from one to another
-        2)fixed   parameters - fixed for the set of images
-        3)changing parameters- change within particular image
-    '''
-
-    ax = taylor_diagram._ax
-
-    ax.set_title(title)
-                                
-    # rootvarsdict contains root and additional variables
-    if nexprepeat==0:
-        # if every experiment has unique input values combination
-        rootvarsdict,addvarsdict = get_varslegend(subdf,rootexpid)
-    else:
-        # repeating experiments, same input vars, no additional vars
-        rootvarsdict = {'rootvars':subdf.loc[0]['input_vars']}  
-        addvarsdict  = dict()
-    
-    # create text box with explanation
-    fixed_str   = '\n'.join((f'{perplot_key}:{perplot_val}',
-                                    f"tree maxdepth:{fixed_params['tree_maxdepth']}", 
-                                    f"part of input data used for evaluation:{fixed_params['eval_fraction']}",    
-                                    f"regression type:{fixed_params['regtypes']}",    
-                                    f"saturation deficit input data used:{fixed_params['satdeficit']}"))
-    props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
-
-    # text(x,y - position where to put text 
-    ax.text(0.05, 0.95, fixed_str, transform=ax.transAxes, fontsize=14,
-            position=(1.0,0.9), bbox=props)
-
-    unfixed_str = '\n'.join((f'root variables',f"{rootvarsdict['rootvars']}",f'additional vars',f'{addvarsdict}'))
-    props = dict(boxstyle='round', facecolor='blue', alpha=0.5)
-    ax.text(0.05, 0.95, unfixed_str, transform=ax.transAxes, fontsize=14,
-            position=(1.0,0.7), bbox=props)
-
 
 
 
@@ -182,7 +141,7 @@ def setup_from_CLI():
     return INPUT_DIR,OUTPUT_DIR,MULTIPLOT,NEXPREPEAT,ROOT_INPUTVARS,SUBGROUP_KEY,SUBGROUP_VAL 
 
 
-def setup_manually(NEXPREPEAT):
+def setup_manually():
     ######          LOCAL SETUP        #######
     # perplot_params - one parameter per one plot
     PERPLOT_PARAMS= {'perplot_key':'subdomain_sizes','perplot_vals':['1','05','025','0125']} 
@@ -205,7 +164,7 @@ class PlotDataProc():
 
 
     @staticmethod
-    def df_binary_split(sgval,sgkey):
+    def df_binary_split(subdf,sgval,sgkey):
 
         # below - boolean lists of df entries where the condition is/not satisfied
         with_sgval = [sgval in i for i in  subdf[f'{sgkey}'].values]
@@ -218,7 +177,7 @@ class PlotDataProc():
 
 
     @staticmethod
-    def get_readable_expid(unsorted_indices):
+    def sort_expids(unsorted_indices):
         '''
         DESCRIPTION
             sorting experiment id's to more readable form 
@@ -239,8 +198,7 @@ class PlotDataProc():
 
         return sorted_indices
 
-
-    def merge_dfs(self):
+    def read_merge_dfs(self,input_dir):
         '''
         DESCRIPTION
             reads all the CSV's within input dir
@@ -254,7 +212,7 @@ class PlotDataProc():
         result_files = [file for file in os.listdir(input_dir) if "csv"  in file]
         df_list = []
         for resfile in result_files:
-            fpath = os.path.join(self.INPUT_DIR,resfile)
+            fpath = os.path.join(input_dir,resfile)
             df = pd.read_csv(fpath,sep='\t',index_col=0,dtype=dtypedict)
 
             # take care of permutations of ID's
@@ -263,16 +221,16 @@ class PlotDataProc():
 
             df_list.append(df)
 
-        df_merged = pd.concat(df_list)
-        self.df_merged = df_merged 
+        self.df_merged = pd.concat(df_list)
 
         return self.df_merged
 
 
-    def select_subdf(self,pkey,pval,fixed_params):
+    def select_subdf(self,pkey,pval,fixed_params,repeated_exps):
 
         perplot_df = self.df_merged.loc[self.df_merged[pkey] == pval]
-
+        
+        subdf = None
         for fdkey,fdval in fixed_params.items():
             try:
                 # assume it's an iterable
@@ -282,27 +240,41 @@ class PlotDataProc():
                 subdf = perplot_df.loc[perplot_df[fdkey] == fdval]
             perplot_df = subdf
 
+        # sort expids :e.g. from 'R3021' -> 'R0123',
+        sorted_expids = PlotDataProc.sort_expids(subdf['input_vars_id'])
+        subdf = subdf.assign(input_vars_id=sorted_expids)
+        # return only the relevant entries (repeated or unique experiments)
+        if repeated_exps:
+            # include only "R" expid
+            subdf = subdf.loc[subdf['input_vars_id']=='R'].copy()
+            # for each set of duplicated values, the first occurrence is set 
+            # on False and all others on True
+            repeat_bool = subdf['input_vars_id'].duplicated(keep='first') 
+            subdf = subdf.loc[repeat_bool].copy()
+        else:
+            # exclude "R" expid
+            subdf = subdf.loc[subdf['input_vars_id']!='R'].copy()
+            # uniques are True 
+            repeat_bool = subdf['input_vars_id'].duplicated(keep='first') 
+            subdf = subdf.loc[np.invert(repeat_bool)].copy()
+
         return subdf
 
 
-    def singleplot_data(self,penv,pval,pkey):
+    def singleplot_data(self,pval,pkey,sgval,sgkey,fixed_params,repeated_exps):
 
         # SELECT DATA
-        subdf = self.select_subdf(pkey,pval,self.fixed_params)
+        subdf = self.select_subdf(pkey,pval,fixed_params,repeated_exps)
 
         subdf = subdf.sort_values(by='input_vars_id')
         # correct index
-        npoints = subdf.shape[0]
-        # npoints on a plot = n rows in the Pandas DF = n experiments
-        subdf.index=list(range(npoints))
-        # correct expid's 
-        sorted_expids = PlotDataProc.sort_expids(subdf['input_vars_id'])
-        subdf = subdf.assign(input_vars_id=sorted_expids)
+        # get 0,1,2, N index instead of unordered one
+        subdf.reset_index(drop=True,inplace=True)
         
         binary_split = False
         df_with = None
         df_without = None
-        if ((sgval != None) and (sgkey! = None)):
+        if ((sgval != None) and (sgkey != None)):
             binary_split = True
             df_with,df_without = PlotDataProc.df_binary_split(subdf,sgval,sgkey)
 
@@ -317,8 +289,9 @@ class PlotEnv():
             self,
             INPUT_DIR,
             OUTPUT_DIR,
-            PERPLOT_PARMS,
+            PERPLOT_PARAMS,
             FIXED_PARAMS,
+            UNFIXED_PARAM,
             ROOT_INPUTVARS,
             NEXPREPEAT   = 0,
             SUBGROUP_KEY = None,
@@ -330,32 +303,145 @@ class PlotEnv():
         self.output_dir  = OUTPUT_DIR
         self.perplot_key = PERPLOT_PARAMS.pop("perplot_key","subdomain_sizes")
         self.perplot_vals = PERPLOT_PARAMS.pop("perplot_vals",['1'])
+        self.fparams       = FIXED_PARAMS.copy()
         self.tree_maxdepth = FIXED_PARAMS.pop("tree_maxdepth",10)
         self.eval_fraction = FIXED_PARAMS.pop("eval_fraction",0.2)
         self.regtypes      = FIXED_PARAMS.pop("regtypes",['random_forest'])
         self.satdeficit    = FIXED_PARAMS.pop("satdeficit",False)
-        self.input_vars_id = FIXED_PARAMS.pop("input_vars_id",None)
-        self.input_vars    = FIXED_PARAMS.pop("input_vars",None)
         if NEXPREPEAT!=0:
             #if repeating experiments, same input vars, no additional vars
             self.input_vars_id = FIXED_PARAMS.pop('input_vars_id','R')
             self.input_vars    = FIXED_PARAMS.pop('input_vars',f"['{ROOT_INPUTVARS}']")
+            self.repeated_exps = True
+        else:
+            self.input_vars_id = FIXED_PARAMS.pop("input_vars_id",None)
+            self.input_vars    = FIXED_PARAMS.pop("input_vars",None)
+            self.repeated_exps = False
+
 
         self.unfixed_param = UNFIXED_PARAM
         # root_inputvars="qtm,qsm,pm,tm"
         self.root_inputvars = ROOT_INPUTVARS
-        self.nexprepeat     = NEXPREPEAT
-        if NEXPREPEAT==0:
-            self.repeated_exps = False
-        else:
-            self.repeated_exps = True
         self.subgroup_key   = SUBGROUP_KEY
         self.subgroup_val   = SUBGROUP_VAL
         self.multiplot      = MULTIPLOT
 
 
+    def finish_plt(self):
+        '''
+        Specify how exactly to finish the plotting
+        depending on the type of plot.
+        What additional information should be displayed and so on.
+        '''
+        if self.repeated_exps:
+            ax = self.dtext_repeated()
+        else:
+            ax = self.dtext()
+
+        self.draw_legend(ax)
+        self.output_plt()
+        
+    def dtext_repeated(self,taylor_diagram,subdf,title):
+        '''
+        DESCRIPTION
+            plot text boxes and title containing all important information 
+            regarding the plot of ML experiment set
+            Parameters to show:
+            1)perplot parameters - fixed for the image, change from one to another
+            2)fixed   parameters - fixed for the set of images
+            3)changing parameters- change within particular image
+        '''
+
+        ax = taylor_diagram._ax
+
+        ax.set_title(title)
+                                    
+        # rootvarsdict contains root and additional variables
+        # repeating experiments, same input vars, no additional vars
+        rootvarsdict = {'rootvars':subdf.loc[0]['input_vars']}  
+        addvarsdict  = dict()
+        
+        # create text box with explanation
+        fixed_str   = '\n'.join((f'{perplot_key}:{perplot_val}',
+                                        f"tree maxdepth:{fixed_params['tree_maxdepth']}", 
+                                        f"part of input data used for evaluation:{fixed_params['eval_fraction']}",    
+                                        f"regression type:{fixed_params['regtypes']}",    
+                                        f"saturation deficit input data used:{fixed_params['satdeficit']}"))
+        props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+
+        # text(x,y - position where to put text 
+        ax.text(0.05, 0.95, fixed_str, transform=ax.transAxes, fontsize=14,
+                position=(1.0,0.9), bbox=props)
+
+        unfixed_str = '\n'.join((f'root variables',f"{rootvarsdict['rootvars']}",f'additional vars',f'{addvarsdict}'))
+        props = dict(boxstyle='round', facecolor='blue', alpha=0.5)
+        ax.text(0.05, 0.95, unfixed_str, transform=ax.transAxes, fontsize=14,
+                position=(1.0,0.7), bbox=props)
+
+        return ax
+
+
+    def dtext_unique(self,taylor_diagram,subdf,title):
+        '''
+        DESCRIPTION
+            plot text boxes and title containing all important information 
+            regarding the plot of ML experiment set
+            if every experiment has unique input values combination.
+            Parameters to show:
+            1)perplot parameters - fixed for the image, change from one to another
+            2)fixed   parameters - fixed for the set of images
+            3)changing parameters- change within particular image
+        '''
+
+        ax = taylor_diagram._ax
+
+        ax.set_title(title)
+                                    
+        # rootvarsdict contains root and additional variables
+        rootvarsdict,addvarsdict = get_varslegend(subdf,longest_expid)
+        # repeating experiments, same input vars, no additional vars
+        rootvarsdict = {'rootvars':subdf.loc[0]['input_vars']}  
+        addvarsdict  = dict()
+        
+        # create text box with explanation
+        fixed_str   = '\n'.join((f'{perplot_key}:{perplot_val}',
+                                        f"tree maxdepth:{fixed_params['tree_maxdepth']}", 
+                                        f"part of input data used for evaluation:{fixed_params['eval_fraction']}",    
+                                        f"regression type:{fixed_params['regtypes']}",    
+                                        f"saturation deficit input data used:{fixed_params['satdeficit']}"))
+        props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+
+        # text(x,y - position where to put text 
+        ax.text(0.05, 0.95, fixed_str, transform=ax.transAxes, fontsize=14,
+                position=(1.0,0.9), bbox=props)
+
+        unfixed_str = '\n'.join((f'root variables',f"{rootvarsdict['rootvars']}",f'additional vars',f'{addvarsdict}'))
+        props = dict(boxstyle='round', facecolor='blue', alpha=0.5)
+        ax.text(0.05, 0.95, unfixed_str, transform=ax.transAxes, fontsize=14,
+                position=(1.0,0.7), bbox=props)
+
+        return ax
+
+    def output_plt(self,output_format):
+        if output_format=='PNG':
+
+            fname = f"{perplot_key}_{perplot_val}_{fixed_params['regtypes'][0]}.png"
+            fpath = os.path.join(output_dir,fname)
+            plt.savefig(fpath)
+            # plt.clf() clears the entire current figure with all its axes, but leaves the window 
+            #opened, such that it may be reused for other plots.
+            plt.clf()
+
+
+    def draw_legend(self):
+
+        fig.legend(taylor_diagram.samplePoints,
+               [ p.get_label() for p in taylor_diagram.samplePoints ],
+               numpoints=1, prop=dict(size='small'), loc='lower right')
+
+
     def plotter(self,dproc):
-        self.df_merged = dproc.merge_dfs()
+        dproc.read_merge_dfs(self.input_dir)
         
         if self.multiplot is True:
             # plot multiple axes within one PNG
@@ -376,7 +462,7 @@ class PlotEnv():
         for pval in self.perplot_vals:
             sgval = self.subgroup_val
             sgkey = self.subgroup_key
-            df_dict,binary_split = dproc.singleplot_data(pval,pkey,sgval,sgkey)
+            df_dict,binary_split = dproc.singleplot_data(pval,pkey,sgval,sgkey,self.fparams,self.repeated_exps)
             self.generic_plot(df_dict,binary_split)
 
 
@@ -410,7 +496,8 @@ class PlotEnv():
 
         '''
         fig = plt.figure(figsize=(18,9))
-        rootexpid = sorted_expids[0]
+        # TODO: just pick any randomly, or take a set!!!
+        longest_expid = sorted_expids[0]
 
 
         refstd_mean = subdf.refstd.mean()
@@ -463,8 +550,8 @@ class PlotEnv():
         '''
         fig = plt.figure(figsize=(18,9))
 
-        rootexpid = get_rootid(sorted_expids)
-        expid_threads = get_threadset(rootexpid,sorted_expids)
+        longest_expid = get_longest_id(sorted_expids)
+        expid_threads = get_threadset(longest_expid,sorted_expids)
         colors = plt.matplotlib.cm.brg(np.linspace(0,1,len(expid_threads)))
         # calculate references std as average of different runs (due to random splitting of dataset)
         refstd_mean = subdf.refstd.mean()
@@ -493,6 +580,14 @@ class PlotEnv():
                                    color = colors[tindex],
                                    marker='', ms=10, ls='-',lw=1.0,
                                    label = '->'.join(thread))
+        
+        title = '\n'.join(('plot ordered multiple sequences of points, each representing',
+                'how exp results change while adding extra variables'))
+
+        self.title = title
+        self.taylor_diagram = taylor_diagram
+
+        self.finish_plt(self)
 
 
     def uplot_binary(self,subdf,sorted_expids):
