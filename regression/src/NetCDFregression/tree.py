@@ -1,6 +1,7 @@
 import matplotlib.pylab as plt
 from netCDF4 import Dataset
 import numpy as np
+import sklearn
 from sklearn import tree,ensemble
 from matplotlib.colors import LogNorm
 import datetime
@@ -61,6 +62,9 @@ class SingleExperiment():
         else:
             self.add_vars    = []
         self.goalvar         = 'cl_l'
+        #  random_state : int, RandomState instance or None, default=None
+        #  random_state == int for reproducible deterministic data split and ML training
+        self.random_state    = 42
 
 
     def read_netcdf(self):
@@ -144,13 +148,13 @@ class SingleExperiment():
         fractional_len = int(total_len * self.eval_fraction)
         # split goal variable
         self.goalvar_train = self.goalvar_flat[fractional_len:]
-        self.goalvar_eval = self.goalvar_flat[:fractional_len]
+        self.goalvar_test = self.goalvar_flat[:fractional_len]
         # split input variable
         self.X_train = self.X_arr[:, fractional_len:]
-        self.X_eval  = self.X_arr[:, :fractional_len]
+        self.X_test  = self.X_arr[:, :fractional_len]
 
         self.X_train = self.X_train.transpose()
-        self.X_eval = self.X_eval.transpose()
+        self.X_test = self.X_test.transpose()
         
 
     def split_data_randomly(self):
@@ -168,7 +172,7 @@ class SingleExperiment():
         self.goalvar_train = self.goalvar_flat[bool_arr]
         #invert boolean array values to get the rest of shuffled set
         bool_arr_invert=np.invert(bool_arr)
-        self.goalvar_eval = self.goalvar_flat[bool_arr_invert]
+        self.goalvar_test = self.goalvar_flat[bool_arr_invert]
         
         # shuffle input variable INDEPNDENTLY FROM INPUT VARIABLE
         #bool_arr=np.array([True]*train_len+[False]*fractional_len)
@@ -177,10 +181,10 @@ class SingleExperiment():
         self.X_train = self.X_arr[:,bool_arr]
         #invert boolean array values to get the rest of shuffled set
         #bool_arr_invert=np.invert(bool_arr)
-        self.X_eval  = self.X_arr[:,bool_arr_invert]
+        self.X_test  = self.X_arr[:,bool_arr_invert]
         
         self.X_train = self.X_train.transpose()
-        self.X_eval = self.X_eval.transpose()    
+        self.X_test = self.X_test.transpose()    
         
 
     def process_input(self,split_randomly):
@@ -200,7 +204,12 @@ class SingleExperiment():
         #   logger.info("No additional data provided")
         
         if split_randomly:
-            self.split_data_randomly()
+            # use sklearn-defined utility instead of my own ugly data split function
+            # use random_state to get reproducible split by controlling random number generator - Deterministic split
+            split_data = sklearn.model_selection.train_test_split(self.X_arr.T,self.goalvar_flat.T,
+                                                                shuffle=True,train_size=0.8,random_state=self.random_state)
+            self.X_train,self.X_test,self.goalvar_train,self.goalvar_test = split_data
+
         elif not split_randomly:
             self.split_data_sequentially()
         
@@ -209,10 +218,10 @@ class SingleExperiment():
         data_dict={}
         # PACK INPUT VARS
         data_dict['X_train']=self.X_train
-        data_dict['X_eval'] = self.X_eval
+        data_dict['X_test'] = self.X_test
         # PACK GOAL VARS
         data_dict['goalvar_train'] = self.goalvar_train
-        data_dict['goalvar_eval'] = self.goalvar_eval
+        data_dict['goalvar_test'] = self.goalvar_test
 
         return data_dict
 
@@ -233,15 +242,12 @@ class SingleExperiment():
         # OUTPUT
         #       goalvar_pred  -  ndarray of predicted(using regression) goal variable,
         #                        shape (eval_fraction*nx*ny*150)
-        #       goalvar_eval  -  Masked array of goal variable read from netcdf, :TODO comparing differnt types of data OK?
-        #                        shape (eval_fraction*nx*ny*150)
 
         # unpack input variables
         X_train=processed_data['X_train']
-        X_eval = processed_data['X_eval']
+        X_test = processed_data['X_test']
         # unpack goal variable
         goalvar_train = processed_data['goalvar_train']
-        goalvar_eval = processed_data['goalvar_eval']
 
         supported_types=['decision_tree','gradient_boost','random_forest']
         assert self.regtype in supported_types, 'entered regression type is not supported \n' \
@@ -250,20 +256,21 @@ class SingleExperiment():
         # CHOOSE REGRESSION TYPE
         if self.regtype == 'decision_tree':
             logger.info("{} regression is chosen".format(self.regtype))
-            regtree = tree.DecisionTreeRegressor(max_depth = self.max_depth)
+            regtree = tree.DecisionTreeRegressor(max_depth = self.max_depth,random_state=self.random_state)
 
         elif self.regtype == 'gradient_boost':
             logger.info("{} regression is chosen".format(self.regtype))
-            regtree = ensemble.GradientBoostingRegressor(max_depth = self.max_depth,verbose=2)
+            regtree = ensemble.GradientBoostingRegressor(max_depth = self.max_depth,verbose=2,random_state=self.random_state)
             #regtree = ensemble.GradientBoostingRegressor(max_depth = self.max_depth,verbose=2,n_iter_no_change=3)
 
         elif self.regtype == 'random_forest':
             logger.info("{} regression is chosen".format(self.regtype))
             if self.max_depth == None:
                 # n_jobs=-1: Use all available cores
-                regtree = ensemble.RandomForestRegressor(n_jobs=-1,verbose=2)
+                regtree = ensemble.RandomForestRegressor(n_jobs=-1,verbose=2,random_state=self.random_state)
             else:
-                regtree = ensemble.RandomForestRegressor(n_jobs=-1,verbose=2,n_estimators = self.max_depth,max_leaf_nodes = self.max_depth)
+                regtree = ensemble.RandomForestRegressor(n_jobs=-1,verbose=2,n_estimators = self.max_depth,
+                                                        max_leaf_nodes = self.max_depth,random_state=self.random_state)
 
         a = datetime.datetime.now()
 
@@ -273,27 +280,27 @@ class SingleExperiment():
         # PREDICTION
 
         logger.info("++++++++++Prediction begins++++++++++")
-        goalvar_pred = regtree.predict(X_eval)
+        goalvar_pred = regtree.predict(X_test)
         b = datetime.datetime.now()
         regression_time = b-a
         logger.debug(f'execution time = {regression_time}')
         logger.debug("============================================================ \n")
 
-        return goalvar_pred,goalvar_eval,regression_time # TODO: should not return goalvar_eval, can be unpacked from processed_data dict
+        return goalvar_pred,regression_time # TODO: should not return goalvar_test, can be unpacked from processed_data dict
 
 
 
     ###########################
     # EVALUTATE REGRESSION SKILL
     ##########################
-    def estimate_skill(self,goalvar_pred, goalvar_eval): 
+    def estimate_skill(self,goalvar_pred, goalvar_test): 
         # calculate performance estimators - std and correlation coeff
         # goalvar_pred -  ndarray of predicted(using regression) goal variable
-        corrmat=np.corrcoef(goalvar_pred, goalvar_eval)
+        corrmat=np.corrcoef(goalvar_pred, goalvar_test)
         corr=corrmat[0,1]
         std = np.std(goalvar_pred)
-        # goalvar_eval  -  Masked array of goal variable read from netcdf douze file
-        refstd = np.std(goalvar_eval)
+        # goalvar_test  -  Masked array of goal variable read from netcdf douze file
+        refstd = np.std(goalvar_test)
 
         return corr, std, refstd
 
@@ -303,17 +310,17 @@ class SeriesExperiment(SingleExperiment):
 
 
 
-def hist_plot(goalvar_pred,goalvar_eval, eval_fraction,bins,vmax,cmax,norm):
-    corrmat=np.corrcoef(goalvar_pred, goalvar_eval)
+def hist_plot(goalvar_pred,goalvar_test, eval_fraction,bins,vmax,cmax,norm):
+    corrmat=np.corrcoef(goalvar_pred, goalvar_test)
     corr=corrmat[0,1]
 
     fig,ax = plt.subplots(figsize=(10, 10))
     # colormap of lognormalized due to high values range.
     # empty regions correspond to log(0)=-inf
-    im=ax.hist2d(goalvar_eval, goalvar_pred, bins=bins, norm=norm,cmap=plt.cm.jet, vmax=vmax,cmax=cmax)
+    im=ax.hist2d(goalvar_test, goalvar_pred, bins=bins, norm=norm,cmap=plt.cm.jet, vmax=vmax,cmax=cmax)
     ax.set_box_aspect(1)
     ax.set_title(f'2D histogram ({bins} bins) of Cloud Fraction \n \
-    			N elements={len(goalvar_eval)},fraction of data used for testing {eval_fraction} \n \
+    			N elements={len(goalvar_test)},fraction of data used for testing {eval_fraction} \n \
     			correlation coefficient is {corr:.4f}')
     ax.set_xlabel('predicted')
     ax.set_ylabel('pseudo-observations')
@@ -344,10 +351,10 @@ def main():
     processed_data = prepro.process_input()
 
     # REGRESSION
-    goalvar_pred, goalvar_eval = regression(processed_data)
+    goalvar_pred, goalvar_test = regression(processed_data)
 
     # VISUALISATION
-    hist_plot(goalvar_pred, goalvar_eval)
+    hist_plot(goalvar_pred, goalvar_test)
 # main function ends here!
 
 

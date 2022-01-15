@@ -158,10 +158,12 @@ def run_experiment(netcdfpath, singlexp_setup,split_randomly):
     experiment=nctree.SingleExperiment(netcdfpath, singlexp_setup)
     # PREPARE EXPERIMENT DATA
     processed_data = experiment.process_input(split_randomly)
+    goalvar_test = processed_data['goalvar_test']
     # RUN EXPERIMENT -  REGRESSION
-    goalvar_pred, goalvar_eval,regression_time = experiment.regression(processed_data)
+    goalvar_pred,regression_time = experiment.regression(processed_data)
     # ESTIMATE SKILL OF REGRESSION 
-    samplecorr, samplestd, refstd = experiment.estimate_skill(goalvar_pred, goalvar_eval)
+    # TODO: add RMSE estimator on test subset and .feature_importance_!
+    samplecorr, samplestd, refstd = experiment.estimate_skill(goalvar_pred, goalvar_test)
     
     expresults = {'samplecorr':samplecorr, 'samplestd':samplestd, 'refstd':refstd, 'regression_time':regression_time}
 
