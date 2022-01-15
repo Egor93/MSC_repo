@@ -1,0 +1,43 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/igor/UNI/Master_Project/001_Code/MSC_repo/regression/src/NetCDFregression/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/a0dd591f/
+SeriesExperiment	tree.py	/^class SeriesExperiment(SingleExperiment):$/;"	c
+SingleExperiment	tree.py	/^class SingleExperiment():$/;"	c
+__init__	tree.py	/^    def __init__(self, abspath, singlexp_setup):$/;"	m	class:SingleExperiment
+add_vars	tree.py	/^    add_vars = ['qvlm','qsm']$/;"	v
+addvars_reshaper	tree.py	/^    def addvars_reshaper(self):$/;"	m	class:SingleExperiment
+curdir	tree.py	/^    curdir = get_config_params()$/;"	v
+estimate_skill	tree.py	/^    def estimate_skill(self,goalvar_pred, goalvar_eval): $/;"	m	class:SingleExperiment
+eval_fraction	tree.py	/^    eval_fraction=0.6$/;"	v
+fname	tree.py	/^    fname='ncr_pdf_douze_0125deg.nc'$/;"	v
+get_config_params	tree.py	/^def get_config_params():$/;"	f
+goal_var	tree.py	/^    goal_var = 'cl_l'$/;"	v
+goalvar_reshaper	tree.py	/^    def goalvar_reshaper(self):$/;"	m	class:SingleExperiment
+hist_plot	tree.py	/^def hist_plot(goalvar_pred,goalvar_eval, eval_fraction,bins,vmax,cmax,norm):$/;"	f
+initLog	tree.py	/^def initLog(logpath):$/;"	f
+input_vars	tree.py	/^    input_vars = ['qsm', 'qtm', 'qlm', 'skew_l', 'var_l', 'var_t', 'tm', 'pm']$/;"	v
+invars_reshaper	tree.py	/^    def invars_reshaper(self):$/;"	m	class:SingleExperiment
+logdir	tree.py	/^logdir = get_config_params()$/;"	v
+logger	tree.py	/^    logger = initLog()$/;"	v
+logger	tree.py	/^logger = initLog(f'{logdir}logger_file_{today_string}.txt')$/;"	v
+main	tree.py	/^def main():$/;"	f
+max_depth_in	tree.py	/^    max_depth_in=None$/;"	v
+missing_values_present	tree.py	/^    def missing_values_present(self,var):$/;"	m	class:SingleExperiment
+np	tree.py	/^import numpy as np$/;"	I	nameref:module:numpy
+plt	tree.py	/^import matplotlib.pylab as plt$/;"	I	nameref:module:matplotlib.pylab
+process_input	tree.py	/^    def process_input(self,split_randomly=True):$/;"	m	class:SingleExperiment
+read_netcdf	tree.py	/^    def read_netcdf(self):$/;"	m	class:SingleExperiment
+regression	tree.py	/^    def regression(self,processed_data):$/;"	m	class:SingleExperiment
+regtype	tree.py	/^    regtype = 'decision_tree'$/;"	v
+split_data_randomly	tree.py	/^    def split_data_randomly(self):$/;"	m	class:SingleExperiment
+split_data_sequentially	tree.py	/^    def split_data_sequentially(self):$/;"	m	class:SingleExperiment
+today	tree.py	/^today = datetime.date.today()$/;"	v
+today_string	tree.py	/^today_string = today.strftime("%d-%m-%Y")$/;"	v

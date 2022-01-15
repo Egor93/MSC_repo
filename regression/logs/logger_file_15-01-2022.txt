@@ -1,0 +1,4 @@
+2022-01-15 20:34:13,171 - NetCDFregression.tree - INFO - RESOLUTION=1_degr   INPUTVAR=['qtm', 'qsm', 'pm', 'tm', 'qlm']   ADDVAR=[]
+2022-01-15 20:34:13,791 - NetCDFregression.tree - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2022-01-15 20:41:06,760 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2022-01-15 20:41:07,730 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2

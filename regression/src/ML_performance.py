@@ -30,12 +30,9 @@ def get_arg_params():
     setup_csv = args.setup_csv
     csvout_dir = args.csvout_dir
     nexprepeat = args.nexprepeat
-    try:
-        # if argument provided
+    dataset_randomsplit = True # default if argument not provided
+    if args.dataset_randomsplit:
         dataset_randomsplit = eval(args.dataset_randomsplit)
-    except NameError:
-        # if argument not provided - assign default value
-        dataset_randomsplit = True
 
     return netcdfdir, setup_csv, csvout_dir, nexprepeat,dataset_randomsplit
 
@@ -186,13 +183,14 @@ def run_set(df_existing,expset_setup,netcdfdir,csvout_dir,csvout_name,nexprepeat
     result_cols = ['input_vars_id','input_vars','satdeficit','eval_fraction','regtypes','tree_maxdepth','subdomain_sizes',
                             'refstd','samplestd','samplecorr','exectime']
     df_setresult = pd.DataFrame(columns = result_cols)
+    csvout_path = os.path.join(csvout_dir,csvout_name)
 
     expindex = 0 # to used for appending rows to the df.loc[expindex]
-    for size in expset_setup['subdomain_sizes']:
-        netcdfname = f'ncr_pdf_douze_{size}deg.nc' 
-        netcdfpath = os.path.join(netcdfdir,netcdfname)
+    for regtype in expset_setup['regtypes']:
+        for size in expset_setup['subdomain_sizes']:
+            netcdfname = f'ncr_pdf_douze_{size}deg.nc' 
+            netcdfpath = os.path.join(netcdfdir,netcdfname)
 
-        for regtype in expset_setup['regtypes']:
             for eval_fraction in expset_setup['eval_fraction']:
                 for tree_maxdepth in expset_setup['tree_maxdepth']:
                     for satdeficit in expset_setup['satdeficit']:
@@ -209,7 +207,7 @@ def run_set(df_existing,expset_setup,netcdfdir,csvout_dir,csvout_name,nexprepeat
                         if (df_existing is not None) :
                             # if current experiment setup NON-UNIQUE,same as already existing in CSV
                             # AND experiments should not be repeated (nexprepeat option)
-                            if samesetup_in_df(df_existing,singlexp_setup) and (nexprepeat==0):
+                            if (nexprepeat==0) and samesetup_in_df(df_existing,singlexp_setup):
                                 # proceed to the next,unique experiment setup
                                 print(f"skipping experiment N {expindex},results are already in {csvout_name}")
                                 continue
@@ -217,20 +215,20 @@ def run_set(df_existing,expset_setup,netcdfdir,csvout_dir,csvout_name,nexprepeat
                                 # but the current experiment has UNIQUE setup params or repeat setting is chosen
                                 expresults = run_experiment(netcdfpath,singlexp_setup,split_randomly=dataset_randomsplit)
                                 expresults_series = pack_result(expset_setup,singlexp_setup,expresults,result_cols)
-                                df_setresult = df_setresult.append(expresults_series, ignore_index=True)
+                                df_to_append = df_setresult.append(expresults_series, ignore_index=True)
                                 # concatenate new experiments to the existing set results
-                                df_updated = pd.concat([df_existing,df_setresult])
                         else:
                             # if there are no previous output CSV file for the current set of experiments
                                 expresults = run_experiment(netcdfpath,singlexp_setup,split_randomly=dataset_randomsplit)
                                 expresults_series = pack_result(expset_setup,singlexp_setup,expresults,result_cols)
-                                df_setresult = df_setresult.append(expresults_series, ignore_index=True)
-                                df_updated = df_setresult
+                                df_to_append = df_setresult.append(expresults_series, ignore_index=True)
+
+                        df_to_append.to_csv(csvout_path,sep='\t',mode='a', header = False)
+
 
                         #If the CSV file already exists, it will be overwritten. 
                         #This is done to preserve at least some results in case of a crash of hours-long simulation
-                        csvout_path = os.path.join(csvout_dir,csvout_name)
-                        df_updated.to_csv(csvout_path,sep='\t')
+                        # could have used something like df.to_csv('my_csv.csv', mode='a', header=False) instead!!!
 
                         # incremental increase of experiment index to be used with df.loc[]
                         expindex += 1

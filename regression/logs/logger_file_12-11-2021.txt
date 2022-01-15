@@ -1,0 +1,146 @@
+2021-11-12 12:44:49,264 - NetCDFregression.tree - INFO - RESOLUTION=1_degr   INPUTVAR=['qlm', 'qtm', 'pm', 'tm', 'qsm']   ADDVAR=['qvlm', 'qsm']
+2021-11-12 12:44:49,264 - NetCDFregression.tree - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-11-12 12:44:49,344 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-11-12 12:44:49,348 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-11-12 12:44:49,349 - NetCDFregression.tree - INFO - decision_tree regression is chosen
+2021-11-12 12:44:49,349 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-11-12 12:44:49,503 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-11-12 12:44:49,504 - NetCDFregression.tree - DEBUG - execution time = 0:00:00.154979
+2021-11-12 12:44:49,504 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-11-12 13:14:34,663 - NetCDFregression.tree - INFO - RESOLUTION=1_degr   INPUTVAR=['qlm', 'qtm', 'pm', 'tm', 'qsm']   ADDVAR=[]
+2021-11-12 13:14:34,664 - NetCDFregression.tree - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-11-12 13:14:34,708 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-11-12 13:14:34,714 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-11-12 13:14:34,715 - NetCDFregression.tree - INFO - decision_tree regression is chosen
+2021-11-12 13:14:34,715 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-11-12 13:14:34,843 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-11-12 13:14:34,844 - NetCDFregression.tree - DEBUG - execution time = 0:00:00.128381
+2021-11-12 13:14:34,844 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-11-12 13:14:52,134 - NetCDFregression.tree - INFO - RESOLUTION=1_degr   INPUTVAR=['qlm', 'qtm', 'pm', 'tm', 'qsm']   ADDVAR=['qvlm', 'qsm']
+2021-11-12 13:14:52,135 - NetCDFregression.tree - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-11-12 13:14:52,177 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-11-12 13:14:52,181 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-11-12 13:14:52,182 - NetCDFregression.tree - INFO - gradient_boost regression is chosen
+2021-11-12 13:14:52,182 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-11-12 13:15:08,285 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-11-12 13:15:08,310 - NetCDFregression.tree - DEBUG - execution time = 0:00:16.127788
+2021-11-12 13:15:08,310 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-11-12 13:15:17,513 - NetCDFregression.tree - INFO - RESOLUTION=1_degr   INPUTVAR=['qlm', 'qtm', 'pm', 'tm', 'qsm']   ADDVAR=[]
+2021-11-12 13:15:17,514 - NetCDFregression.tree - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-11-12 13:15:17,551 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-11-12 13:15:17,556 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-11-12 13:15:17,556 - NetCDFregression.tree - INFO - gradient_boost regression is chosen
+2021-11-12 13:15:17,556 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-11-12 13:15:30,865 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-11-12 13:15:30,889 - NetCDFregression.tree - DEBUG - execution time = 0:00:13.332881
+2021-11-12 13:15:30,890 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-11-12 13:15:33,301 - NetCDFregression.tree - INFO - RESOLUTION=1_degr   INPUTVAR=['qlm', 'qtm', 'pm', 'tm', 'qsm']   ADDVAR=['qvlm', 'qsm']
+2021-11-12 13:15:33,302 - NetCDFregression.tree - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-11-12 13:15:33,343 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-11-12 13:15:33,347 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-11-12 13:15:33,347 - NetCDFregression.tree - INFO - random_forest regression is chosen
+2021-11-12 13:15:33,348 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-11-12 13:15:33,742 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-11-12 13:15:33,746 - NetCDFregression.tree - DEBUG - execution time = 0:00:00.398598
+2021-11-12 13:15:33,746 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-11-12 13:18:30,603 - NetCDFregression.tree - INFO - RESOLUTION=1_degr   INPUTVAR=['qlm', 'qtm', 'pm', 'tm', 'qsm']   ADDVAR=[]
+2021-11-12 13:18:30,604 - NetCDFregression.tree - INFO - REGTYPE=random_forest      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-11-12 13:18:30,640 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-11-12 13:18:30,644 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-11-12 13:18:30,645 - NetCDFregression.tree - INFO - random_forest regression is chosen
+2021-11-12 13:18:30,645 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-11-12 13:18:30,964 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-11-12 13:18:30,968 - NetCDFregression.tree - DEBUG - execution time = 0:00:00.322800
+2021-11-12 13:18:30,968 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-11-12 13:18:32,861 - NetCDFregression.tree - INFO - RESOLUTION=05_degr   INPUTVAR=['qlm', 'qtm', 'pm', 'tm', 'qsm']   ADDVAR=['qvlm', 'qsm']
+2021-11-12 13:18:32,861 - NetCDFregression.tree - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-11-12 13:18:33,319 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-11-12 13:18:33,335 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-11-12 13:18:33,335 - NetCDFregression.tree - INFO - decision_tree regression is chosen
+2021-11-12 13:18:33,335 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-11-12 13:18:34,031 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-11-12 13:18:34,033 - NetCDFregression.tree - DEBUG - execution time = 0:00:00.697752
+2021-11-12 13:18:34,033 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-11-12 13:18:36,759 - NetCDFregression.tree - INFO - RESOLUTION=05_degr   INPUTVAR=['qlm', 'qtm', 'pm', 'tm', 'qsm']   ADDVAR=[]
+2021-11-12 13:18:36,760 - NetCDFregression.tree - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-11-12 13:18:36,818 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-11-12 13:18:36,833 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-11-12 13:18:36,833 - NetCDFregression.tree - INFO - decision_tree regression is chosen
+2021-11-12 13:18:36,834 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-11-12 13:18:37,398 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-11-12 13:18:37,400 - NetCDFregression.tree - DEBUG - execution time = 0:00:00.566538
+2021-11-12 13:18:37,401 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-11-12 13:20:32,019 - NetCDFregression.tree - INFO - RESOLUTION=05_degr   INPUTVAR=['qlm', 'qtm', 'pm', 'tm', 'qsm']   ADDVAR=['qvlm', 'qsm']
+2021-11-12 13:20:32,020 - NetCDFregression.tree - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-11-12 13:20:32,086 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-11-12 13:20:32,101 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-11-12 13:20:32,101 - NetCDFregression.tree - INFO - gradient_boost regression is chosen
+2021-11-12 13:20:32,101 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-11-12 13:21:48,022 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-11-12 13:21:48,108 - NetCDFregression.tree - DEBUG - execution time = 0:01:16.006910
+2021-11-12 13:21:48,109 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-11-12 13:21:54,809 - NetCDFregression.tree - INFO - RESOLUTION=05_degr   INPUTVAR=['qlm', 'qtm', 'pm', 'tm', 'qsm']   ADDVAR=[]
+2021-11-12 13:21:54,810 - NetCDFregression.tree - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-11-12 13:21:54,870 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-11-12 13:21:54,884 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-11-12 13:21:54,885 - NetCDFregression.tree - INFO - gradient_boost regression is chosen
+2021-11-12 13:21:54,885 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-11-12 13:25:20,166 - NetCDFregression.tree - INFO - RESOLUTION=1_degr   INPUTVAR=['qlm', 'qtm', 'pm', 'tm', 'qsm']   ADDVAR=['qvlm', 'qsm']
+2021-11-12 13:25:20,166 - NetCDFregression.tree - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-11-12 13:25:20,188 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-11-12 13:25:20,192 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-11-12 13:25:20,193 - NetCDFregression.tree - INFO - decision_tree regression is chosen
+2021-11-12 13:25:20,193 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-11-12 13:25:20,348 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-11-12 13:25:20,349 - NetCDFregression.tree - DEBUG - execution time = 0:00:00.155576
+2021-11-12 13:25:20,349 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-11-12 13:26:07,410 - NetCDFregression.tree - INFO - RESOLUTION=1_degr   INPUTVAR=['qlm', 'qtm', 'pm', 'tm', 'qsm']   ADDVAR=['qvlm', 'qsm']
+2021-11-12 13:26:07,411 - NetCDFregression.tree - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-11-12 13:26:07,432 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-11-12 13:26:07,436 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-11-12 13:26:07,436 - NetCDFregression.tree - INFO - decision_tree regression is chosen
+2021-11-12 13:26:07,437 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-11-12 13:26:07,592 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-11-12 13:26:07,593 - NetCDFregression.tree - DEBUG - execution time = 0:00:00.156101
+2021-11-12 13:26:07,593 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-11-12 13:32:17,827 - NetCDFregression.tree - INFO - RESOLUTION=1_degr   INPUTVAR=['qlm', 'qtm', 'pm', 'tm', 'qsm']   ADDVAR=['qvlm', 'qsm']
+2021-11-12 13:32:17,827 - NetCDFregression.tree - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-11-12 13:32:17,849 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-11-12 13:32:17,854 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-11-12 13:32:17,854 - NetCDFregression.tree - INFO - decision_tree regression is chosen
+2021-11-12 13:32:17,854 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-11-12 13:32:18,007 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-11-12 13:32:18,008 - NetCDFregression.tree - DEBUG - execution time = 0:00:00.153437
+2021-11-12 13:32:18,008 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-11-12 13:33:23,747 - NetCDFregression.tree - INFO - RESOLUTION=1_degr   INPUTVAR=['qlm', 'qtm', 'pm', 'tm', 'qsm']   ADDVAR=[]
+2021-11-12 13:33:23,748 - NetCDFregression.tree - INFO - REGTYPE=decision_tree      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-11-12 13:33:23,765 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-11-12 13:33:23,769 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-11-12 13:33:23,770 - NetCDFregression.tree - INFO - decision_tree regression is chosen
+2021-11-12 13:33:23,770 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-11-12 13:33:23,896 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-11-12 13:33:23,897 - NetCDFregression.tree - DEBUG - execution time = 0:00:00.126803
+2021-11-12 13:33:23,897 - NetCDFregression.tree - DEBUG - ============================================================ 
+
+2021-11-12 13:33:32,710 - NetCDFregression.tree - INFO - RESOLUTION=05_degr   INPUTVAR=['qlm', 'qtm', 'pm', 'tm', 'qsm']   ADDVAR=['qvlm', 'qsm']
+2021-11-12 13:33:32,710 - NetCDFregression.tree - INFO - REGTYPE=gradient_boost      ML_max_depth=10       EVAL_FRACTION=0.2
+2021-11-12 13:33:32,729 - NetCDFregression.tree - INFO - splitting the input/output data sets randomly
+2021-11-12 13:33:32,733 - NetCDFregression.tree - INFO - Fraction of Input/goal data for evaluation 0.2
+2021-11-12 13:33:32,733 - NetCDFregression.tree - INFO - gradient_boost regression is chosen
+2021-11-12 13:33:32,733 - NetCDFregression.tree - INFO - ++++++++++Training begins++++++++++
+2021-11-12 13:33:48,837 - NetCDFregression.tree - INFO - ++++++++++Prediction begins++++++++++
+2021-11-12 13:33:48,862 - NetCDFregression.tree - DEBUG - execution time = 0:00:16.128861
+2021-11-12 13:33:48,862 - NetCDFregression.tree - DEBUG - ============================================================ 
+

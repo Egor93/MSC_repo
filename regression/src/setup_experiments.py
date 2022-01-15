@@ -21,18 +21,15 @@ def get_arg_params():
     nexprepeat = args.nexprepeat
     rootvars = tuple(str.split(args.rootvars,sep=','))
 
-    try:
-        # if argument is provided
-        # AND evaluates to None
-        if eval(args.extravars)==None:
-            extravars = None
-            print('No extravars provided')
-        else:
-        # AND is a string, should be split
-            extravars = tuple(str.split(args.extravars,sep=','))
-    except NameError:
-        # if argument not provided, assign default value
+    if args.extravars == "None" or args.extravars == "none" or args.extravars == None:
         extravars = None
+    else:
+        parsed_ev = tuple(str.split(args.extravars,sep=','))
+        # if parsed list is empty , e.g. "" or " " was provided
+        if parsed_ev:
+            extravars = parsed_ev
+        else:
+            extravars = None
 
     subdomain_sizes = (tuple(args.subdomain_sizes),)
     regtypes = (tuple(str.split(args.regtypes,sep=',')),)
@@ -106,14 +103,6 @@ def setup_to_DF(expkeys,invars_list, satdeficit, eval_fraction,regtypes, tree_ma
 
 def main():
    
-    # add_vars = list with additional variables and without
-    # saturation deficit - two states - with or without
-    #satdeficit = ((True,False),)
-    satdeficit = ((False),)
-    eval_fraction = (tuple([0.2]),)
-    #regtypes = (('decision_tree','gradient_boost','random_forest'),)
-    #regtypes = (('decision_tree'),)
-    tree_maxdepth = (tuple([10]),)
 
     # Split variables into root part(defualt sequence) and extra_variables to add
     # output_csv = 'data/input/setup.csv'
@@ -132,14 +121,24 @@ def main():
         # no repetitions of experiments allowed
         expkeys = list(inputs_dict.keys())
         invars_list = list(inputs_dict.values())
+        # saturation deficit - two states - with or withot ((True,False),)
+        satdeficit = ((False),)
+        eval_fraction = (tuple([0.2]),)
+        tree_maxdepth = (tuple([10]),)
     elif nexprepeat>0:
         print(f'repeat the same setup N={nexprepeat} times')
-        nexp = nexprepeat # repeat the same experiment n times
-        expkeys = list(inputs_dict.keys())*nexp
-        invars_list = list(inputs_dict.values())*nexp
+        nreps = nexprepeat # repeat the same experiment n times
+        expkeys = list(inputs_dict.keys())*nreps
+        nexpkeys = len(expkeys)
+        invars_list = list(inputs_dict.values())*nexpkeys
+        subdomain_sizes *= nexpkeys
+        regtypes *= nexpkeys
+        satdeficit = ((False),)*nexpkeys
+        eval_fraction = (tuple([0.2]),)*nexpkeys
+        tree_maxdepth = (tuple([10]),)*nexpkeys
 
     # multiply arguments by the number of experiments if necessary
-    df = setup_to_DF(expkeys,invars_list, satdeficit*nexp,eval_fraction*nexp,regtypes*nexp,tree_maxdepth*nexp,subdomain_sizes*nexp)
+    df = setup_to_DF(expkeys,invars_list, satdeficit,eval_fraction,regtypes,tree_maxdepth,subdomain_sizes)
     # write experiment setup table down to the csv file which will be read by ML_performance.py 
     df.to_csv(output_csv,sep='\t')
 

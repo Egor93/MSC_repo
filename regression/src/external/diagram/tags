@@ -1,0 +1,41 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/igor/UNI/Master_Project/001_Code/MSC_repo/regression/src/external/diagram/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/a0dd591f/
+FA	taylorDiagram.py	/^        import mpl_toolkits.axisartist.floating_axes as FA$/;"	I	member:TaylorDiagram.__init__	file:	nameref:module:mpl_toolkits.axisartist.floating_axes
+GF	taylorDiagram.py	/^        import mpl_toolkits.axisartist.grid_finder as GF$/;"	I	member:TaylorDiagram.__init__	file:	nameref:module:mpl_toolkits.axisartist.grid_finder
+NP	taylorDiagram.py	/^import numpy as NP$/;"	I	nameref:module:numpy
+NP	test_taylor_4panel.py	/^import numpy as NP$/;"	I	nameref:module:numpy
+PLT	taylorDiagram.py	/^import matplotlib.pyplot as PLT$/;"	I	nameref:module:matplotlib.pyplot
+PLT	test_taylor_4panel.py	/^import matplotlib.pyplot as PLT$/;"	I	nameref:module:matplotlib.pyplot
+TaylorDiagram	taylorDiagram.py	/^class TaylorDiagram(object):$/;"	c
+__author__	taylorDiagram.py	/^__author__ = "Yannick Copin <yannick.copin@laposte.net>"$/;"	v
+__author__	test_taylor_4panel.py	/^__author__ = "Yannick Copin <yannick.copin@laposte.net>"$/;"	v
+__init__	taylorDiagram.py	/^    def __init__(self, refstd,$/;"	m	class:TaylorDiagram
+__version__	taylorDiagram.py	/^__version__ = "Time-stamp: <2018-12-06 11:43:41 ycopin>"$/;"	v
+__version__	test_taylor_4panel.py	/^__version__ = "Time-stamp: <2018-12-06 11:55:22 ycopin>"$/;"	v
+add_contours	taylorDiagram.py	/^    def add_contours(self, levels=5, **kwargs):$/;"	m	class:TaylorDiagram
+add_grid	taylorDiagram.py	/^    def add_grid(self, *args, **kwargs):$/;"	m	class:TaylorDiagram
+add_sample	taylorDiagram.py	/^    def add_sample(self, stddev, corrcoef, *args, **kwargs):$/;"	m	class:TaylorDiagram
+colors	test_taylor_4panel.py	/^colors = PLT.matplotlib.cm.Set1(NP.linspace(0,1,len(samples['winter'])))$/;"	v
+contours	test_taylor_4panel.py	/^    contours = dia.add_contours(levels=5, colors='0.5') # 5 levels$/;"	v
+dia	taylorDiagram.py	/^    dia = test1()$/;"	v
+dia	taylorDiagram.py	/^    dia = test2()$/;"	v
+dia	test_taylor_4panel.py	/^    dia = TaylorDiagram(stdrefs[season], fig=fig, rect=rects[season],$/;"	v
+fig	test_taylor_4panel.py	/^fig = PLT.figure(figsize=(11,8))$/;"	v
+rects	test_taylor_4panel.py	/^rects = dict(winter=221,$/;"	v
+samples	test_taylor_4panel.py	/^samples = dict(winter=[[17.831, 0.360, "CCSM CRCM"],$/;"	v
+stdrefs	test_taylor_4panel.py	/^stdrefs = dict(winter=48.491,$/;"	v
+test1	taylorDiagram.py	/^def test1():$/;"	f
+test2	taylorDiagram.py	/^def test2():$/;"	f
+x95	test_taylor_4panel.py	/^x95 = [0.05, 13.9] # For Prcp, this is for 95th level (r = 0.195)$/;"	v
+x99	test_taylor_4panel.py	/^x99 = [0.05, 19.0] # For Prcp, this is for 99th level (r = 0.254)$/;"	v
+y95	test_taylor_4panel.py	/^y95 = [0.0, 71.0]$/;"	v
+y99	test_taylor_4panel.py	/^y99 = [0.0, 70.0]$/;"	v

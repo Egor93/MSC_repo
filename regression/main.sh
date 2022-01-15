@@ -14,10 +14,8 @@ initialize ()
 
 	######## EXPERIMENT SETUP #########
 	subdomain_sizes=(1 05 025 0125 00625)
-
-	# its important to PRESERVE THE SAME SEQUENCE of extra vars for every run!!!
-	#    		var0, var1, var2, var3
-	#extra_inputvars="None"
+    	#regtypes="decision_tree,random_forest,gradient_boost"
+    	regtypes="gradient_boost"
 
 	mode1="binary subgroup comparison"
 	# mode 1: unique invars run divided into 2 subgroups 
@@ -30,7 +28,7 @@ initialize ()
 	#         check impact of nondeterminicity of ML algorithm on the exp results 
 
 
-	MODE="binary subgroup comparison"
+	MODE=${mode2}
 
 	if [[ "$MODE" == "$mode1" ]]
 	then 
@@ -39,15 +37,22 @@ initialize ()
 		subgroup_key="input_vars"
 		subgroup_val="qlm"
 		root_inputvars="qtm,qsm,pm,tm"
+		# its important to PRESERVE THE SAME SEQUENCE of extra vars for every run!!!
+		# 	   		var0, var1, var2, var3
 		extra_inputvars="qlm,skew_l,var_l,var_t"
 		nexprepeat=0
+
 	elif [[ "$MODE" == "$mode2" ]]
 	then
 		#input variables reduction
 		echo "MODE SELECTION:${MODE}"
 		root_inputvars="qtm,qsm,pm,tm"
+		# its important to PRESERVE THE SAME SEQUENCE of extra vars for every run!!!
+		# 	   		var0, var1, var2, var3
 		extra_inputvars="qlm,skew_l,var_l,var_t"
-		nexprepeat=0
+		nexprepeat=10
+		#nexprepeat=0 if 0 , only unique Rids will be written in the output CSV
+		split_dataset_randomly="True"
 	elif [[ "$MODE" == "$mode3" ]]
 	then
 		# ML determinicity check 
@@ -60,13 +65,7 @@ initialize ()
 		echo "no valid mode chosen"
 	fi
 	
-
-	#nexprepeat=10
-
-    	#regtypes="decision_tree,gradient_boost,random_forest"
-    	regtypes="decision_tree"
 	
-
 	######## OUTPUT DIRECTORIES #########
 	RESULT_DIR="${PWD}/data/output"
 	PLOTOUT_DIR="${RESULT_DIR}/img/taylor_plot"
@@ -97,7 +96,13 @@ setup_experiments ()
 	nexprepeat=$6
 	# generate setup in any case
 	echo  -----generate csv setup file ${setup_csv}
-	python ${SRC_DIR}/setup_experiments.py -o $setup_csv -r ${root_inputvars} -e ${extra_inputvars} -s ${subdomain_sizes[@]} -t ${regtypes} -N ${nexprepeat}
+	python ${SRC_DIR}/setup_experiments.py \
+		-o $setup_csv \
+		-r ${root_inputvars} \
+		-e ${extra_inputvars}  \
+		-s ${subdomain_sizes[@]}  \
+		-t ${regtypes}  \
+		-N ${nexprepeat}
 	#python -m ipdb ${SRC_DIR}/setup_experiments.py -o $setup_csv -r ${root_inputvars} -e ${extra_inputvars} -s ${subdomain_sizes[@]} -t ${regtypes} -N ${nexprepeat}
 }
 
@@ -112,9 +117,9 @@ run_experiments ()
 	echo  -----running experiments using SETUP ${setup_csv}
 	echo "-----chosen following subdomain sizes (degrees)" : ${subdomain_sizes[@]} 
 	# TODO: multirun - run the same setup several times
-	echo ${nexprepeat}
-	python -m ipdb ${SRC_DIR}/ML_performance.py -n ${NETCDFDIR} -s ${setup_csv} -o ${CSVOUT_DIR} -N ${nexprepeat} -R ${split_randomly}
-	#python ${SRC_DIR}/ML_performance.py -n ${NETCDFDIR} -s ${setup_csv} -o ${CSVOUT_DIR} -N ${nexprepeat} -R ${split_randomly}
+
+	python  -m ipdb ${SRC_DIR}/ML_performance.py -n ${NETCDFDIR} -s ${setup_csv} -o ${CSVOUT_DIR} -N ${nexprepeat} -R ${split_randomly}
+	#python  ${SRC_DIR}/ML_performance.py -n ${NETCDFDIR} -s ${setup_csv} -o ${CSVOUT_DIR} -N ${nexprepeat} -R ${split_randomly}
 	# TODO if expout_R0.csv exists proceed with the following experiment
 
 }
@@ -133,7 +138,8 @@ visualize ()
 	# visualization of the experiment results as PNG file
 	echo "-----Taylor diagram will be plotted, multiplot = ${multiplot}"
 	#python  ${SRC_DIR}/Taylor_plot.py -i ${CSVOUT_DIR} -o ${PLOTOUT_DIR} -m ${multiplot} -N ${nexprepeat} -R ${root_inputvars}
-	python -m ipdb  ${SRC_DIR}/Taylor_plot.py \
+	#python -m ipdb  ${SRC_DIR}/Taylor_plot.py \
+	python   ${SRC_DIR}/Taylor_plot.py \
 		-i ${CSVOUT_DIR} \
 		-o ${PLOTOUT_DIR} \
 		-m ${multiplot} \
@@ -152,9 +158,9 @@ main ()
 
 	# setup - create csv table of ML runs parameters for each experiment
 	# TODO: need to manually delete setup csv to generate new one
-	#setup_experiments ${setup_csv} ${root_inputvars} ${subdomain_sizes} ${regtypes} ${extra_inputvars} ${nexprepeat}
-	#run_experiments ${NETCDFDIR} ${setup_csv} ${CSVOUT_DIR} ${nexprepeat} ${split_dataset_randomly}
-	visualize ${multiplot} ${CSVOUT_DIR} ${PLOTOUT_DIR} ${nexprepeat} ${root_inputvars} ${subgroup_key} ${subgroup_val}
+	setup_experiments ${setup_csv} ${root_inputvars} ${subdomain_sizes} ${regtypes} ${extra_inputvars} ${nexprepeat}
+	run_experiments ${NETCDFDIR} ${setup_csv} ${CSVOUT_DIR} ${nexprepeat} ${split_dataset_randomly}
+	#visualize ${multiplot} ${CSVOUT_DIR} ${PLOTOUT_DIR} ${nexprepeat} ${root_inputvars} ${subgroup_key} ${subgroup_val}
 	#return_status=$?
 	#if [ $return_status -eq 0 ]
 	#then

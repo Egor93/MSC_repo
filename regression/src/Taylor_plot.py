@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import argparse
 import itertools
+from natsort import index_natsorted
 import os
 import pandas as pd
 # Taylor Diagram from Yannick Copin <yannick.copin@laposte.net> 
@@ -148,10 +149,12 @@ def setup_manually():
     UNFIXED_PARAM = 'input_vars_id'
     #TODO: PARAMS above just repeat each other?? 
     
-    FIXED_PARAMS = {'tree_maxdepth':10,'eval_fraction':0.2,'regtypes':['random_forest'],'satdeficit':False}
+    #possible regtypes="decision_tree,gradient_boost,random_forest"
+    FIXED_PARAMS = {'tree_maxdepth':10,'eval_fraction':0.2,'regtypes':['gradient_boost'],'satdeficit':False}
+    ADDVARS = {"0":"qlm", "1":"skew_l", "2":"var_l", "3":"var_t"}
 
 
-    return PERPLOT_PARAMS, FIXED_PARAMS,UNFIXED_PARAM
+    return PERPLOT_PARAMS, FIXED_PARAMS,UNFIXED_PARAM,ADDVARS
 
 
 
@@ -198,6 +201,7 @@ class PlotDataProc():
 
         return sorted_indices
 
+
     def read_merge_dfs(self,input_dir):
         '''
         DESCRIPTION
@@ -226,9 +230,9 @@ class PlotDataProc():
         return self.df_merged
 
 
-    def select_subdf(self,pkey,pval,fixed_params,repeated_exps):
+    def select_subdf(self,perplot_key,pval,fixed_params,repeated_exps):
 
-        perplot_df = self.df_merged.loc[self.df_merged[pkey] == pval]
+        perplot_df = self.df_merged.loc[self.df_merged[perplot_key] == pval]
         
         subdf = None
         for fdkey,fdval in fixed_params.items():
@@ -240,33 +244,38 @@ class PlotDataProc():
                 subdf = perplot_df.loc[perplot_df[fdkey] == fdval]
             perplot_df = subdf
 
-        # sort expids :e.g. from 'R3021' -> 'R0123',
-        sorted_expids = PlotDataProc.sort_expids(subdf['input_vars_id'])
-        subdf = subdf.assign(input_vars_id=sorted_expids)
         # return only the relevant entries (repeated or unique experiments)
         if repeated_exps:
             # include only "R" expid
             subdf = subdf.loc[subdf['input_vars_id']=='R'].copy()
             # for each set of duplicated values, the first occurrence is set 
             # on False and all others on True
-            repeat_bool = subdf['input_vars_id'].duplicated(keep='first') 
-            subdf = subdf.loc[repeat_bool].copy()
+            #repeat_bool = subdf['input_vars_id'].duplicated(keep='first') 
+            #subdf = subdf.loc[repeat_bool].copy()
         else:
             # exclude "R" expid
             subdf = subdf.loc[subdf['input_vars_id']!='R'].copy()
             # uniques are True 
             repeat_bool = subdf['input_vars_id'].duplicated(keep='first') 
             subdf = subdf.loc[np.invert(repeat_bool)].copy()
+            # sort expids :e.g. from 'R3021' -> 'R0123',
+            sorted_expids = PlotDataProc.sort_expids(subdf['input_vars_id'])
+            subdf = subdf.assign(input_vars_id=sorted_expids)
+            # sort ids from the shorted to longest
+            subdf.sort_values(by='input_vars_id',key=lambda x:np.argsort(index_natsorted(subdf.input_vars_id,key=len)),inplace=True)
 
         return subdf
 
 
-    def singleplot_data(self,pval,pkey,sgval,sgkey,fixed_params,repeated_exps):
+    def singleplot_data(self,pval,perplot_key,sgval,sgkey,fixed_params,repeated_exps):
+        '''
+        DESCRIPTION
+            Prepare the subset of dataframe(subdf) and dataframes with and 
+            without some input key and value (sgval,sgkey). 
+        '''
 
         # SELECT DATA
-        subdf = self.select_subdf(pkey,pval,fixed_params,repeated_exps)
-
-        subdf = subdf.sort_values(by='input_vars_id')
+        subdf = self.select_subdf(perplot_key,pval,fixed_params,repeated_exps)
         # correct index
         # get 0,1,2, N index instead of unordered one
         subdf.reset_index(drop=True,inplace=True)
@@ -293,6 +302,7 @@ class PlotEnv():
             FIXED_PARAMS,
             UNFIXED_PARAM,
             ROOT_INPUTVARS,
+            ADDVARS,
             NEXPREPEAT   = 0,
             SUBGROUP_KEY = None,
             SUBGROUP_VAL = None,
@@ -313,10 +323,12 @@ class PlotEnv():
             self.input_vars_id = FIXED_PARAMS.pop('input_vars_id','R')
             self.input_vars    = FIXED_PARAMS.pop('input_vars',f"['{ROOT_INPUTVARS}']")
             self.repeated_exps = True
+            self.addvars       = dict()
         else:
             self.input_vars_id = FIXED_PARAMS.pop("input_vars_id",None)
             self.input_vars    = FIXED_PARAMS.pop("input_vars",None)
             self.repeated_exps = False
+            self.addvars        = ADDVARS
 
 
         self.unfixed_param = UNFIXED_PARAM
@@ -327,20 +339,231 @@ class PlotEnv():
         self.multiplot      = MULTIPLOT
 
 
-    def finish_plt(self):
+    def plotter(self,dproc):
+        dproc.read_merge_dfs(self.input_dir)
+        
+        if self.multiplot is True:
+            # plot multiple axes within one PNG
+            # sefl.multiaxis_plot
+            pass
+        elif self.multiplot is False:
+            self.monoaxis_plot(dproc)
+        else:
+            print("TypeError;multiplot value,should be bool!")
+
+
+    def monoaxis_plot(self,dproc):
+        '''
+        DESCRIPTION
+            Plot with one axes per plot, several .png files
+        '''  
+        for self.pval in self.perplot_vals:
+            sgval = self.subgroup_val
+            sgkey = self.subgroup_key
+            df_dict,binary_split = dproc.singleplot_data(self.pval,self.perplot_key,sgval,sgkey,self.fparams,self.repeated_exps)
+            self.generic_plot(df_dict,binary_split)
+
+    def generic_plot(self,df_dict,binary_split):
+        '''
+        The logic of specifying the particular plots
+        is hidden within the generic_plot intentionally.
+        '''
+
+        if self.repeated_exps:
+            # plot T.diagram for the result of exps with REPEATED Invars
+            self.repexp_plot(df_dict)
+        else:
+            # plot T.diagram for the result of exps with UNIQUE Invars
+            self.uniqexp_plot(df_dict,binary_split)
+
+
+    def repexp_plot(self,df_dict):
+        '''
+        DESCRIPTION
+            plot unordered single sequence of points, representing
+            multiple runs of the experiment with the same input_vars.
+            Differences of exp results are thus only* due to randomness of 
+            input datatset division
+            * - probably some other factors influencing ML run
+            outputs only 1 .PNG
+
+        '''
+        subdf = df_dict['subdf']
+        ##########CREATE SEPARATE DIAGRAM-PICTURE##########
+        # value of the reference standart deviation used only once per plot
+        fig = plt.figure(figsize=(18,9))
+        refstd_mean = subdf.refstd.mean()
+        self.taylor_diagram = taylor(refstd_mean, fig=fig,# rect=111 by default anyway 
+                                label='Reference')
+
+        # Add RMS contours, and label them
+        contours = self.taylor_diagram.add_contours(levels=5, colors='0.5') # 5 levels
+        self.taylor_diagram.ax.clabel(contours, inline=1, fontsize=10, fmt='%.2f')
+        # dia.ax.plot(x95,y95,color='red')
+
+        fig.tight_layout()
+
+        unique_invars = list(set(subdf.input_vars.values))
+
+        for uvar in unique_invars:
+            df = subdf.loc[subdf['input_vars']==uvar].copy()
+            expstd_arr = df.samplestd.values
+            expcorr_arr = df.samplecorr.values
+            nexps = df.shape[0]
+            self.taylor_diagram.add_sample(expstd_arr,expcorr_arr,
+                                           marker='.', ms=10, ls='',
+                                            label = f'{nexps} repetitions with {uvar} input variables')
+
+
+
+    def uniqexp_plot(self,df_dict,binary_split):
+        '''
+        Further specify the type of plot
+        mode1 = simply plot unique exp values
+        mode2 = mode1 + divide the resulting points into
+        2 groups based on some input var value.
+        '''
+        if binary_split:    
+            self.uplot_binary(df_dict)
+        else:
+            self.uplot(df_dict)
+
+
+    def uplot(self,df_dict):
+        '''
+        DESCRIPTION
+            plot ordered multiple sequences of points, each representing
+            how exp results change while adding extra variables
+            outputs only 1 .PNG
+        '''
+        subdf = df_dict.pop('subdf',None)
+        sorted_expids = subdf['input_vars_id']
+
+        fig = plt.figure(figsize=(18,9))
+
+        longest_expid = get_longest_id(sorted_expids)
+        expid_threads = get_threadset(longest_expid,sorted_expids)
+        colors = plt.matplotlib.cm.brg(np.linspace(0,1,len(expid_threads)))
+        # calculate references std as average of different runs (due to random splitting of dataset)
+        refstd_mean = subdf.refstd.mean()
+
+        ##########CREATE SEPARATE DIAGRAM-PICTURE##########
+        # value of the reference standart deviation used only once per plot
+        #rect = 111 by default in TaylorDiagran()
+        self.taylor_diagram = taylor(refstd_mean, fig=fig, rect=111,
+                                label='Reference')
+        # dia.ax.plot(x95,y95,color='red')
+        fig.tight_layout()
+
+
+        ######### ITERATE OVER FIG POINTS(EXPERIMENTS) ##################
+        for tindex,thread in enumerate(expid_threads):
+            expstd_list = []
+            expcorr_list = []
+            for expid in thread:
+                branch=subdf.loc[subdf['input_vars_id']==expid]     
+                expstd_list.append(branch['samplestd'].values[0])
+                expcorr_list.append(branch['samplecorr'].values[0])
+
+            # plot threads, thread - scatter points connected by line
+            self.taylor_diagram.add_sample_multimarkers(expstd_list, expcorr_list,tindex,
+                                   # ls - line style, supported values are '-', '--', '-.', ':', 'None', ' ', '', 'solid', 'dashed'
+                                   # marker - how the point will be shown on the plot
+                                   color = colors[tindex],
+                                   marker='', ms=10, ls='-',lw=1.0,
+                                   label = '->'.join(thread))
+        
+        title = '\n'.join(('plot ordered multiple sequences of points, each representing',
+                'how exp results change while adding extra variables'))
+
+        self.title = title
+
+
+    def uplot_binary(self,df_dict):
+        '''
+        DESCRIPTION
+            plot ordered multiple sequences of points, each representing
+            how exp results change while adding extra variables
+            outputs only 1 .PNG
+            Then plot 2 groups of points, 1st - including some input parameter(e.g. qlm),
+            2nd group - excluding this paramter
+        '''
+       # self.uplot(df_dict.copy())
+        subdf = df_dict.pop('subdf',None)
+        sorted_expids = subdf['input_vars_id']
+
+        fig = plt.figure(figsize=(18,9))
+
+        # calculate references std as average of different runs (due to random splitting of dataset)
+        refstd_mean = subdf.refstd.mean()
+
+        ##########CREATE SEPARATE DIAGRAM-PICTURE##########
+        # value of the reference standart deviation used only once per plot
+        #rect = 111 by default in TaylorDiagran()
+        self.taylor_diagram = taylor(refstd_mean, fig=fig, rect=111,
+                                label='Reference',srange=(0,1.2))
+
+        # Add RMS contours, and label them
+        contours = self.taylor_diagram.add_contours(levels=5, colors='0.5') # 5 levels
+        self.taylor_diagram.ax.clabel(contours, inline=1, fontsize=10, fmt='%.2f')
+        # dia.ax.plot(x95,y95,color='red')
+        # dia.ax.plot(x95,y95,color='red')
+
+        fig.tight_layout()
+
+        #subdf = df_dict.pop('subdf',None)
+        df_with = df_dict.pop('df_with',None)
+        df_without = df_dict.pop('df_without',None)
+        #sorted_expids = subdf['input_vars_id']
+
+        # add with QLM and without QLM
+        std_with = df_with['samplestd'].values
+        corr_with = df_with['samplecorr'].values
+        # TODO: it should be actually the same TaylorDiagram object with self.ax and so on.???
+        label_ids = ','.join(df_with.input_vars_id.values)
+        self.taylor_diagram.add_sample(std_with, corr_with,
+                               # ls - line style, supported values are '-', '--', '-.', ':', 'None', ' ', '', 'solid', 'dashed'
+                               # marker - how the point will be shown on the plot
+                               marker='.', ms=10, ls='',color="black",
+                               #mfc='k', mec='k', # B&W
+                               label='\n'.join([f"with {self.subgroup_key}:{self.subgroup_val}",
+                                                f"input_vars_ids:{label_ids}"]))
+
+        std_without = df_without['samplestd'].values
+        corr_without = df_without['samplecorr'].values
+
+        label_ids = ','.join(df_without.input_vars_id.values)
+        self.taylor_diagram.add_sample(std_without, corr_without,
+                               # ls - line style, supported values are '-', '--', '-.', ':', 'None', ' ', '', 'solid', 'dashed'
+                               # marker - how the point will be shown on the plot
+                               marker='.', ms=10, ls='',color="red",
+                               #mfc='k', mec='k', # B&W
+                               label='\n'.join([f"without {self.subgroup_key}:{self.subgroup_val}",
+                                                f"input_vars_ids:{label_ids}"]))
+
+        # TODO: add function to put information boxes into the picture
+        # TODO: and save the picture
+        self.title = '\n'.join(("BINARY_SUBGROUP_COMPARISON",
+                "- Split results of experiment runs (with unique input vars)",
+                "into 2 subgroups with and wihtout key input variable"))
+        self.finish_plt(subdf,self.title)
+
+
+    def finish_plt(self,subdf,title):
         '''
         Specify how exactly to finish the plotting
         depending on the type of plot.
         What additional information should be displayed and so on.
         '''
         if self.repeated_exps:
-            ax = self.dtext_repeated()
+            self.dtext_repeated(subdf,title)
         else:
-            ax = self.dtext()
+            self.dtext_unique(title)
 
-        self.draw_legend(ax)
-        self.output_plt()
+        self.draw_legend()
+        self.output_plt('PNG')
         
+
     def dtext_repeated(self,taylor_diagram,subdf,title):
         '''
         DESCRIPTION
@@ -362,11 +585,11 @@ class PlotEnv():
         addvarsdict  = dict()
         
         # create text box with explanation
-        fixed_str   = '\n'.join((f'{perplot_key}:{perplot_val}',
-                                        f"tree maxdepth:{fixed_params['tree_maxdepth']}", 
-                                        f"part of input data used for evaluation:{fixed_params['eval_fraction']}",    
-                                        f"regression type:{fixed_params['regtypes']}",    
-                                        f"saturation deficit input data used:{fixed_params['satdeficit']}"))
+        fixed_str   = '\n'.join((f'{self.perplot_key}:{self.pval}',
+                                        f"tree maxdepth:{self.fparams['tree_maxdepth']}", 
+                                        f"part of input data used for evaluation:{self.fparams['eval_fraction']}",    
+                                        f"regression type:{self.fparams['regtypes']}",    
+                                        f"saturation deficit input data used:{self.fparams['satdeficit']}"))
         props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
 
         # text(x,y - position where to put text 
@@ -381,7 +604,7 @@ class PlotEnv():
         return ax
 
 
-    def dtext_unique(self,taylor_diagram,subdf,title):
+    def dtext_unique(self,title):
         '''
         DESCRIPTION
             plot text boxes and title containing all important information 
@@ -393,245 +616,80 @@ class PlotEnv():
             3)changing parameters- change within particular image
         '''
 
-        ax = taylor_diagram._ax
-
-        ax.set_title(title)
+        self.taylor_diagram._ax.set_title(title)
                                     
         # rootvarsdict contains root and additional variables
-        rootvarsdict,addvarsdict = get_varslegend(subdf,longest_expid)
+        #TODO: 
+
         # repeating experiments, same input vars, no additional vars
-        rootvarsdict = {'rootvars':subdf.loc[0]['input_vars']}  
-        addvarsdict  = dict()
         
         # create text box with explanation
-        fixed_str   = '\n'.join((f'{perplot_key}:{perplot_val}',
-                                        f"tree maxdepth:{fixed_params['tree_maxdepth']}", 
-                                        f"part of input data used for evaluation:{fixed_params['eval_fraction']}",    
-                                        f"regression type:{fixed_params['regtypes']}",    
-                                        f"saturation deficit input data used:{fixed_params['satdeficit']}"))
-        props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+        fixed_str   = '\n'.join([f'EXPERIMENT SETUP PARAMETERS',
+                                f'{self.perplot_key}:{self.pval}',
+                                f"tree maxdepth:{self.fparams['tree_maxdepth']}", 
+                                f"part of input data used for evaluation:{self.fparams['eval_fraction']}",    
+                                f"regression type:{self.fparams['regtypes']}",    
+                                f"saturation deficit input data used:{self.fparams['satdeficit']}"])
 
+        props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
         # text(x,y - position where to put text 
-        ax.text(0.05, 0.95, fixed_str, transform=ax.transAxes, fontsize=14,
+        self.taylor_diagram.ax.text(0.05, 0.95, fixed_str, transform=self.taylor_diagram.ax.transAxes, fontsize=14,
                 position=(1.0,0.9), bbox=props)
 
-        unfixed_str = '\n'.join((f'root variables',f"{rootvarsdict['rootvars']}",f'additional vars',f'{addvarsdict}'))
+        unfixed_str = '\n'.join([f'INPUT VARIABLES IDs LEGEND',
+                                f'input vars id - RXXX',
+                                f'where:',
+                                f'R(constant)={self.root_inputvars}',
+                                #'\n',
+                                f'XXX(varies) = additional vars',
+                                f'{self.addvars}'])
+
         props = dict(boxstyle='round', facecolor='blue', alpha=0.5)
-        ax.text(0.05, 0.95, unfixed_str, transform=ax.transAxes, fontsize=14,
+        self.taylor_diagram.ax.text(0.05, 0.95, unfixed_str, transform=self.taylor_diagram.ax.transAxes, fontsize=14,
                 position=(1.0,0.7), bbox=props)
 
-        return ax
 
     def output_plt(self,output_format):
         if output_format=='PNG':
 
-            fname = f"{perplot_key}_{perplot_val}_{fixed_params['regtypes'][0]}.png"
-            fpath = os.path.join(output_dir,fname)
+            experiment_mode = self.title.split('\n')[0] # e.g. BINARY SUBGROUP COMPARISON' 
+            fname = f"{experiment_mode}_{self.perplot_key}_{self.pval}_{self.fparams['regtypes'][0]}.png"
+            fpath = os.path.join(self.output_dir,fname)
+            self.fig.tight_layout()
             plt.savefig(fpath)
             # plt.clf() clears the entire current figure with all its axes, but leaves the window 
             #opened, such that it may be reused for other plots.
             plt.clf()
+        elif output_format=="PDF":
+            #TODO: implement output to pdf
+            pass
 
 
     def draw_legend(self):
 
-        fig.legend(taylor_diagram.samplePoints,
-               [ p.get_label() for p in taylor_diagram.samplePoints ],
-               numpoints=1, prop=dict(size='small'), loc='lower right')
+        # get current figure
+        self.fig = plt.gcf()
+        self.fig.legend(self.taylor_diagram.samplePoints,
+               [ p.get_label() for p in self.taylor_diagram.samplePoints ],
+               numpoints=1, fontsize = 14, loc='center')
 
 
-    def plotter(self,dproc):
-        dproc.read_merge_dfs(self.input_dir)
-        
-        if self.multiplot is True:
-            # plot multiple axes within one PNG
-            # sefl.multiaxis_plot
-            pass
-        elif self.multiplot is False:
-            self.monoaxis_plot(dproc)
-        else:
-            print("TypeError;multiplot value,should be bool!")
 
 
-    def monoaxis_plot(self,dproc):
-        '''
-        DESCRIPTION
-            Plot with one axes per plot, several .png files
-        '''  
-        pkey = self.perplot_key
-        for pval in self.perplot_vals:
-            sgval = self.subgroup_val
-            sgkey = self.subgroup_key
-            df_dict,binary_split = dproc.singleplot_data(pval,pkey,sgval,sgkey,self.fparams,self.repeated_exps)
-            self.generic_plot(df_dict,binary_split)
 
 
-    def generic_plot(self,df_dict,binary_split):
-        '''
-        The logic of specifying the particular plots
-        is hidden within the generic_plot intentionally.
-        '''
-        subdf = df_dict.pop('subdf',None)
-        df_with = df_dict.pop('df_with',None)
-        df_without = df_dict.pop('df_without',None)
-        sorted_expids = subdf['input_vars_id']
 
-        if self.repeated_exps:
-            # plot T.diagram for the result of exps with REPEATED Invars
-            self.repexp_plot(subdf,sorted_expids)
-        else:
-            # plot T.diagram for the result of exps with UNIQUE Invars
-            self.uniqexp_plot(subdf,sorted_expids,binary_split)
-
-
-    def repexp_plot(self,subdf,sorted_expids):
-        '''
-        DESCRIPTION
-            plot unordered single sequence of points, representing
-            multiple runs of the experiment with the same input_vars_id.
-            Differences of exp results are thus only* due to randomness of 
-            input datatset division
-            * - probably some other factors influencing ML run
-            outputs only 1 .PNG
-
-        '''
-        fig = plt.figure(figsize=(18,9))
-        # TODO: just pick any randomly, or take a set!!!
-        longest_expid = sorted_expids[0]
-
-
-        refstd_mean = subdf.refstd.mean()
-        ##########CREATE SEPARATE DIAGRAM-PICTURE##########
-        # value of the reference standart deviation used only once per plot
-        taylor_diagram = taylor(refstd_mean, fig=fig,# rect=111 by default anyway 
-                                label='Reference')
-        # dia.ax.plot(x95,y95,color='red')
-        fig.tight_layout()
-
-        # Add RMS contours, and label them
-        contours = taylor_diagram.add_contours(levels=5, colors='0.5') # 5 levels
-        taylor_diagram.ax.clabel(contours, inline=1, fontsize=10, fmt='%.2f')
-
-        ######### ITERATE OVER FIG POINTS(SAME EXP,DIFFERENT RUNS) ##################
-        expgenerator = subdf.iterrows()
-        for expindex,series in expgenerator:
-            
-            explabel  = str(series[self.unfixed_param][0]) # e.g. input_vars_id 
-            expcorr  = series.samplecorr
-            expstd = series.samplestd
-            # add samples
-            taylor_diagram.add_sample(expstd, expcorr,
-                                   # ls - line style, supported values are '-', '--', '-.', ':', 'None', ' ', '', 'solid', 'dashed'
-                                   # marker - how the point will be shown on the plot
-                                   marker='.', ms=10, ls='',
-                                   #mfc='k', mec='k', # B&W
-                                   label=explabel)
-
-
-    def uniqexp_plot(self,subdf,sorted_expids,binary_split):
-        '''
-        Further specify the type of plot
-        mode1 = simply plot unique exp values
-        mode2 = mode1 + divide the resulting points into
-        2 groups based on some input var value.
-        '''
-        if binary_split:    
-            self.uplot_binary(subdf,sorted_expids)
-        else:
-            self.uplot(subdf,sorted_expids)
-
-
-    def uplot(self,subdf,sorted_expids):
-        '''
-        DESCRIPTION
-            plot ordered multiple sequences of points, each representing
-            how exp results change while adding extra variables
-            outputs only 1 .PNG
-        '''
-        fig = plt.figure(figsize=(18,9))
-
-        longest_expid = get_longest_id(sorted_expids)
-        expid_threads = get_threadset(longest_expid,sorted_expids)
-        colors = plt.matplotlib.cm.brg(np.linspace(0,1,len(expid_threads)))
-        # calculate references std as average of different runs (due to random splitting of dataset)
-        refstd_mean = subdf.refstd.mean()
-
-        ##########CREATE SEPARATE DIAGRAM-PICTURE##########
-        # value of the reference standart deviation used only once per plot
-        taylor_diagram = taylor(refstd_mean, fig=fig, rect=subplot_coords,
-                                label='Reference')
-        # dia.ax.plot(x95,y95,color='red')
-        fig.tight_layout()
-
-
-        ######### ITERATE OVER FIG POINTS(EXPERIMENTS) ##################
-        for tindex,thread in enumerate(expid_threads):
-            expstd_list = []
-            expcorr_list = []
-            for expid in thread:
-                branch=subdf.loc[subdf['input_vars_id']==expid]     
-                expstd_list.append(branch['samplestd'].values[0])
-                expcorr_list.append(branch['samplecorr'].values[0])
-
-            # plot threads, thread - scatter points connected by line
-            taylor_diagram.add_sample_multimarkers(expstd_list, expcorr_list,tindex,
-                                   # ls - line style, supported values are '-', '--', '-.', ':', 'None', ' ', '', 'solid', 'dashed'
-                                   # marker - how the point will be shown on the plot
-                                   color = colors[tindex],
-                                   marker='', ms=10, ls='-',lw=1.0,
-                                   label = '->'.join(thread))
-        
-        title = '\n'.join(('plot ordered multiple sequences of points, each representing',
-                'how exp results change while adding extra variables'))
-
-        self.title = title
-        self.taylor_diagram = taylor_diagram
-
-        self.finish_plt(self)
-
-
-    def uplot_binary(self,subdf,sorted_expids):
-        '''
-        DESCRIPTION
-            plot ordered multiple sequences of points, each representing
-            how exp results change while adding extra variables
-            outputs only 1 .PNG
-            Then plot 2 groups of points, 1st - including some input parameter(e.g. qlm),
-            2nd group - excluding this paramter
-        '''
-        self.uplot()
-
-        # add with QLM and without QLM
-        std_with = df_with_sval['samplestd'].values
-        corr_with = df_with_sval['samplecorr'].values
-        taylor_diagram.add_sample(std_with, corr_with,
-                               # ls - line style, supported values are '-', '--', '-.', ':', 'None', ' ', '', 'solid', 'dashed'
-                               # marker - how the point will be shown on the plot
-                               marker='.', ms=10, ls='',color="black",
-                               #mfc='k', mec='k', # B&W
-                               label=f"with {SUBGROUP_KEY}:{SUBGROUP_VAL}")
-
-        std_without = df_without_sval['samplestd'].values
-        corr_without = df_without_sval['samplecorr'].values
-        taylor_diagram.add_sample(std_without, corr_without,
-                               # ls - line style, supported values are '-', '--', '-.', ':', 'None', ' ', '', 'solid', 'dashed'
-                               # marker - how the point will be shown on the plot
-                               marker='.', ms=10, ls='',color="red",
-                               #mfc='k', mec='k', # B&W
-                               label=f"without {SUBGROUP_KEY}:{SUBGROUP_VAL}")
-        # TODO: add function to put information boxes into the picture
-        # TODO: and save the picture
 
 
 
 def main():
 
     INPUT_DIR,OUTPUT_DIR,MULTIPLOT,NEXPREPEAT,ROOT_INPUTVARS,SUBGROUP_KEY,SUBGROUP_VAL = setup_from_CLI() 
-    PERPLOT_PARAMS, FIXED_PARAMS,UNFIXED_PARAM = setup_manually()
+    PERPLOT_PARAMS, FIXED_PARAMS, UNFIXED_PARAM, ADDVARS = setup_manually()
 
     dproc = PlotDataProc(INPUT_DIR)
     penv = PlotEnv(INPUT_DIR,OUTPUT_DIR,PERPLOT_PARAMS,FIXED_PARAMS,UNFIXED_PARAM,ROOT_INPUTVARS,
-                    NEXPREPEAT,SUBGROUP_KEY,SUBGROUP_VAL,MULTIPLOT)
+                    ADDVARS,NEXPREPEAT,SUBGROUP_KEY,SUBGROUP_VAL,MULTIPLOT)
     penv.plotter(dproc)
 
 if __name__ == '__main__':

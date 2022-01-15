@@ -166,7 +166,6 @@ class SingleExperiment():
         np.random.shuffle(bool_arr)
         # split goal variable
         self.goalvar_train = self.goalvar_flat[bool_arr]
-        self.goalvar_eval = self.goalvar_flat[:fractional_len]
         #invert boolean array values to get the rest of shuffled set
         bool_arr_invert=np.invert(bool_arr)
         self.goalvar_eval = self.goalvar_flat[bool_arr_invert]
@@ -256,6 +255,7 @@ class SingleExperiment():
         elif self.regtype == 'gradient_boost':
             logger.info("{} regression is chosen".format(self.regtype))
             regtree = ensemble.GradientBoostingRegressor(max_depth = self.max_depth,verbose=2)
+            #regtree = ensemble.GradientBoostingRegressor(max_depth = self.max_depth,verbose=2,n_iter_no_change=3)
 
         elif self.regtype == 'random_forest':
             logger.info("{} regression is chosen".format(self.regtype))
