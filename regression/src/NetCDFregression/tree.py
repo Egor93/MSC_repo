@@ -277,6 +277,13 @@ class SingleExperiment():
         # TRAINING
         logger.info("++++++++++Training begins++++++++++")
         regtree.fit(X_train, goalvar_train)
+        feature_importances = regtree.feature_importances_
+        # The feature importances_ attribute exists for ALL 3 above ML algorithms
+        #The higher, the more important the feature.
+        #The importance of a feature is computed as the
+        #(normalized) total reduction of the criterion brought
+        #by that feature. It is also known as the Gini importance
+
         # PREDICTION
 
         logger.info("++++++++++Prediction begins++++++++++")
@@ -286,7 +293,7 @@ class SingleExperiment():
         logger.debug(f'execution time = {regression_time}')
         logger.debug("============================================================ \n")
 
-        return goalvar_pred,regression_time # TODO: should not return goalvar_test, can be unpacked from processed_data dict
+        return goalvar_pred,regression_time,feature_importances
 
 
 
@@ -301,8 +308,10 @@ class SingleExperiment():
         std = np.std(goalvar_pred)
         # goalvar_test  -  Masked array of goal variable read from netcdf douze file
         refstd = np.std(goalvar_test)
+        # Root Mean Square Error as a performance measure
+        RMSE=np.float32(np.sqrt(np.mean((goalvar_pred - goalvar_test)**2)))
 
-        return corr, std, refstd
+        return corr, std, refstd, RMSE
 
 
 class SeriesExperiment(SingleExperiment):

@@ -14,8 +14,8 @@ initialize ()
 
 	######## EXPERIMENT SETUP #########
 	subdomain_sizes=(1 05 025 0125 00625)
-    	#regtypes="decision_tree,random_forest,gradient_boost"
-    	regtypes="gradient_boost"
+    	regtypes="decision_tree,random_forest"
+    	#regtypes="gradient_boost"
 
 	mode1="binary subgroup comparison"
 	# mode 1: unique invars run divided into 2 subgroups 
@@ -118,8 +118,8 @@ run_experiments ()
 	echo "-----chosen following subdomain sizes (degrees)" : ${subdomain_sizes[@]} 
 	# TODO: multirun - run the same setup several times
 
-	python  -m ipdb ${SRC_DIR}/ML_performance.py -n ${NETCDFDIR} -s ${setup_csv} -o ${CSVOUT_DIR} -N ${nexprepeat} -R ${split_randomly}
-	#python  ${SRC_DIR}/ML_performance.py -n ${NETCDFDIR} -s ${setup_csv} -o ${CSVOUT_DIR} -N ${nexprepeat} -R ${split_randomly}
+	#python  -m ipdb ${SRC_DIR}/ML_performance.py -n ${NETCDFDIR} -s ${setup_csv} -o ${CSVOUT_DIR} -N ${nexprepeat} -R ${split_randomly}
+	python  ${SRC_DIR}/ML_performance.py -n ${NETCDFDIR} -s ${setup_csv} -o ${CSVOUT_DIR} -N ${nexprepeat} -R ${split_randomly}
 	# TODO if expout_R0.csv exists proceed with the following experiment
 
 }

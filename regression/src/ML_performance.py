@@ -133,6 +133,7 @@ def pack_result(expset_setup,singlexp_setup,expresults,result_cols):
     '''
     # write output
 
+    ft_importances = dict(zip(singlexp_setup['input_vars'],np.float32(expresults['fimportances'])))
     expresults_packed = [
             expset_setup['input_vars_id'][0],
             [",".join(expset_setup['input_vars'])],
@@ -145,6 +146,8 @@ def pack_result(expset_setup,singlexp_setup,expresults,result_cols):
             expresults['samplestd'],
             expresults['samplecorr'],
             str(expresults['regression_time']),
+            expresults['RMSE'],
+            ft_importances
             ]
     expdict = dict(zip(result_cols,expresults_packed))
     expresult_series = pd.Series(data=expdict)
@@ -160,17 +163,18 @@ def run_experiment(netcdfpath, singlexp_setup,split_randomly):
     processed_data = experiment.process_input(split_randomly)
     goalvar_test = processed_data['goalvar_test']
     # RUN EXPERIMENT -  REGRESSION
-    goalvar_pred,regression_time = experiment.regression(processed_data)
+    goalvar_pred,regression_time,feature_importances = experiment.regression(processed_data)
     # ESTIMATE SKILL OF REGRESSION 
     # TODO: add RMSE estimator on test subset and .feature_importance_!
-    samplecorr, samplestd, refstd = experiment.estimate_skill(goalvar_pred, goalvar_test)
+    samplecorr, samplestd, refstd, RMSE = experiment.estimate_skill(goalvar_pred, goalvar_test)
     
-    expresults = {'samplecorr':samplecorr, 'samplestd':samplestd, 'refstd':refstd, 'regression_time':regression_time}
+    expresults = {'samplecorr':samplecorr, 'samplestd':samplestd, 'refstd':refstd, 
+            'regression_time':regression_time,"RMSE":RMSE,"fimportances":feature_importances}
 
     return expresults
 
 
-def run_set(df_existing,expset_setup,netcdfdir,csvout_dir,csvout_name,nexprepeat,dataset_randomsplit):
+def run_set(expset_setup,netcdfdir,csvout_dir,csvout_name,nexprepeat,dataset_randomsplit,permutated_names,dtypedict):
     '''
     DESCRIPTION
         generates CSV output file for the set of experiments
@@ -183,7 +187,11 @@ def run_set(df_existing,expset_setup,netcdfdir,csvout_dir,csvout_name,nexprepeat
         csvout_dir- directory to store results of the set of experiments
     '''
     result_cols = ['input_vars_id','input_vars','satdeficit','eval_fraction','regtypes','tree_maxdepth','subdomain_sizes',
-                            'refstd','samplestd','samplecorr','exectime']
+                            'refstd','samplestd','samplecorr','exectime','RMSE','feature_importances']
+    # feature_importances_ : ndarray of shape (n_features,)
+    #    Normalized total reduction of criteria by feature
+    #    (Gini importance).
+
     df_setresult = pd.DataFrame(columns = result_cols)
     csvout_path = os.path.join(csvout_dir,csvout_name)
 
@@ -197,6 +205,20 @@ def run_set(df_existing,expset_setup,netcdfdir,csvout_dir,csvout_name,nexprepeat
                 for tree_maxdepth in expset_setup['tree_maxdepth']:
                     for satdeficit in expset_setup['satdeficit']:
                         
+                        # if expriments for current experiment set, e.g. R0 were already generated
+                        df_existing= None # assume by default that it wasn't
+                        present_csvnames = set(os.listdir(csvout_dir))
+                        intersection_name = present_csvnames.intersection(permutated_names)
+                        assert len(intersection_name) < 2, f'>1 CSV ouput files {intersection_name} for the same ID!; make 1 CSV per ID!'
+                        if intersection_name:
+                            print(f'intersection of possible and existing CSVout names is {intersection_name}')
+                            csvout_name = intersection_name.pop()
+                            csvout_path = os.path.join(csvout_dir,csvout_name)
+                            # index_col = 0 because index can be non-unique, e.g. 0,1,2,0
+                            df_existing = pd.read_csv(csvout_path,index_col=0,sep='\t',dtype=dtypedict)
+                            
+                        # check if the file with same input_vars_id already has been generated
+
                         input_vars = expset_setup['input_vars']
                         input_vars_id = expset_setup['input_vars_id'][0]
                         # parameters of a particular experiment,member of a set of experiments
@@ -206,7 +228,8 @@ def run_set(df_existing,expset_setup,netcdfdir,csvout_dir,csvout_name,nexprepeat
                         ######### UPDATE CSV BRANCHING ##########
                         # if there exists output for the same set of experiments (with the same ID) 
                         # AND norepeat setting is used
-                        if (df_existing is not None) :
+                        header = False # by default only append data
+                        if (df_existing is not None):
                             # if current experiment setup NON-UNIQUE,same as already existing in CSV
                             # AND experiments should not be repeated (nexprepeat option)
                             if (nexprepeat==0) and samesetup_in_df(df_existing,singlexp_setup):
@@ -221,11 +244,13 @@ def run_set(df_existing,expset_setup,netcdfdir,csvout_dir,csvout_name,nexprepeat
                                 # concatenate new experiments to the existing set results
                         else:
                             # if there are no previous output CSV file for the current set of experiments
+                                header = True
                                 expresults = run_experiment(netcdfpath,singlexp_setup,split_randomly=dataset_randomsplit)
                                 expresults_series = pack_result(expset_setup,singlexp_setup,expresults,result_cols)
                                 df_to_append = df_setresult.append(expresults_series, ignore_index=True)
 
-                        df_to_append.to_csv(csvout_path,sep='\t',mode='a', header = False)
+                        print(f'{"#"*10} appending {csvout_name} with header={header} {"#"*10}')
+                        df_to_append.to_csv(csvout_path,sep='\t',mode='a', header = header)
 
 
                         #If the CSV file already exists, it will be overwritten. 
@@ -256,8 +281,6 @@ def run_superset(experiment_params,netcdfdir,setup_csv,csvout_dir,nexprepeat,dty
         # yield current setup dictionary, containing all experiment set parameters
         expset_setup = next(setup_generator) 
 
-        # if expriments for current experiment set, e.g. R0 were already generated
-        df_existing= None # assume by default that it wasn't
         input_vars_id = expset_setup['input_vars_id'][0]
 
         # set of experiments is uniquely indexed by input_vars_id - combination of input variables
@@ -268,21 +291,9 @@ def run_superset(experiment_params,netcdfdir,setup_csv,csvout_dir,nexprepeat,dty
         # e.g. R01==R10
         id_digits=[i for i in input_vars_id.strip('R')]
         permutated_names = set(f'expset_R{"".join(i)}.csv' for i in itertools.permutations(id_digits))
-        present_csvnames = set(os.listdir(csvout_dir))
-        intersection_name = present_csvnames.intersection(permutated_names)
-        assert len(intersection_name) < 2, f'>1 CSV ouput files {intersection_name} for the same ID!; make 1 CSV per ID!'
 
-        # if csvout_name exists for current variable ID
-        if intersection_name:
-            print(f'intersection of possible and existing CSVout names is {intersection_name}')
-            csvout_name = intersection_name.pop()
-            csvout_path = os.path.join(csvout_dir,csvout_name)
-            # index_col = 0 because index can be non-unique, e.g. 0,1,2,0
-            df_existing = pd.read_csv(csvout_path,index_col=0,sep='\t',dtype=dtypedict)
-            
-        # check if the file with same input_vars_id already has been generated
-        # if yes throw away set params from expset_setup which already have been executed
-        run_set(df_existing,expset_setup,netcdfdir,csvout_dir,csvout_name,nexprepeat,dataset_randomsplit)
+
+        run_set(expset_setup,netcdfdir,csvout_dir,csvout_name,nexprepeat,dataset_randomsplit,permutated_names,dtypedict)
         #fnames = [f'ncr_pdf_douze_{i}deg.nc' for i in expset_setup['subdomain_sizes'] ]
 
 
