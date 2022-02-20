@@ -1,0 +1,11 @@
+	input_vars_id	input_vars	satdeficit	eval_fraction	regtypes	tree_maxdepth	subdomain_sizes	refstd	samplestd	samplecorr	exectime
+0	R3201	['qtm,qsm,pm,tm,var_t,var_l,qlm,skew_l']	False	0.2	decision_tree	10	1	0.10149451345205307	0.10223876210136608	0.9655034830813968	0:00:00.216366
+1	R3201	['qtm,qsm,pm,tm,var_t,var_l,qlm,skew_l']	False	0.2	decision_tree	10	5	0.11682776361703873	0.11602926004598875	0.9631868593959458	0:00:00.989840
+2	R3201	['qtm,qsm,pm,tm,var_t,var_l,qlm,skew_l']	False	0.2	decision_tree	10	25	0.1290585994720459	0.12211260606059594	0.9422057824699128	0:00:04.529431
+0	R2301	['qtm,qsm,pm,tm,var_l,var_t,qlm,skew_l']	False	0.2	random_forest	10	1	0.10285461694002153	0.0956662809725114	0.9452978535083992	0:00:00.473252
+1	R2301	['qtm,qsm,pm,tm,var_l,var_t,qlm,skew_l']	False	0.2	random_forest	10	5	0.11828012019395827	0.10640438378749263	0.9119669396142256	0:00:02.707931
+2	R2301	['qtm,qsm,pm,tm,var_l,var_t,qlm,skew_l']	False	0.2	random_forest	10	25	0.1297912448644638	0.11289000435967522	0.8973167517962287	0:00:12.178503
+3	R2301	['qtm,qsm,pm,tm,var_l,var_t,qlm,skew_l']	False	0.2	random_forest	10	125	0.1393309235572815	0.10713296536313334	0.8162740689997089	0:01:00.122351
+4	R2301	['qtm,qsm,pm,tm,var_l,var_t,qlm,skew_l']	False	0.2	random_forest	10	625	0.14653223752975464	0.08274307613545268	0.6452994967223916	0:04:54.348915
+0	R3012	['qtm,qsm,pm,tm,var_t,qlm,skew_l,var_l']	False	0.2	decision_tree	10	0125	0.13862276077270508	0.1275948166643379	0.9185929570740072	0:00:19.903591
+1	R3012	['qtm,qsm,pm,tm,var_t,qlm,skew_l,var_l']	False	0.2	decision_tree	10	00625	0.14704875648021698	0.11743331984685686	0.7985094482808943	0:01:29.388317

@@ -62,9 +62,10 @@ class SingleExperiment():
         else:
             self.add_vars    = []
         self.goalvar         = 'cl_l'
-        #  random_state : int, RandomState instance or None, default=None
+        a  random_state : int, RandomState instance or None, default=None
         #  random_state == int for reproducible deterministic data split and ML training
-        self.random_state    = 42
+        self.random_state    = None
+        #self.random_state    = 42
 
 
     def read_netcdf(self):

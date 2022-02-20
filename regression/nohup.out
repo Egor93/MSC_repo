@@ -1,0 +1,19 @@
+[I 2022-02-20 15:38:58.697 LabApp] JupyterLab extension loaded from /home/egor/anaconda3/lib/python3.9/site-packages/jupyterlab
+[I 2022-02-20 15:38:58.697 LabApp] JupyterLab application directory is /home/egor/anaconda3/share/jupyter/lab
+[I 15:38:58.706 NotebookApp] The port 8888 is already in use, trying another port.
+[I 15:38:58.706 NotebookApp] The port 8889 is already in use, trying another port.
+[I 15:38:58.707 NotebookApp] Serving notebooks from local directory: /home/egor/UNI/Code/MSC_repo/regression
+[I 15:38:58.707 NotebookApp] Jupyter Notebook 6.4.5 is running at:
+[I 15:38:58.707 NotebookApp] http://localhost:8890/?token=3496e5002df72a80c961594caeaef1f2852818a3ee246d95
+[I 15:38:58.707 NotebookApp]  or http://127.0.0.1:8890/?token=3496e5002df72a80c961594caeaef1f2852818a3ee246d95
+[I 15:38:58.707 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 15:38:58.866 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///home/egor/.local/share/jupyter/runtime/nbserver-40501-open.html
+    Or copy and paste one of these URLs:
+        http://localhost:8890/?token=3496e5002df72a80c961594caeaef1f2852818a3ee246d95
+     or http://127.0.0.1:8890/?token=3496e5002df72a80c961594caeaef1f2852818a3ee246d95
+[W 15:39:12.850 NotebookApp] Notebook jupnotes/Feature_importance_plot.ipynb is not trusted
+[I 15:39:14.492 NotebookApp] Kernel started: 220b5238-0745-4be1-aa18-b1fa2a2bbb98, name: msc
+[W 15:39:15.649 NotebookApp] 404 GET /static/base/images/favicon-busy-1.ico (127.0.0.1) 13.480000ms referer=http://localhost:8890/notebooks/jupnotes/Feature_importance_plot.ipynb

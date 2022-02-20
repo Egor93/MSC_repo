@@ -8,7 +8,7 @@ initialize ()
 
 	######## INPUT FILES/DIRECTORIES SETUP #########
 	SRC_DIR="${PWD}/src"
-	NETCDFDIR="${PWD}/../../002_Data/"
+	NETCDFDIR="${PWD}/../002_Data/"
 	SETUP_DIR="${PWD}/data/input/setup"
 
 

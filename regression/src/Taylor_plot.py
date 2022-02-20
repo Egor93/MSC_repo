@@ -153,7 +153,6 @@ def setup_manually():
     FIXED_PARAMS = {'tree_maxdepth':10,'eval_fraction':0.2,'regtypes':['gradient_boost'],'satdeficit':False}
     ADDVARS = {"0":"qlm", "1":"skew_l", "2":"var_l", "3":"var_t"}
 
-
     return PERPLOT_PARAMS, FIXED_PARAMS,UNFIXED_PARAM,ADDVARS
 
 

@@ -1,0 +1,65 @@
+	input_vars	input_vars_id	satdeficit	eval_fraction	regtypes	tree_maxdepth
+0	('qlm', 'qtm', 'pm', 'tm', 'qsm')	R0	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+1	('qlm', 'qtm', 'pm', 'tm', 'skew_l')	R1	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+2	('qlm', 'qtm', 'pm', 'tm', 'var_l')	R2	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+3	('qlm', 'qtm', 'pm', 'tm', 'var_t')	R3	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+4	('qlm', 'qtm', 'pm', 'tm', 'qsm', 'skew_l')	R01	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+5	('qlm', 'qtm', 'pm', 'tm', 'qsm', 'var_l')	R02	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+6	('qlm', 'qtm', 'pm', 'tm', 'qsm', 'var_t')	R03	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+7	('qlm', 'qtm', 'pm', 'tm', 'skew_l', 'qsm')	R10	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+8	('qlm', 'qtm', 'pm', 'tm', 'skew_l', 'var_l')	R12	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+9	('qlm', 'qtm', 'pm', 'tm', 'skew_l', 'var_t')	R13	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+10	('qlm', 'qtm', 'pm', 'tm', 'var_l', 'qsm')	R20	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+11	('qlm', 'qtm', 'pm', 'tm', 'var_l', 'skew_l')	R21	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+12	('qlm', 'qtm', 'pm', 'tm', 'var_l', 'var_t')	R23	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+13	('qlm', 'qtm', 'pm', 'tm', 'var_t', 'qsm')	R30	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+14	('qlm', 'qtm', 'pm', 'tm', 'var_t', 'skew_l')	R31	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+15	('qlm', 'qtm', 'pm', 'tm', 'var_t', 'var_l')	R32	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+16	('qlm', 'qtm', 'pm', 'tm', 'qsm', 'skew_l', 'var_l')	R012	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+17	('qlm', 'qtm', 'pm', 'tm', 'qsm', 'skew_l', 'var_t')	R013	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+18	('qlm', 'qtm', 'pm', 'tm', 'qsm', 'var_l', 'skew_l')	R021	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+19	('qlm', 'qtm', 'pm', 'tm', 'qsm', 'var_l', 'var_t')	R023	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+20	('qlm', 'qtm', 'pm', 'tm', 'qsm', 'var_t', 'skew_l')	R031	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+21	('qlm', 'qtm', 'pm', 'tm', 'qsm', 'var_t', 'var_l')	R032	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+22	('qlm', 'qtm', 'pm', 'tm', 'skew_l', 'qsm', 'var_l')	R102	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+23	('qlm', 'qtm', 'pm', 'tm', 'skew_l', 'qsm', 'var_t')	R103	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+24	('qlm', 'qtm', 'pm', 'tm', 'skew_l', 'var_l', 'qsm')	R120	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+25	('qlm', 'qtm', 'pm', 'tm', 'skew_l', 'var_l', 'var_t')	R123	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+26	('qlm', 'qtm', 'pm', 'tm', 'skew_l', 'var_t', 'qsm')	R130	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+27	('qlm', 'qtm', 'pm', 'tm', 'skew_l', 'var_t', 'var_l')	R132	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+28	('qlm', 'qtm', 'pm', 'tm', 'var_l', 'qsm', 'skew_l')	R201	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+29	('qlm', 'qtm', 'pm', 'tm', 'var_l', 'qsm', 'var_t')	R203	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+30	('qlm', 'qtm', 'pm', 'tm', 'var_l', 'skew_l', 'qsm')	R210	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+31	('qlm', 'qtm', 'pm', 'tm', 'var_l', 'skew_l', 'var_t')	R213	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+32	('qlm', 'qtm', 'pm', 'tm', 'var_l', 'var_t', 'qsm')	R230	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+33	('qlm', 'qtm', 'pm', 'tm', 'var_l', 'var_t', 'skew_l')	R231	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+34	('qlm', 'qtm', 'pm', 'tm', 'var_t', 'qsm', 'skew_l')	R301	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+35	('qlm', 'qtm', 'pm', 'tm', 'var_t', 'qsm', 'var_l')	R302	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+36	('qlm', 'qtm', 'pm', 'tm', 'var_t', 'skew_l', 'qsm')	R310	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+37	('qlm', 'qtm', 'pm', 'tm', 'var_t', 'skew_l', 'var_l')	R312	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+38	('qlm', 'qtm', 'pm', 'tm', 'var_t', 'var_l', 'qsm')	R320	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+39	('qlm', 'qtm', 'pm', 'tm', 'var_t', 'var_l', 'skew_l')	R321	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+40	('qlm', 'qtm', 'pm', 'tm', 'qsm', 'skew_l', 'var_l', 'var_t')	R0123	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+41	('qlm', 'qtm', 'pm', 'tm', 'qsm', 'skew_l', 'var_t', 'var_l')	R0132	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+42	('qlm', 'qtm', 'pm', 'tm', 'qsm', 'var_l', 'skew_l', 'var_t')	R0213	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+43	('qlm', 'qtm', 'pm', 'tm', 'qsm', 'var_l', 'var_t', 'skew_l')	R0231	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+44	('qlm', 'qtm', 'pm', 'tm', 'qsm', 'var_t', 'skew_l', 'var_l')	R0312	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+45	('qlm', 'qtm', 'pm', 'tm', 'qsm', 'var_t', 'var_l', 'skew_l')	R0321	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+46	('qlm', 'qtm', 'pm', 'tm', 'skew_l', 'qsm', 'var_l', 'var_t')	R1023	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+47	('qlm', 'qtm', 'pm', 'tm', 'skew_l', 'qsm', 'var_t', 'var_l')	R1032	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+48	('qlm', 'qtm', 'pm', 'tm', 'skew_l', 'var_l', 'qsm', 'var_t')	R1203	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+49	('qlm', 'qtm', 'pm', 'tm', 'skew_l', 'var_l', 'var_t', 'qsm')	R1230	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+50	('qlm', 'qtm', 'pm', 'tm', 'skew_l', 'var_t', 'qsm', 'var_l')	R1302	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+51	('qlm', 'qtm', 'pm', 'tm', 'skew_l', 'var_t', 'var_l', 'qsm')	R1320	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+52	('qlm', 'qtm', 'pm', 'tm', 'var_l', 'qsm', 'skew_l', 'var_t')	R2013	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+53	('qlm', 'qtm', 'pm', 'tm', 'var_l', 'qsm', 'var_t', 'skew_l')	R2031	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+54	('qlm', 'qtm', 'pm', 'tm', 'var_l', 'skew_l', 'qsm', 'var_t')	R2103	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+55	('qlm', 'qtm', 'pm', 'tm', 'var_l', 'skew_l', 'var_t', 'qsm')	R2130	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+56	('qlm', 'qtm', 'pm', 'tm', 'var_l', 'var_t', 'qsm', 'skew_l')	R2301	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+57	('qlm', 'qtm', 'pm', 'tm', 'var_l', 'var_t', 'skew_l', 'qsm')	R2310	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+58	('qlm', 'qtm', 'pm', 'tm', 'var_t', 'qsm', 'skew_l', 'var_l')	R3012	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+59	('qlm', 'qtm', 'pm', 'tm', 'var_t', 'qsm', 'var_l', 'skew_l')	R3021	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+60	('qlm', 'qtm', 'pm', 'tm', 'var_t', 'skew_l', 'qsm', 'var_l')	R3102	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+61	('qlm', 'qtm', 'pm', 'tm', 'var_t', 'skew_l', 'var_l', 'qsm')	R3120	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+62	('qlm', 'qtm', 'pm', 'tm', 'var_t', 'var_l', 'qsm', 'skew_l')	R3201	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
+63	('qlm', 'qtm', 'pm', 'tm', 'var_t', 'var_l', 'skew_l', 'qsm')	R3210	(True, False)	0.2	('decision_tree', 'gradient_boost', 'random_forest')	10
